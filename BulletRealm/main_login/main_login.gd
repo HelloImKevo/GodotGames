@@ -12,7 +12,7 @@ func _ready():
 
 
 func _on_btn_login_pressed():
-	print("Login not implemented")
+	GameManager.load_test_level_scene()
 
 
 func _on_btn_settings_pressed():
