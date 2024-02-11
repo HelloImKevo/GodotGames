@@ -13,12 +13,14 @@ config_version=5
 config/name="BulletRealm"
 config/description="An online multiplayer \"Bullet Hell\" game."
 config/version="0.0.1"
+run/main_scene="res://main_login/main_login.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Settings="*res://singletons/settings.gd"
+SignalManager="*res://singletons/signal_manager.gd"
 
 [display]
 

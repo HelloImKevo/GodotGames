@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://caclcydkt7rlr"]
+[gd_scene load_steps=10 format=3 uid="uid://caclcydkt7rlr"]
 
 [ext_resource type="Texture2D" uid="uid://dvuexekdnxe1" path="res://assets/backgrounds/GalaxyUno.png" id="1_nj4kg"]
 [ext_resource type="Script" path="res://main_login/main_login.gd" id="1_uayjw"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b8iqf2l0ba00c" path="res://assets/ui/green_button00.png" id="5_38c2x"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="6_njnbi"]
 [ext_resource type="AudioStream" uid="uid://cfb4020ox5rj0" path="res://assets/music/Mercury.wav" id="7_ks2wc"]
+[ext_resource type="PackedScene" uid="uid://cjdlt2gxfhgjr" path="res://settings_panel/settings_panel.tscn" id="8_0v8qj"]
 
 [node name="MainLogin" type="Node2D"]
 script = ExtResource("1_uayjw")
@@ -122,6 +123,15 @@ label_settings = ExtResource("6_njnbi")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="SettingsPanel" parent="CanvasLayer" instance=ExtResource("8_0v8qj")]
+visible = false
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_ks2wc")
 autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnLogin" to="." method="_on_btn_login_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnCredits" to="." method="_on_btn_credits_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnExit" to="." method="_on_btn_exit_pressed"]
