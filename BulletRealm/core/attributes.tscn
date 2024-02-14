@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://mfmsre4vrt1g"]
+
+[ext_resource type="Script" path="res://core/attributes.gd" id="1_mm4my"]
+
+[node name="Attributes" type="Node"]
+process_mode = 4
+script = ExtResource("1_mm4my")

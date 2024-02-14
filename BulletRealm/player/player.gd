@@ -1,6 +1,6 @@
 class_name Player
 extends CharacterBody2D
-## Player : Survivor character controlled by the user.
+## Player : Character controlled by the user.
 
 
 const MOTION_SPEED: float = 450.0
@@ -10,7 +10,10 @@ const BOMB_RATE = 0.5
 
 @export var stunned = false
 
+@onready var attrs = $Attributes
 @onready var animation = $Animation
+@onready var health_bar = $HealthBar
+@onready var mana_bar = $ManaBar
 @onready var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
@@ -27,6 +30,20 @@ func _ready():
 	position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+	
+	attrs.init_level(1, 0, 50, 0)
+	attrs.init_core_resources(50.0, 100.0, 30.0, 100.0)
+	
+	attrs.update_stat(Attributes.HP_REGEN, 2.3)
+	attrs.update_stat(Attributes.MANA_REGEN, 1.7)
+
+
+func _process(delta):
+	_update_debug_label()
+	attrs.apply_hp_regen(delta)
+	attrs.apply_mana_regen(delta)
+	health_bar.set_amount(attrs.current_hp())
+	mana_bar.set_amount(attrs.current_mana())
 
 
 func _physics_process(delta):
@@ -65,12 +82,25 @@ func _physics_process(delta):
 	elif inputs.motion.x > 0:
 		new_anim = "walk_right"
 	
-	if stunned:
-		new_anim = "stunned"
+	#if stunned:
+		#new_anim = "stunned"
 	
 	if new_anim != current_anim:
 		current_anim = new_anim
 		animation.play(current_anim)
+
+
+func _update_debug_label():
+	if Engine.get_physics_frames() % 4 == 0:
+		# To prevent a jittery label, only update once every 4 physics frames.
+		get_node("Label").text = "CurrentHP: %.2f HPRegen: %.1f \n CurrentMana: %.2f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
+			attrs.stat(Attributes.CURRENT_HP),
+			attrs.stat(Attributes.HP_REGEN),
+			attrs.stat(Attributes.CURRENT_MANA),
+			attrs.stat(Attributes.MANA_REGEN),
+			position.x,
+			position.y
+		]
 
 
 func set_player_name(value):

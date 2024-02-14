@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://8nk1ej5opphj"]
+
+[ext_resource type="Texture2D" uid="uid://biqb5h1foasb2" path="res://assets/ui/square_shadow.png" id="1_cjmmy"]
+[ext_resource type="Texture2D" uid="uid://chgc3sfx6tk3x" path="res://assets/ui/progress_fill.png" id="2_ntk57"]
+[ext_resource type="Script" path="res://gui/resource_bar.gd" id="3_0ov76"]
+
+[node name="ResourceBar" type="TextureProgressBar"]
+offset_right = 40.0
+offset_bottom = 40.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_cjmmy")
+texture_progress = ExtResource("2_ntk57")
+script = ExtResource("3_0ov76")

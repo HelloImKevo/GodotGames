@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://d1a6tjiyjwtbe"]
+[gd_scene load_steps=15 format=3 uid="uid://d1a6tjiyjwtbe"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hfdu0"]
 [ext_resource type="Texture2D" uid="uid://b4umbmf60lmaf" path="res://assets/spritesheets/charwalk.png" id="2_uu735"]
 [ext_resource type="Script" path="res://player/player_controls.gd" id="3_lpflv"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="3_okag8"]
+[ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
+[ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_r5k84"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_87c88"]
 radius = 15.0
@@ -143,14 +145,28 @@ libraries = {
 
 [node name="Label" type="Label" parent="."]
 offset_left = -26.0
-offset_top = -36.0
+offset_top = -69.0
 offset_right = 77.0
-offset_bottom = 2.0
+offset_bottom = -31.0
 scale = Vector2(0.5, 0.5)
 text = "Player 1"
 label_settings = ExtResource("3_okag8")
-horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HealthBar" parent="." instance=ExtResource("4_r5k84")]
+offset_left = -20.0
+offset_top = -33.0
+offset_right = 20.0
+offset_bottom = -28.0
+
+[node name="ManaBar" parent="." instance=ExtResource("4_r5k84")]
+offset_left = -20.0
+offset_top = -26.0
+offset_right = 20.0
+offset_bottom = -21.0
+fixed_color = Color(0.0313726, 0.415686, 0.74902, 1)
+
+[node name="Attributes" parent="." instance=ExtResource("4_77i1n")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 
