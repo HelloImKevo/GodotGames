@@ -65,13 +65,13 @@ func init_level(starting_level: int, current_exp: int, exp_required_next_level: 
 	update_stat(TOTAL_EXP, total_exp)
 
 
-func init_core_resources(current_hp: float, max_hp: float, current_mana: float, max_mana: float) -> void:
+func init_core_resources(start_hp: float, max_hp: float, start_mana: float, max_mana: float) -> void:
 	# Note: MAX values must be specified first.
 	update_stat(MAX_HP, max_hp)
 	update_stat(MAX_MANA, max_mana)
 	
-	update_stat(CURRENT_HP, current_hp)
-	update_stat(CURRENT_MANA, current_mana)
+	update_stat(CURRENT_HP, start_hp)
+	update_stat(CURRENT_MANA, start_mana)
 
 
 func current_hp() -> float:
