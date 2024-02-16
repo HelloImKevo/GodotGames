@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://txjx2ilc1fs"]
+[gd_scene load_steps=10 format=3 uid="uid://txjx2ilc1fs"]
 
 [ext_resource type="Texture2D" uid="uid://dvfpn5vl4sqom" path="res://assets/spritesheets/grass.png" id="1_5wok2"]
 [ext_resource type="Script" path="res://test_level/test_level.gd" id="1_o3oc4"]
 [ext_resource type="Texture2D" uid="uid://bj2v7xl1vrgci" path="res://assets/spritesheets/placeholder_tiles_64.png" id="2_6tiet"]
 [ext_resource type="PackedScene" uid="uid://d1a6tjiyjwtbe" path="res://player/player.tscn" id="2_pgs6y"]
 [ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="5_mb6i1"]
+[ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="6_ifsmt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bmqro"]
 texture = ExtResource("2_6tiet")
@@ -50,5 +51,15 @@ layer_1/tile_data = PackedInt32Array(65546, 65536, 0)
 [node name="Player" parent="." instance=ExtResource("2_pgs6y")]
 position = Vector2(509, 310)
 
-[node name="Hazard" parent="." instance=ExtResource("5_mb6i1")]
-position = Vector2(674, 97)
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="Hazard" parent="Hazards" instance=ExtResource("5_mb6i1")]
+position = Vector2(659, 112)
+
+[node name="Hazard2" parent="Hazards" instance=ExtResource("5_mb6i1")]
+position = Vector2(684, 112)
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ifsmt")
+autoplay = true
+bus = &"Music"

@@ -25,9 +25,10 @@ GameManager="*res://singletons/game_manager.gd"
 
 [display]
 
-window/size/viewport_width=1024
-window/size/viewport_height=768
+window/size/viewport_width=2048
+window/size/viewport_height=1536
 window/stretch/mode="canvas_items"
+window/stretch/scale=2.0
 window/dpi/allow_hidpi=false
 
 [input]
@@ -76,4 +77,5 @@ quit={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
