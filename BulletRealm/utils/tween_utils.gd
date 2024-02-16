@@ -1,9 +1,22 @@
 class_name TweenUtils
 
 
+static func kill_tween(tween: Tween) -> void:
+	if tween != null:
+		tween.kill()
+
+
 static func tween_fade_away(node: Node2D, duration: float) -> Tween:
 	var tween: Tween = node.get_tree().create_tween()
 	tween.tween_property(node, "self_modulate", Color.TRANSPARENT, duration)
+	return tween
+
+
+static func tween_flash_red(node: Node2D, duration: float) -> Tween:
+	var tween: Tween = node.get_tree().create_tween()
+	tween.set_loops()
+	tween.tween_property(node, "self_modulate", Color.RED, 0.3)
+	tween.tween_property(node, "self_modulate", Color.WHITE, 0.3)
 	return tween
 
 

@@ -15,6 +15,7 @@ const BOMB_RATE = 0.5
 @onready var attrs: Attributes = $Attributes
 @onready var status_effects: StatusEffects = $StatusEffects
 
+@onready var sprite = $Sprite
 @onready var animation = $Animation
 
 @onready var cursor = $Cursor
@@ -24,6 +25,9 @@ const BOMB_RATE = 0.5
 @onready var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
+
+var _active_status_effect_visual: StatusEffect.Type = StatusEffect.Type.NONE
+var _visual_effect_tween: Tween
 
 var _time_since_last_attack: float = 0.0
 var _last_input_velocity: Vector2 = Vector2.ZERO
@@ -52,6 +56,7 @@ func _process(delta):
 	_handle_local_input()
 	_update_debug_label()
 	_apply_damage_over_time_effects(delta)
+	_update_status_effect_and_visuals()
 	_apply_regen(delta)
 	_update_resource_bars()
 
@@ -63,6 +68,21 @@ func _update_delta_tracking(delta) -> void:
 func _apply_damage_over_time_effects(delta) -> void:
 	var dot_effects: Array[StatusEffect] = status_effects.get_damage_over_time_effects()
 	attrs.apply_damage_over_time_effects(dot_effects, delta)
+
+
+func _update_status_effect_and_visuals() -> void:
+	# Burning has a higher priority than healing and other effects.
+	if status_effects.is_burning():
+		if _active_status_effect_visual == StatusEffect.Type.BURNING:
+			return
+		
+		_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.3)
+		_active_status_effect_visual = StatusEffect.Type.BURNING
+	else:
+		# Reset to default color.
+		sprite.self_modulate = Color.WHITE
+		TweenUtils.kill_tween(_visual_effect_tween)
+		_active_status_effect_visual = StatusEffect.Type.NONE
 
 
 func _apply_regen(delta) -> void:

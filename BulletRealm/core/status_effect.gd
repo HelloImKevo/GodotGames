@@ -2,7 +2,7 @@ class_name StatusEffect
 extends Node
 
 
-enum Type { BURNING }
+enum Type { NONE, BURNING }
 
 @export var key: String = Identifier.HAZARD_BURNING_GROUND
 @export var type: Type = Type.BURNING

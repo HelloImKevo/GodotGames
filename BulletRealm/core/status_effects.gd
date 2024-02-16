@@ -26,3 +26,11 @@ func get_damage_over_time_effects() -> Array[StatusEffect]:
 			dot_effects.append(e)
 	
 	return dot_effects
+
+
+func is_burning() -> bool:
+	for e: StatusEffect in _key_to_effect_dict.values():
+		if StatusEffect.Type.BURNING == e.type:
+			return true
+	
+	return false
