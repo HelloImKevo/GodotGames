@@ -10,7 +10,9 @@ const BOMB_RATE = 0.5
 
 @export var stunned = false
 
-@onready var attrs = $Attributes
+@onready var attrs: Attributes = $Attributes
+@onready var status_effects: StatusEffects = $StatusEffects
+
 @onready var animation = $Animation
 @onready var health_bar = $HealthBar
 @onready var mana_bar = $ManaBar
@@ -40,8 +42,25 @@ func _ready():
 
 func _process(delta):
 	_update_debug_label()
-	attrs.apply_hp_regen(delta)
+	_apply_damage_over_time_effects(delta)
+	_apply_regen(delta)
+	_update_resource_bars()
+
+
+func _apply_damage_over_time_effects(delta) -> void:
+	var dot_effects: Array[StatusEffect] = status_effects.get_damage_over_time_effects()
+	attrs.apply_damage_over_time_effects(dot_effects, delta)
+
+
+func _apply_regen(delta) -> void:
+	if attrs.current_hp() >= 0.0:
+		# Only apply HP regen if this unit hasn't been reduced to zero HP.
+		attrs.apply_hp_regen(delta)
+	
 	attrs.apply_mana_regen(delta)
+
+
+func _update_resource_bars() -> void:
 	health_bar.set_amount(attrs.current_hp())
 	mana_bar.set_amount(attrs.current_mana())
 
@@ -81,10 +100,8 @@ func _physics_process(delta):
 		new_anim = "walk_left"
 	elif inputs.motion.x > 0:
 		new_anim = "walk_right"
-	
 	#if stunned:
 		#new_anim = "stunned"
-	
 	if new_anim != current_anim:
 		current_anim = new_anim
 		animation.play(current_anim)
@@ -93,10 +110,10 @@ func _physics_process(delta):
 func _update_debug_label():
 	if Engine.get_physics_frames() % 4 == 0:
 		# To prevent a jittery label, only update once every 4 physics frames.
-		get_node("Label").text = "CurrentHP: %.2f HPRegen: %.1f \n CurrentMana: %.2f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
-			attrs.stat(Attributes.CURRENT_HP),
+		get_node("Label").text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
+			attrs.current_hp(),
 			attrs.stat(Attributes.HP_REGEN),
-			attrs.stat(Attributes.CURRENT_MANA),
+			attrs.current_mana(),
 			attrs.stat(Attributes.MANA_REGEN),
 			position.x,
 			position.y
@@ -113,6 +130,14 @@ func exploded(_by_who):
 		return
 	stunned = true
 	animation.play("stunned")
+
+
+func _on_hitbox_area_entered(area):
+	AreaUtils.add_status_effect_if_necessary(area, status_effects)
+
+
+func _on_hitbox_area_exited(area):
+	AreaUtils.remove_status_effect_if_necessary(area, status_effects)
 
 
 func physics_process_old(_delta):

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drogond3ogo3b"]
+
+[ext_resource type="Script" path="res://core/status_effect.gd" id="1_prryn"]
+
+[node name="StatusEffect" type="Node"]
+script = ExtResource("1_prryn")

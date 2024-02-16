@@ -74,8 +74,14 @@ func init_core_resources(start_hp: float, max_hp: float, start_mana: float, max_
 	update_stat(CURRENT_MANA, start_mana)
 
 
+## Returns this unit's current HP snapped to the nearest whole number. Do not use this
+## to apply "over time" effects!
 func current_hp() -> float:
-	return stat(CURRENT_HP)
+	return snappedf(stat(CURRENT_HP), 1.0)
+
+
+func take_damage(damage) -> void:
+	update_stat(CURRENT_HP, -(abs(damage)))
 
 
 func current_mana() -> float:
@@ -90,12 +96,22 @@ func stat(key: String) -> Variant:
 func update_stat(key: String, amount) -> void:
 	var new_amount = _stats[key] + amount
 	
+	# Note: I ran into what I thought was a floating point rounding bug, but it
+	# the issue was that HP regen was immediately being applied after the unit was
+	# reduced to zero HP.
 	if CURRENT_HP == key:
-		_set_stat(key, min(new_amount, _stats[MAX_HP]))
+		_set_stat(key, clampf(new_amount, 0.0, _stats[MAX_HP]))
 	elif CURRENT_MANA == key:
-		_set_stat(key, min(new_amount, _stats[MAX_MANA]))
+		_set_stat(key, clampf(new_amount, 0.0, _stats[MAX_MANA]))
 	else:
 		_set_stat(key, new_amount)
+
+
+## Uses the delta to calculate and take damage for multiple damage per second effects.
+func apply_damage_over_time_effects(dot_effects: Array[StatusEffect], delta) -> void:
+	for e: StatusEffect in dot_effects:
+		var damage_tick = e.damage_per_second * delta
+		take_damage(damage_tick)
 
 
 ## Heals HP per second based on delta since last process.
