@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1a6tjiyjwtbe"]
+[gd_scene load_steps=18 format=3 uid="uid://d1a6tjiyjwtbe"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hfdu0"]
 [ext_resource type="Texture2D" uid="uid://b4umbmf60lmaf" path="res://assets/spritesheets/charwalk.png" id="2_uu735"]
+[ext_resource type="PackedScene" uid="uid://dh8wjud3ox4e7" path="res://gui/player_cursor.tscn" id="3_8bq64"]
 [ext_resource type="Script" path="res://player/player_controls.gd" id="3_lpflv"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="3_okag8"]
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
@@ -11,7 +12,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6lf2o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_87c88"]
-radius = 15.0
+radius = 13.0
 
 [sub_resource type="Animation" id="Animation_if6r3"]
 length = 0.001
@@ -135,6 +136,8 @@ offset = Vector2(-9, -3)
 hframes = 4
 vframes = 4
 
+[node name="Cursor" parent="." instance=ExtResource("3_8bq64")]
+
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6lf2o")
 
@@ -142,7 +145,9 @@ shape = SubResource("RectangleShape2D_6lf2o")
 collision_mask = 16
 
 [node name="CollisionCircle" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_87c88")
+debug_color = Color(0.847059, 0.364706, 0.223529, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -151,6 +156,9 @@ limit_smoothed = true
 libraries = {
 "": SubResource("AnimationLibrary_i240e")
 }
+
+[node name="AttackSound" type="AudioStreamPlayer" parent="."]
+bus = &"Sound"
 
 [node name="Label" type="Label" parent="."]
 offset_left = -26.0
@@ -181,6 +189,8 @@ fixed_color = Color(0.0313726, 0.415686, 0.74902, 1)
 process_mode = 4
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+
+[node name="Projectiles" type="Node" parent="."]
 
 [node name="Inputs" type="Node" parent="."]
 script = ExtResource("3_lpflv")

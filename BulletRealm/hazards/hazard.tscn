@@ -34,14 +34,14 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nmur3"]
-radius = 9.0
+radius = 11.0
 
 [node name="Hazard" type="Area2D" groups=["hazard"]]
 collision_layer = 16
 script = ExtResource("1_hnev1")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(4, -2)
+position = Vector2(4, -1)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_imbwo")
 animation = &"idle"

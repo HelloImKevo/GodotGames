@@ -3,6 +3,8 @@ extends CharacterBody2D
 ## Player : Character controlled by the user.
 
 
+const BULLET: PackedScene = preload("res://attacks/bullet.tscn")
+
 const MOTION_SPEED: float = 450.0
 const BOMB_RATE = 0.5
 
@@ -14,12 +16,16 @@ const BOMB_RATE = 0.5
 @onready var status_effects: StatusEffects = $StatusEffects
 
 @onready var animation = $Animation
+
+@onready var cursor = $Cursor
 @onready var health_bar = $HealthBar
 @onready var mana_bar = $ManaBar
+
 @onready var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 
+var _time_since_last_attack: float = 0.0
 var _last_input_velocity: Vector2 = Vector2.ZERO
 
 
@@ -41,10 +47,17 @@ func _ready():
 
 
 func _process(delta):
+	_update_delta_tracking(delta)
+	_move_cursor_to_mouse()
+	_handle_local_input()
 	_update_debug_label()
 	_apply_damage_over_time_effects(delta)
 	_apply_regen(delta)
 	_update_resource_bars()
+
+
+func _update_delta_tracking(delta) -> void:
+	_time_since_last_attack += delta
 
 
 func _apply_damage_over_time_effects(delta) -> void:
@@ -130,6 +143,36 @@ func exploded(_by_who):
 		return
 	stunned = true
 	animation.play("stunned")
+
+
+# Note: This is currently not synchronized for multiplayer.
+func _handle_local_input() -> void:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if _time_since_last_attack >= attrs.attack_delay():
+			_shoot_bullet()
+
+
+func _move_cursor_to_mouse() -> void:
+	var my_pos: Vector2 = global_position
+	var cursor_weight_range = VectorUtils.get_max_cursor_range_weight(self, attrs.cursor_range())
+	
+	if cursor_weight_range >= 1.0:
+		cursor.global_position = get_global_mouse_position()
+	else:
+		cursor.global_position = my_pos.lerp(get_global_mouse_position(), cursor_weight_range)
+
+
+func _shoot_bullet() -> void:
+	_time_since_last_attack = 0.0
+	var bullet: Bullet = BULLET.instantiate()
+	# This calculates a point in "front" of the player, which is a normalized vector
+	# from global coordinates (0, 0).
+	var start_pos = global_position.direction_to(cursor.global_position).normalized() * 25.0
+	# Move the vector to a point relative to the player's location.
+	start_pos += self.global_position
+	bullet.init(start_pos, cursor.global_position, 300.0, 1.2)
+	# Consider playing a quick sound effect.
+	get_node("Projectiles").add_child(bullet)
 
 
 func _on_hitbox_area_entered(area):

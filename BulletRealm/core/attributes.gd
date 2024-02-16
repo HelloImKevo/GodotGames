@@ -25,6 +25,16 @@ const MAX_MANA: String = "MaxMana"
 const HP_REGEN: String = "HPRegen"
 const MANA_REGEN: String = "ManaRegen"
 
+# -- Utility Stats
+
+## Run speed as a percentage. 1.0 = 100%, and 2.0 = 200% run speed.
+const RUN_SPEED_MULTIPLIER: String = "RunSpeedMultiplier"
+const CURSOR_RANGE: String = "CursorRange"
+## Minimum time between standard attacks. 0.25 is a very fast attack speed!
+const ATTACK_DELAY: String = "AttackDelay"
+## How fast standard projectiles travel.
+const PROJECTILE_SPEED: String = "ProjectileSpeed"
+
 var _stats: Dictionary = {
 	# Integers
 	LEVEL: 0,
@@ -42,10 +52,14 @@ var _stats: Dictionary = {
 	MAX_HP: 0.0,
 	CURRENT_MANA: 0.0,
 	MAX_MANA: 0.0,
-	"RunSpeed": 0.0,
 	HP_REGEN: 0.0,
 	MANA_REGEN: 0.0,
-	"CursorRange": 0.0
+	
+	# Utility Stats
+	RUN_SPEED_MULTIPLIER: 2.0,
+	CURSOR_RANGE: 150.0,
+	ATTACK_DELAY: 0.25,
+	PROJECTILE_SPEED: 400.0
 }
 
 
@@ -86,6 +100,18 @@ func take_damage(damage) -> void:
 
 func current_mana() -> float:
 	return stat(CURRENT_MANA)
+
+
+func cursor_range() -> float:
+	return stat(CURSOR_RANGE)
+
+
+func attack_delay() -> float:
+	return stat(ATTACK_DELAY)
+
+
+func projectile_speed() -> float:
+	return stat(PROJECTILE_SPEED)
 
 
 ## Gets the current value for the specified stat [key].
