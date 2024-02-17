@@ -1,0 +1,221 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5rh3dnpx1bcx"]
+
+[ext_resource type="Texture2D" uid="uid://blmdrtjao23qc" path="res://assets/ui/panel-border-003.png" id="1_0ulqt"]
+[ext_resource type="Script" path="res://gui/player_status_panel.gd" id="1_8rqkb"]
+[ext_resource type="Theme" uid="uid://ct1s5ffx8uncc" path="res://gui/default_gui_theme.tres" id="1_dehwh"]
+[ext_resource type="Texture2D" uid="uid://wjfi8pllqh10" path="res://assets/ui/orange_button_sm.png" id="2_jv8m7"]
+[ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="2_qx700"]
+[ext_resource type="FontFile" uid="uid://b1vgrh0g0vjci" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="5_pn85b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pahww"]
+font = ExtResource("5_pn85b")
+font_size = 26
+font_color = Color(0.372549, 0.890196, 0.0705882, 1)
+outline_size = 2
+outline_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.470588)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8mwvw"]
+font = ExtResource("5_pn85b")
+font_size = 26
+font_color = Color(0.0745098, 0.701961, 0.929412, 1)
+outline_size = 2
+outline_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.470588)
+
+[node name="PlayerStatusPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+script = ExtResource("1_8rqkb")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -331.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("1_dehwh")
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+layout_mode = 2
+color = Color(0.03, 0.03, 0.03, 0.392157)
+
+[node name="NinePatchBorder" type="NinePatchRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("1_0ulqt")
+patch_margin_left = 24
+patch_margin_top = 24
+patch_margin_right = 24
+patch_margin_bottom = 24
+
+[node name="MC" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="VBoxStack" type="VBoxContainer" parent="PanelContainer/MC"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="BtnClose" type="TextureButton" parent="PanelContainer/MC/VBoxStack/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_jv8m7")
+texture_pressed = ExtResource("2_jv8m7")
+texture_hover = ExtResource("2_jv8m7")
+
+[node name="Label" type="Label" parent="PanelContainer/MC/VBoxStack/HBoxContainer/BtnClose"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X"
+label_settings = ExtResource("2_qx700")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="PanelContainer/MC/VBoxStack/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Player Name"
+label_settings = ExtResource("2_qx700")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HB" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MC/VBoxStack/HB"]
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+text = "Level"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB"]
+custom_minimum_size = Vector2(60, 2.08165e-12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exp" type="Label" parent="PanelContainer/MC/VBoxStack/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "50 / 2500 xp"
+vertical_alignment = 1
+
+[node name="HB2" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MC/VBoxStack/HB2"]
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+text = "HP"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HPLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "50 / 250"
+horizontal_alignment = 2
+
+[node name="HPRegenLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "+1.2 / s"
+label_settings = SubResource("LabelSettings_pahww")
+
+[node name="HB4" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MC/VBoxStack/HB4"]
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+text = "Mana"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ManaLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "25 / 300"
+horizontal_alignment = 2
+
+[node name="ManaRegenLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "+2.5 / s"
+label_settings = SubResource("LabelSettings_8mwvw")
+vertical_alignment = 1
+
+[node name="HB5" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MC/VBoxStack/HB5"]
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+text = "Attack"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AttackLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "5 - 7"
+horizontal_alignment = 2
+
+[node name="APSLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "+1.5 / s"
+label_settings = SubResource("LabelSettings_8mwvw")
+vertical_alignment = 1
+
+[node name="HB6" type="HBoxContainer" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MC/VBoxStack/HB6"]
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+text = "Status"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB6"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+text = "5 - 7"
+horizontal_alignment = 2
+
+[node name="Spacer" type="Control" parent="PanelContainer/MC/VBoxStack"]
+layout_mode = 2
+size_flags_vertical = 3

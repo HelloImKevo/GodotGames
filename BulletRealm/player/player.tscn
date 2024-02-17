@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d1a6tjiyjwtbe"]
+[gd_scene load_steps=19 format=3 uid="uid://d1a6tjiyjwtbe"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hfdu0"]
 [ext_resource type="Texture2D" uid="uid://b4umbmf60lmaf" path="res://assets/spritesheets/charwalk.png" id="2_uu735"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_r5k84"]
 [ext_resource type="PackedScene" uid="uid://bdu3dhtr832pt" path="res://core/status_effects.tscn" id="6_41mf1"]
+[ext_resource type="PackedScene" uid="uid://c5rh3dnpx1bcx" path="res://gui/player_status_panel.tscn" id="9_oojxk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6lf2o"]
 
@@ -196,6 +197,10 @@ process_mode = 4
 script = ExtResource("3_lpflv")
 
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerStatusPanel" parent="CanvasLayer" instance=ExtResource("9_oojxk")]
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

@@ -104,6 +104,10 @@ func current_hp() -> float:
 	return snappedf(stat(CURRENT_HP), 1.0)
 
 
+func max_hp() -> float:
+	return snappedf(stat(MAX_HP), 1.0)
+
+
 func take_damage(damage) -> void:
 	update_stat(CURRENT_HP, -(abs(damage)))
 
