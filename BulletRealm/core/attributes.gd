@@ -24,6 +24,7 @@ const CURRENT_MANA: String = "CurrentMana"
 const MAX_MANA: String = "MaxMana"
 const HP_REGEN: String = "HPRegen"
 const MANA_REGEN: String = "ManaRegen"
+const RAW_ATTACK_POWER: String = "RawAttackPower"
 
 # -- Utility Stats
 
@@ -54,6 +55,7 @@ var _stats: Dictionary = {
 	MAX_MANA: 0.0,
 	HP_REGEN: 0.0,
 	MANA_REGEN: 0.0,
+	RAW_ATTACK_POWER: 10.0,
 	
 	# Utility Stats
 	RUN_SPEED_MULTIPLIER: 2.0,
@@ -71,7 +73,11 @@ func _ready():
 	pass
 
 
-func init_level(starting_level: int, current_exp: int, exp_required_next_level: int, total_exp: int) -> void:
+func init_level(
+		starting_level: int,
+		current_exp: int = 0,
+		exp_required_next_level: int = 0,
+		total_exp: int = 0) -> void:
 	assert(current_exp <= total_exp)
 	update_stat(LEVEL, starting_level)
 	update_stat(CURRENT_EXP, current_exp)
@@ -86,6 +92,10 @@ func init_core_resources(start_hp: float, max_hp: float, start_mana: float, max_
 	
 	update_stat(CURRENT_HP, start_hp)
 	update_stat(CURRENT_MANA, start_mana)
+
+
+func level() -> int:
+	return stat(LEVEL)
 
 
 ## Returns this unit's current HP snapped to the nearest whole number. Do not use this
@@ -104,6 +114,10 @@ func current_mana() -> float:
 
 func cursor_range() -> float:
 	return stat(CURSOR_RANGE)
+
+
+func raw_attack_power() -> float:
+	return stat(RAW_ATTACK_POWER)
 
 
 func attack_delay() -> float:

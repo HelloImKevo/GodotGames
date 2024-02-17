@@ -191,7 +191,8 @@ func _shoot_bullet() -> void:
 	# Move the vector to a point relative to the player's location.
 	start_pos += self.global_position
 	# TODO: Implement proper damage mechanics
-	var damage = 10.0
+	var damage: DamageUnit = DamageUnit.new(attrs.level(),
+			attrs.raw_attack_power(), DamageUnit.Type.PHYSICAL)
 	bullet.init(start_pos, cursor.global_position, 300.0, 1.2, damage)
 	# Consider playing a quick sound effect.
 	get_node("Projectiles").add_child(bullet)

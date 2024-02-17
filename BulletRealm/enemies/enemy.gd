@@ -2,11 +2,15 @@ class_name Enemy
 extends CharacterBody2D
 
 
+## What level is this enemy? Determines [Attributes] values.
+@export var level: int = 10
+
 @onready var attrs: Attributes = $Attributes
 
 @onready var player_detect = $PlayerDetect
 @onready var ray_cast = $PlayerDetect/RayCast
 
+@onready var health_bar = $HealthBar
 @onready var floating_numbers: FloatingNumbers = $FloatingNumbers
 
 var _default_sight_distance: float
@@ -20,8 +24,8 @@ func _ready():
 	set_physics_process(false)
 	_default_sight_distance = ray_cast.target_position.y
 	
-	attrs.init_level(1, 0, 50, 0)
-	attrs.init_core_resources(25.0, 25.0, 40.0, 40.0)
+	attrs.init_level(level, 0, 0, 0)
+	attrs.init_core_resources(50.0, 50.0, 40.0, 40.0)
 	
 	attrs.update_stat(Attributes.HP_REGEN, 1.0)
 	
@@ -39,6 +43,11 @@ func _process(delta):
 
 func _physics_process(_delta):
 	_raycast_to_player()
+	_update_resource_bars()
+
+
+func _update_resource_bars() -> void:
+	health_bar.set_amount(attrs.current_hp())
 
 
 func _get_nearest_player() -> Player:
@@ -57,5 +66,12 @@ func _raycast_to_player() -> void:
 ## use on_area_entered.
 func _on_hitbox_area_entered(area):
 	if AreaUtils.is_player_bullet(area):
-		print("TODO: taking damage from bullet = ", area.get_damage_dealt())
-		floating_numbers.create_random_number()
+		var bullet: Bullet = area
+		_take_damage(bullet.get_damage_unit())
+
+
+func _take_damage(damage_unit: DamageUnit) -> void:
+	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
+	attrs.take_damage(scaled_damage)
+	# TODO: Add support for other damage types (healing, holy, crits, etc)
+	floating_numbers.create_floating_number(scaled_damage)
