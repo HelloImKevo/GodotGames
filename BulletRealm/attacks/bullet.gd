@@ -66,6 +66,9 @@ func _on_fade_away_finished() -> void:
 	queue_free()
 
 
+## Reminder: Bullets are [Area2D] right now, but they typically interact with
+## physics "Bodies". So bullets should use on_area_entered and objects that can
+## be hit by bullets should use on_area_entered.
 func _on_body_entered(body):
 	if AreaUtils.is_enemy(body):
 		if lifespan_timer != null:

@@ -7,6 +7,8 @@ extends CharacterBody2D
 @onready var player_detect = $PlayerDetect
 @onready var ray_cast = $PlayerDetect/RayCast
 
+@onready var floating_numbers: FloatingNumbers = $FloatingNumbers
+
 var _default_sight_distance: float
 
 
@@ -31,6 +33,10 @@ func _late_setup():
 	call_deferred("set_physics_process", true)
 
 
+func _process(delta):
+	position.y += 6.0 * delta
+
+
 func _physics_process(_delta):
 	_raycast_to_player()
 
@@ -52,3 +58,4 @@ func _raycast_to_player() -> void:
 func _on_hitbox_area_entered(area):
 	if AreaUtils.is_player_bullet(area):
 		print("TODO: taking damage from bullet = ", area.get_damage_dealt())
+		floating_numbers.create_random_number()

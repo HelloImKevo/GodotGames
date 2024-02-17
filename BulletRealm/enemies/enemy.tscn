@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cexit4oh8b0a0"]
+[gd_scene load_steps=12 format=3 uid="uid://cexit4oh8b0a0"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_k0wji"]
 [ext_resource type="Texture2D" uid="uid://bebtqm4irpvmy" path="res://assets/spritesheets/rpg_critter_small_enemies.png" id="1_m00m3"]
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="3_a2eb7"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="4_2d3ib"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="5_da4ss"]
+[ext_resource type="PackedScene" uid="uid://xtsjsi0d34l0" path="res://gui/floating_numbers.tscn" id="5_prui4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wu4hb"]
 radius = 9.0
@@ -81,18 +82,21 @@ autoplay = "idle"
 
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = -48.0
-offset_top = -57.0
+offset_top = -74.0
 offset_right = 108.0
-offset_bottom = -19.0
+offset_bottom = -36.0
 scale = Vector2(0.6, 0.6)
 text = "Debug Label"
 label_settings = ExtResource("4_2d3ib")
 
+[node name="FloatingNumbers" parent="." instance=ExtResource("5_prui4")]
+position = Vector2(0, -21)
+
 [node name="HealthBar" parent="." instance=ExtResource("5_da4ss")]
 offset_left = -15.0
-offset_top = -20.0
+offset_top = 14.0
 offset_right = 15.0
-offset_bottom = -15.0
+offset_bottom = 18.0
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2
