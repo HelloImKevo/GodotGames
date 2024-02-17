@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://cexit4oh8b0a0"]
+[gd_scene load_steps=15 format=3 uid="uid://cexit4oh8b0a0"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_k0wji"]
 [ext_resource type="Texture2D" uid="uid://bebtqm4irpvmy" path="res://assets/spritesheets/rpg_critter_small_enemies.png" id="1_m00m3"]
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="3_a2eb7"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="4_2d3ib"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="5_da4ss"]
+[ext_resource type="PackedScene" uid="uid://dq3ny42pf6vcc" path="res://gui/unit_label.tscn" id="5_munsa"]
 [ext_resource type="PackedScene" uid="uid://xtsjsi0d34l0" path="res://gui/floating_numbers.tscn" id="5_prui4"]
+[ext_resource type="AudioStream" uid="uid://btbdi22g3b6w3" path="res://assets/sound/goblin_wuh.wav" id="8_8yx6e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wu4hb"]
 radius = 9.0
@@ -42,9 +44,26 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_7yhxl"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xpwuo"]
 _data = {
 "RESET": SubResource("Animation_u5p22"),
+"death": SubResource("Animation_7yhxl"),
 "idle": SubResource("Animation_h3c7p")
 }
 
@@ -89,14 +108,21 @@ scale = Vector2(0.6, 0.6)
 text = "Debug Label"
 label_settings = ExtResource("4_2d3ib")
 
+[node name="UnitLabel" parent="." instance=ExtResource("5_munsa")]
+position = Vector2(-29, -21)
+
 [node name="FloatingNumbers" parent="." instance=ExtResource("5_prui4")]
-position = Vector2(0, -21)
+position = Vector2(0, -39)
 
 [node name="HealthBar" parent="." instance=ExtResource("5_da4ss")]
 offset_left = -15.0
 offset_top = 14.0
 offset_right = 15.0
 offset_bottom = 18.0
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_8yx6e")
+bus = &"Sound"
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2
@@ -106,4 +132,5 @@ collision_mask = 5
 shape = SubResource("CircleShape2D_pvoun")
 debug_color = Color(0.811765, 0.4, 0.239216, 0.419608)
 
+[connection signal="animation_finished" from="Animation" to="." method="_on_animation_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

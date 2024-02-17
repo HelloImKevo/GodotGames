@@ -10,10 +10,15 @@ extends CharacterBody2D
 @onready var player_detect = $PlayerDetect
 @onready var ray_cast = $PlayerDetect/RayCast
 
+@onready var animation = $Animation
+@onready var unit_label = $UnitLabel
 @onready var health_bar = $HealthBar
 @onready var floating_numbers: FloatingNumbers = $FloatingNumbers
 
+@onready var sound = $Sound
+
 var _default_sight_distance: float
+var _dying: bool = false
 
 
 func _to_string() -> String:
@@ -29,6 +34,8 @@ func _ready():
 	
 	attrs.update_stat(Attributes.HP_REGEN, 1.0)
 	
+	unit_label.set_name_and_level("Mushroom", attrs.level())
+	
 	call_deferred("_late_setup")
 
 
@@ -38,6 +45,9 @@ func _late_setup():
 
 
 func _process(delta):
+	if attrs.is_dead():
+		start_death()
+	# This is for testing purposes only and will be removed.
 	position.y += 6.0 * delta
 
 
@@ -75,3 +85,19 @@ func _take_damage(damage_unit: DamageUnit) -> void:
 	attrs.take_damage(scaled_damage)
 	# TODO: Add support for other damage types (healing, holy, crits, etc)
 	floating_numbers.create_floating_number(scaled_damage)
+
+
+func start_death() -> void:
+	if _dying:
+		return
+	
+	_dying = true
+	set_process(false)
+	set_physics_process(false)
+	sound.play()
+	animation.play("death")
+
+
+func _on_animation_animation_finished(anim_name):
+	if anim_name == "death":
+		queue_free()

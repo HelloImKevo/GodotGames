@@ -66,6 +66,14 @@ position = Vector2(684, 112)
 position = Vector2(367, 101)
 level = 1
 
+[node name="Enemy4" parent="Enemies" instance=ExtResource("6_1blkm")]
+position = Vector2(195, 213)
+level = 2
+
+[node name="Enemy5" parent="Enemies" instance=ExtResource("6_1blkm")]
+position = Vector2(498, 61)
+level = 3
+
 [node name="Enemy2" parent="Enemies" instance=ExtResource("6_1blkm")]
 position = Vector2(366, 350)
 level = 5

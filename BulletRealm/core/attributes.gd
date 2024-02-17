@@ -108,6 +108,10 @@ func take_damage(damage) -> void:
 	update_stat(CURRENT_HP, -(abs(damage)))
 
 
+func is_dead() -> bool:
+	return current_hp() <= 0.0
+
+
 func current_mana() -> float:
 	return stat(CURRENT_MANA)
 
