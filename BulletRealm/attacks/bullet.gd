@@ -20,15 +20,18 @@ var _target_position: Vector2 = Vector2.ZERO
 var _speed: float
 ## How long this projectile stays alive, in seconds.
 var _lifespan: float
-
+## How much damage this projectile deals. Consider level scaling and multiplayer sync.
+var _damage_dealt: float
+## Quick fade animation that is played when the projectile's lifespan is finished.
 var _fade_away: Tween
 
 
-func init(start_pos: Vector2, target: Vector2, speed: float, lifespan: float):
+func init(start_pos: Vector2, target: Vector2, speed: float, lifespan: float, damage: float):
 	_target_position = target
 	_dir_of_travel = start_pos.direction_to(target)
 	_speed = speed
 	_lifespan = lifespan
+	_damage_dealt = damage
 	global_position = start_pos
 
 
@@ -40,6 +43,10 @@ func _ready():
 
 func _process(delta):
 	position += _dir_of_travel * _speed * delta
+
+
+func get_damage_dealt() -> float:
+	return _damage_dealt
 
 
 func create_boom() -> void:
@@ -57,3 +64,10 @@ func _on_lifespan_timer_timeout():
 func _on_fade_away_finished() -> void:
 	set_process(false)
 	queue_free()
+
+
+func _on_body_entered(body):
+	if AreaUtils.is_enemy(body):
+		if lifespan_timer != null:
+			lifespan_timer.stop()
+		create_boom()

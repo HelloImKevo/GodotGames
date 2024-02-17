@@ -39,7 +39,7 @@ func _to_string() -> String:
 
 func _ready():
 	stunned = false
-	position = synced_position
+	#position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	
@@ -190,7 +190,9 @@ func _shoot_bullet() -> void:
 	var start_pos = global_position.direction_to(cursor.global_position).normalized() * 25.0
 	# Move the vector to a point relative to the player's location.
 	start_pos += self.global_position
-	bullet.init(start_pos, cursor.global_position, 300.0, 1.2)
+	# TODO: Implement proper damage mechanics
+	var damage = 10.0
+	bullet.init(start_pos, cursor.global_position, 300.0, 1.2, damage)
 	# Consider playing a quick sound effect.
 	get_node("Projectiles").add_child(bullet)
 
