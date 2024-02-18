@@ -1,4 +1,4 @@
-class_name Bullet
+class_name BaseBullet
 extends Area2D
 
 
@@ -39,6 +39,15 @@ func init(start_pos: Vector2,
 	global_position = start_pos
 
 
+#region -- Abstract Functions
+
+## How quickly the projectile fades away and dies.
+func _get_fade_duration() -> float:
+	return 0.0
+
+#endregion -- Abstract Functions
+
+
 func _ready():
 	look_at(_target_position)
 	lifespan_timer.wait_time = _lifespan
@@ -61,7 +70,7 @@ func create_boom() -> void:
 
 
 func _on_lifespan_timer_timeout():
-	_fade_away = TweenUtils.tween_fade_away(sprite, 0.3)
+	_fade_away = TweenUtils.tween_fade_away(sprite, _get_fade_duration())
 	_fade_away.connect("finished", _on_fade_away_finished)
 
 
@@ -74,7 +83,7 @@ func _on_fade_away_finished() -> void:
 ## physics "Bodies". So bullets should use on_area_entered and objects that can
 ## be hit by bullets should use on_area_entered.
 func _on_body_entered(body):
-	if AreaUtils.is_enemy(body):
+	if AreaUtils.is_enemy(body) or AreaUtils.is_player(body):
 		if lifespan_timer != null:
 			lifespan_timer.stop()
 		create_boom()

@@ -5,6 +5,8 @@ extends CharacterBody2D
 ## What level is this enemy? Determines [Attributes] values.
 @export var level: int = 10
 
+const BULLET = preload("res://attacks/enemy_bullet.tscn")
+
 @onready var attrs: Attributes = $Attributes
 
 @onready var player_detect = $PlayerDetect
@@ -17,6 +19,9 @@ extends CharacterBody2D
 
 @onready var sound = $Sound
 
+@onready var shoot_timer = $ShootTimer
+
+var _time_since_last_attack: float
 var _default_sight_distance: float
 var _dying: bool = false
 
@@ -36,6 +41,8 @@ func _ready():
 	
 	unit_label.set_name_and_level("Mushroom", attrs.level())
 	
+	_start_attack_timer()
+	
 	call_deferred("_late_setup")
 
 
@@ -44,11 +51,17 @@ func _late_setup():
 	call_deferred("set_physics_process", true)
 
 
+func _start_attack_timer() -> void:
+	shoot_timer.wait_time = randf_range(3.6, 4.4)
+	shoot_timer.start()
+
+
 func _process(delta):
 	if attrs.is_dead():
 		start_death()
 	# This is for testing purposes only and will be removed.
 	position.y += 6.0 * delta
+	_time_since_last_attack += delta
 
 
 func _physics_process(_delta):
@@ -76,7 +89,7 @@ func _raycast_to_player() -> void:
 ## use on_area_entered.
 func _on_hitbox_area_entered(area):
 	if AreaUtils.is_player_bullet(area):
-		var bullet: Bullet = area
+		var bullet: PlayerBullet = area
 		_take_damage(bullet.get_damage_unit())
 
 
@@ -101,3 +114,25 @@ func start_death() -> void:
 func _on_animation_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
+
+
+func _on_shoot_timer_timeout():
+	_shoot_bullet()
+
+
+# TODO: Play a fast animation to telegraph incoming attack.
+func _shoot_bullet() -> void:
+	_time_since_last_attack = 0.0
+	var bullet: EnemyBullet = BULLET.instantiate()
+	var target_pos = _get_nearest_player().global_position
+	# This calculates a point in "front" of the player, which is a normalized vector
+	# from global coordinates (0, 0).
+	var start_pos = global_position.direction_to(target_pos).normalized() * 25.0
+	# Move the vector to a point relative to the player's location.
+	start_pos += self.global_position
+	var damage: DamageUnit = DamageUnit.new(attrs.level(),
+			attrs.raw_attack_power(), DamageUnit.Type.PHYSICAL)
+	bullet.init(start_pos, target_pos, 200.0, 0.9, damage)
+	# Consider playing a quick sound effect.
+	SceneTreeHelper.add_projectile(self, bullet)
+	_start_attack_timer()

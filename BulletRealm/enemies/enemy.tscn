@@ -123,6 +123,8 @@ offset_bottom = 18.0
 stream = ExtResource("8_8yx6e")
 bus = &"Sound"
 
+[node name="ShootTimer" type="Timer" parent="."]
+
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 5
@@ -132,4 +134,5 @@ shape = SubResource("CircleShape2D_pvoun")
 debug_color = Color(0.811765, 0.4, 0.239216, 0.419608)
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_animation_animation_finished"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

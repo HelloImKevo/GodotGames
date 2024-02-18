@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## Player : Character controlled by the user.
 
 
-const BULLET: PackedScene = preload("res://attacks/bullet.tscn")
+const BULLET: PackedScene = preload("res://attacks/player_bullet.tscn")
 
 const MOTION_SPEED: float = 450.0
 const BOMB_RATE = 0.5
@@ -187,7 +187,7 @@ func _move_cursor_to_mouse() -> void:
 
 func _shoot_bullet() -> void:
 	_time_since_last_attack = 0.0
-	var bullet: Bullet = BULLET.instantiate()
+	var bullet: PlayerBullet = BULLET.instantiate()
 	# This calculates a point in "front" of the player, which is a normalized vector
 	# from global coordinates (0, 0).
 	var start_pos = global_position.direction_to(cursor.global_position).normalized() * 25.0
@@ -198,11 +198,21 @@ func _shoot_bullet() -> void:
 			attrs.raw_attack_power(), DamageUnit.Type.PHYSICAL)
 	bullet.init(start_pos, cursor.global_position, 300.0, 1.2, damage)
 	# Consider playing a quick sound effect.
-	get_node("Projectiles").add_child(bullet)
+	SceneTreeHelper.add_projectile(self, bullet)
 
 
 func _on_hitbox_area_entered(area):
 	AreaUtils.add_status_effect_if_necessary(area, status_effects)
+	
+	if AreaUtils.is_enemy_bullet(area):
+		var bullet: EnemyBullet = area
+		_take_damage(bullet.get_damage_unit())
+
+
+func _take_damage(damage_unit: DamageUnit) -> void:
+	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
+	# TODO: Play a sound effect or animation for player.
+	attrs.take_damage(scaled_damage)
 
 
 func _on_hitbox_area_exited(area):

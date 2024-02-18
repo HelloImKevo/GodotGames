@@ -17,9 +17,9 @@ func _to_string() -> String:
 	return "DamageUnit (%s, %.2f, %s)" % [_owner_level, _raw_amount, _type]
 
 
-func _init(owner_level: int, raw_amount: float, type: Type):
-	_owner_level = owner_level
-	_raw_amount = raw_amount
+func _init(o_level: int, raw_amt: float, type: Type):
+	_owner_level = o_level
+	_raw_amount = raw_amt
 	_type = type
 
 

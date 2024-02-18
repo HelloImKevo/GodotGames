@@ -94,6 +94,8 @@ level = 5
 [node name="Enemy3" parent="Enemies" instance=ExtResource("6_1blkm")]
 position = Vector2(682, 274)
 
+[node name="Projectiles" type="Node" parent="."]
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ifsmt")
 autoplay = true

@@ -10,7 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bdu3dhtr832pt" path="res://core/status_effects.tscn" id="6_41mf1"]
 [ext_resource type="PackedScene" uid="uid://c5rh3dnpx1bcx" path="res://gui/player_status_panel.tscn" id="9_oojxk"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lf2o"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_8tiva"]
+radius = 14.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_87c88"]
 radius = 13.0
@@ -127,7 +128,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
-collision_mask = 58
+collision_mask = 35
 script = ExtResource("1_hfdu0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -140,10 +141,11 @@ vframes = 4
 [node name="Cursor" parent="." instance=ExtResource("3_8bq64")]
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_6lf2o")
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_8tiva")
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_mask = 16
+collision_mask = 24
 
 [node name="CollisionCircle" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 2)
@@ -190,8 +192,6 @@ fixed_color = Color(0.0313726, 0.415686, 0.74902, 1)
 process_mode = 4
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
-[node name="Projectiles" type="Node" parent="."]
 
 [node name="Inputs" type="Node" parent="."]
 script = ExtResource("3_lpflv")
