@@ -7,7 +7,7 @@
 size = Vector2(20, 29)
 
 [node name="NPC" type="StaticBody2D"]
-collision_layer = 32
+collision_layer = 64
 script = ExtResource("1_a1xqp")
 
 [node name="Sprite" type="Sprite2D" parent="."]

@@ -70,7 +70,7 @@ _data = {
 radius = 12.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 2
+collision_layer = 4
 script = ExtResource("1_k0wji")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -126,8 +126,8 @@ bus = &"Sound"
 [node name="ShootTimer" type="Timer" parent="."]
 
 [node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 5
+collision_layer = 4
+collision_mask = 8
 
 [node name="CollisionCircle" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_pvoun")

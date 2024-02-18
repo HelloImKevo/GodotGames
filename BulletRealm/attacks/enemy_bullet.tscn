@@ -8,11 +8,12 @@
 radius = 7.00446
 
 [node name="EnemyBullet" groups=["enemy_bullet"] instance=ExtResource("1_kdv02")]
-collision_layer = 8
-collision_mask = 1
+collision_layer = 16
+collision_mask = 2
 script = ExtResource("2_e51er")
 
 [node name="Sprite" parent="." index="0"]
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("3_waumh")
 hframes = 6
 

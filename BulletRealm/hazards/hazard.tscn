@@ -37,7 +37,8 @@ animations = [{
 radius = 11.0
 
 [node name="Hazard" type="Area2D" groups=["hazard"]]
-collision_layer = 16
+collision_layer = 32
+collision_mask = 2
 script = ExtResource("1_hnev1")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]

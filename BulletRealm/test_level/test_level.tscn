@@ -55,11 +55,17 @@ position = Vector2(509, 310)
 
 [node name="Hazards" type="Node2D" parent="."]
 
-[node name="Hazard" parent="Hazards" instance=ExtResource("5_mb6i1")]
-position = Vector2(659, 112)
+[node name="Hazard4" parent="Hazards" instance=ExtResource("5_mb6i1")]
+position = Vector2(659, 85)
 
 [node name="Hazard2" parent="Hazards" instance=ExtResource("5_mb6i1")]
 position = Vector2(684, 112)
+
+[node name="Hazard3" parent="Hazards" instance=ExtResource("5_mb6i1")]
+position = Vector2(684, 85)
+
+[node name="Hazard" parent="Hazards" instance=ExtResource("5_mb6i1")]
+position = Vector2(659, 112)
 
 [node name="NPCs" type="Node2D" parent="."]
 

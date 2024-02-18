@@ -5,8 +5,8 @@ static func is_enemy(area: Node) -> bool:
 	return area.is_in_group(Identifier.GROUP_ENEMY)
 
 
-static func is_player(area: Node) -> bool:
-	return area.is_in_group(Identifier.GROUP_PLAYER)
+static func is_player_hitbox(area: Node) -> bool:
+	return area.is_in_group(Identifier.GROUP_PLAYER_HITBOX)
 
 
 static func is_player_bullet(area: Node) -> bool:

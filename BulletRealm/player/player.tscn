@@ -128,7 +128,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
-collision_mask = 35
+collision_mask = 69
 script = ExtResource("1_hfdu0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -144,8 +144,9 @@ vframes = 4
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_8tiva")
 
-[node name="Hitbox" type="Area2D" parent="."]
-collision_mask = 24
+[node name="Hitbox" type="Area2D" parent="." groups=["player_hitbox"]]
+collision_layer = 2
+collision_mask = 48
 
 [node name="CollisionCircle" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 2)
@@ -161,6 +162,9 @@ libraries = {
 }
 
 [node name="AttackSound" type="AudioStreamPlayer" parent="."]
+bus = &"Sound"
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
 bus = &"Sound"
 
 [node name="Label" type="Label" parent="."]

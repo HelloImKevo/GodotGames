@@ -4,15 +4,22 @@ extends BaseBullet
 
 enum Type { RED_BULLET }
 
-@export var bullet_type: Type = Type.RED_BULLET
-
-const BULLET_RED_OUTLINE = preload("res://assets/images/bullet_red_outline.png")
-
 
 func _ready():
 	super()
-	sprite.texture = BULLET_RED_OUTLINE
+	_create_random_bullet()
 
 
 func _get_fade_duration() -> float:
 	return 0.3
+
+
+## For testing purposes only.
+func _create_random_bullet() -> void:
+	var bullet_data: Dictionary = BulletManager.PLAYER_BULLETS
+	var key: String = bullet_data.keys().pick_random()
+	var sprite_data: BulletSpriteData = bullet_data[key]
+	sprite.frame = sprite_data.frame
+	sprite.rotation_degrees = sprite_data.rotation_degrees
+	sprite.scale = Vector2(sprite_data.scale, sprite_data.scale)
+	sprite.flip_h = sprite_data.flip_h

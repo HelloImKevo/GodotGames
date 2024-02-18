@@ -17,6 +17,7 @@ const BOMB_RATE = 0.5
 
 @onready var sprite = $Sprite
 @onready var animation = $Animation
+@onready var hit_sound = $HitSound
 
 @onready var cursor = $Cursor
 @onready var health_bar = $HealthBar
@@ -76,15 +77,10 @@ func _apply_damage_over_time_effects(delta) -> void:
 func _update_status_effect_and_visuals() -> void:
 	# Burning has a higher priority than healing and other effects.
 	if status_effects.is_burning():
-		if _active_status_effect_visual == StatusEffect.Type.BURNING:
-			return
-		
-		_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.3)
+		if _visual_effect_tween == null or not _visual_effect_tween.is_running():
+			_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.3)
 		_active_status_effect_visual = StatusEffect.Type.BURNING
 	else:
-		# Reset to default color.
-		sprite.self_modulate = Color.WHITE
-		TweenUtils.kill_tween(_visual_effect_tween)
 		_active_status_effect_visual = StatusEffect.Type.NONE
 
 
@@ -211,8 +207,11 @@ func _on_hitbox_area_entered(area):
 
 func _take_damage(damage_unit: DamageUnit) -> void:
 	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
-	# TODO: Play a sound effect or animation for player.
 	attrs.take_damage(scaled_damage)
+	
+	if _visual_effect_tween == null or not _visual_effect_tween.is_running():
+		_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.2)
+	SoundManager.player_hit_sound(hit_sound)
 
 
 func _on_hitbox_area_exited(area):

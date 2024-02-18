@@ -5,7 +5,7 @@ extends Area2D
 ## This might be too costly for performance.
 const BOOM: PackedScene = preload("res://graphics/explosion.tscn")
 
-@onready var sprite = $Sprite
+@onready var sprite: Sprite2D = $Sprite
 
 ## How long until this projectile fades away and is destroyed. Should generally
 ## be less than 4 seconds.
@@ -83,7 +83,16 @@ func _on_fade_away_finished() -> void:
 ## physics "Bodies". So bullets should use on_area_entered and objects that can
 ## be hit by bullets should use on_area_entered.
 func _on_body_entered(body):
-	if AreaUtils.is_enemy(body) or AreaUtils.is_player(body):
-		if lifespan_timer != null:
-			lifespan_timer.stop()
-		create_boom()
+	if AreaUtils.is_enemy(body):
+		_collide_and_die()
+
+
+func _on_area_entered(area):
+	if AreaUtils.is_player_hitbox(area):
+		_collide_and_die()
+
+
+func _collide_and_die():
+	if lifespan_timer != null:
+		lifespan_timer.stop()
+	create_boom()

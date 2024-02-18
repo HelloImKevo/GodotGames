@@ -14,7 +14,6 @@ static func tween_fade_away(canvas_item: CanvasItem, duration: float) -> Tween:
 
 static func tween_flash_red(node: Node2D, duration: float) -> Tween:
 	var tween: Tween = node.get_tree().create_tween()
-	tween.set_loops()
 	tween.tween_property(node, "self_modulate", Color.RED, 0.3)
 	tween.tween_property(node, "self_modulate", Color.WHITE, 0.3)
 	return tween

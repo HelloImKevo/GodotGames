@@ -22,12 +22,15 @@ config/icon="res://icon.svg"
 Settings="*res://singletons/settings.gd"
 SignalManager="*res://singletons/signal_manager.gd"
 GameManager="*res://singletons/game_manager.gd"
+BulletManager="*res://singletons/bullet_manager.gd"
+SoundManager="*res://singletons/sound_manager.gd"
 
 [display]
 
-window/size/viewport_width=1024
-window/size/viewport_height=768
+window/size/viewport_width=2048
+window/size/viewport_height=1536
 window/stretch/mode="canvas_items"
+window/stretch/scale=2.0
 window/dpi/allow_hidpi=false
 
 [input]
@@ -68,12 +71,13 @@ quit={
 
 [layer_names]
 
-2d_physics/layer_1="player"
-2d_physics/layer_2="enemy"
-2d_physics/layer_3="player_bullet"
-2d_physics/layer_4="enemy_bullet"
-2d_physics/layer_5="hazard"
-2d_physics/layer_6="npc"
+2d_physics/layer_1="player_physics_body"
+2d_physics/layer_2="player_hitbox"
+2d_physics/layer_3="enemy"
+2d_physics/layer_4="player_bullet"
+2d_physics/layer_5="enemy_bullet"
+2d_physics/layer_6="hazard"
+2d_physics/layer_7="npc"
 
 [rendering]
 
