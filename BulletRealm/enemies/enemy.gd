@@ -130,8 +130,7 @@ func _shoot_bullet() -> void:
 	var start_pos = global_position.direction_to(target_pos).normalized() * 25.0
 	# Move the vector to a point relative to the player's location.
 	start_pos += self.global_position
-	var damage: DamageUnit = DamageUnit.new(attrs.level(),
-			attrs.raw_attack_power(), DamageUnit.Type.PHYSICAL)
+	var damage: DamageUnit = DamageUnit.from_attrs(attrs, DamageUnit.Type.PHYSICAL)
 	bullet.init(start_pos, target_pos, 200.0, 0.9, damage)
 	# Consider playing a quick sound effect.
 	SceneTreeHelper.add_projectile(self, bullet)

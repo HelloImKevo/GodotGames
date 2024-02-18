@@ -24,7 +24,8 @@ const CURRENT_MANA: String = "CurrentMana"
 const MAX_MANA: String = "MaxMana"
 const HP_REGEN: String = "HPRegen"
 const MANA_REGEN: String = "ManaRegen"
-const RAW_ATTACK_POWER: String = "RawAttackPower"
+const RAW_ATTACK_MIN: String = "RawAttackMin"
+const RAW_ATTACK_MAX: String = "RawAttackMax"
 
 # -- Utility Stats
 
@@ -55,7 +56,8 @@ var _stats: Dictionary = {
 	MAX_MANA: 0.0,
 	HP_REGEN: 0.0,
 	MANA_REGEN: 0.0,
-	RAW_ATTACK_POWER: 10.0,
+	RAW_ATTACK_MIN: 5.0,
+	RAW_ATTACK_MAX: 7.0,
 	
 	# Utility Stats
 	RUN_SPEED_MULTIPLIER: 2.0,
@@ -124,8 +126,12 @@ func cursor_range() -> float:
 	return stat(CURSOR_RANGE)
 
 
-func raw_attack_power() -> float:
-	return stat(RAW_ATTACK_POWER)
+func raw_attack_min() -> float:
+	return stat(RAW_ATTACK_MIN)
+
+
+func raw_attack_max() -> float:
+	return stat(RAW_ATTACK_MAX)
 
 
 func attack_delay() -> float:

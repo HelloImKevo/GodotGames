@@ -192,6 +192,7 @@ text = "5 - 7"
 horizontal_alignment = 2
 
 [node name="APSLabel" type="Label" parent="PanelContainer/MC/VBoxStack/HB5"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.2
@@ -213,7 +214,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.2
-text = "5 - 7"
+text = "BURNING"
 horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="PanelContainer/MC/VBoxStack"]

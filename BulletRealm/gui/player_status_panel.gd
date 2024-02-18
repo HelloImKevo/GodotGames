@@ -21,7 +21,7 @@ func update(attrs: Attributes, status: StatusEffects) -> void:
 	hp_regen_label.text = "+%.1f / s" % attrs.stat(Attributes.HP_REGEN)
 	mana_label.text = "%.0f / %.0f" % [attrs.current_mana(), attrs.stat(Attributes.MAX_MANA)]
 	mana_regen_label.text = "+%.1f / s" % attrs.stat(Attributes.MANA_REGEN)
-	attack_label.text = "%.0f - %.0f" % [attrs.raw_attack_power(), attrs.raw_attack_power()]
+	attack_label.text = "%.0f - %.0f" % [attrs.raw_attack_min(), attrs.raw_attack_max()]
 	if status.is_burning():
 		status_label.text = "Burning"
 	else:
