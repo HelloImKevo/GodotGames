@@ -10,24 +10,6 @@
 [ext_resource type="AudioStream" uid="uid://btbdi22g3b6w3" path="res://assets/sound/goblin_wuh.wav" id="8_8yx6e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wu4hb"]
-radius = 9.0
-
-[sub_resource type="Animation" id="Animation_h3c7p"]
-resource_name = "idle"
-length = 0.6
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
 
 [sub_resource type="Animation" id="Animation_u5p22"]
 length = 0.001
@@ -60,6 +42,23 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_h3c7p"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xpwuo"]
 _data = {
 "RESET": SubResource("Animation_u5p22"),
@@ -72,7 +71,6 @@ radius = 12.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
-collision_mask = 0
 script = ExtResource("1_k0wji")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -82,7 +80,7 @@ hframes = 15
 vframes = 12
 
 [node name="WorldPhysicsCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_wu4hb")
 
 [node name="Attributes" parent="." instance=ExtResource("3_a2eb7")]
@@ -100,6 +98,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_left = -48.0
 offset_top = -74.0
 offset_right = 108.0

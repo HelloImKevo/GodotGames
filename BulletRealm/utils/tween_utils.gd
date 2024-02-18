@@ -32,3 +32,12 @@ static func tween_rotate_back_and_forth(node: Node2D, tween: Tween, angle: float
 	tween.tween_property(node, "rotation", deg_to_rad(node.rotation_degrees), 0.3)
 	tween.tween_property(node, "rotation", deg_to_rad(node.rotation_degrees + angle), 0.3)
 	tween.tween_property(node, "rotation", deg_to_rad(node.rotation_degrees), 0.3)
+
+
+static func tween_loop_frames(sprite: Sprite2D, frames: Array, duration: float) -> Tween:
+	var tween: Tween = sprite.get_tree().create_tween()
+	tween.set_loops()
+	for frame: int in frames:
+		tween.tween_property(sprite, "frame", frame, duration)
+	
+	return tween

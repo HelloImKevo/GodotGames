@@ -7,6 +7,7 @@
 script = ExtResource("2_l0eq2")
 
 [node name="TextLabel" type="Label" parent="."]
+z_index = 5
 offset_left = -34.0
 offset_top = -10.0
 offset_right = 104.0

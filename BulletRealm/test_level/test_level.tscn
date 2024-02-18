@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://txjx2ilc1fs"]
+[gd_scene load_steps=12 format=3 uid="uid://txjx2ilc1fs"]
 
 [ext_resource type="Texture2D" uid="uid://dvfpn5vl4sqom" path="res://assets/spritesheets/grass.png" id="1_5wok2"]
 [ext_resource type="Script" path="res://test_level/test_level.gd" id="1_o3oc4"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="5_mb6i1"]
 [ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="6_1blkm"]
 [ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="6_ifsmt"]
+[ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="6_p3ba6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bmqro"]
 texture = ExtResource("2_6tiet")
@@ -59,6 +60,18 @@ position = Vector2(659, 112)
 
 [node name="Hazard2" parent="Hazards" instance=ExtResource("5_mb6i1")]
 position = Vector2(684, 112)
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="NPC" parent="NPCs" instance=ExtResource("6_p3ba6")]
+
+[node name="NPC2" parent="NPCs" instance=ExtResource("6_p3ba6")]
+position = Vector2(43, 0)
+npc_type = 2
+
+[node name="NPC3" parent="NPCs" instance=ExtResource("6_p3ba6")]
+position = Vector2(89, 0)
+npc_type = 3
 
 [node name="Enemies" type="Node2D" parent="."]
 
