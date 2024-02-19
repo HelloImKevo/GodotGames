@@ -47,13 +47,13 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_constants/separation = 18
 
-[node name="BtnLogin" type="TextureButton" parent="CanvasLayer/MC/VB"]
+[node name="BtnSingleplayer" type="TextureButton" parent="CanvasLayer/MC/VB"]
 layout_mode = 2
 texture_normal = ExtResource("3_elcmw")
 texture_pressed = ExtResource("4_u5w2e")
 texture_hover = ExtResource("5_38c2x")
 
-[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnLogin"]
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnSingleplayer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +61,26 @@ anchor_bottom = 1.0
 offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "LOGIN"
+text = "SINGLEPLAYER"
+label_settings = ExtResource("6_njnbi")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnPlayOnline" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("3_elcmw")
+texture_pressed = ExtResource("4_u5w2e")
+texture_hover = ExtResource("5_38c2x")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnPlayOnline"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLAY_ONLINE"
 label_settings = ExtResource("6_njnbi")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -131,7 +150,7 @@ stream = ExtResource("7_ks2wc")
 autoplay = true
 bus = &"Music"
 
-[connection signal="pressed" from="CanvasLayer/MC/VB/BtnLogin" to="." method="_on_btn_login_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnSingleplayer" to="." method="_on_btn_singleplayer_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnSettings" to="." method="_on_btn_settings_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnCredits" to="." method="_on_btn_credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnExit" to="." method="_on_btn_exit_pressed"]

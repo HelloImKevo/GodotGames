@@ -23,7 +23,7 @@ const BOMB_RATE = 0.5
 @onready var health_bar = $HealthBar
 @onready var mana_bar = $ManaBar
 
-@onready var player_status_panel = $CanvasLayer/PlayerStatusPanel
+@onready var player_gui = $PlayerGUI
 
 @onready var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
@@ -62,7 +62,7 @@ func _process(delta):
 	_update_status_effect_and_visuals()
 	_apply_regen(delta)
 	_update_resource_bars()
-	player_status_panel.update(attrs, status_effects)
+	player_gui.get_status_panel().update(attrs, status_effects)
 
 
 func _update_delta_tracking(delta) -> void:
@@ -93,6 +93,8 @@ func _apply_regen(delta) -> void:
 
 
 func _update_resource_bars() -> void:
+	player_gui.update_resources(attrs.current_hp(), attrs.current_mana(),
+			attrs.current_exp(), attrs.exp_required_next_level())
 	health_bar.set_amount(attrs.current_hp())
 	mana_bar.set_amount(attrs.current_mana())
 

@@ -11,7 +11,7 @@ func _ready():
 	Settings.reset_to_configured_game_volume()
 
 
-func _on_btn_login_pressed():
+func _on_btn_singleplayer_pressed():
 	GameManager.load_test_level_scene()
 
 

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_r5k84"]
 [ext_resource type="PackedScene" uid="uid://bdu3dhtr832pt" path="res://core/status_effects.tscn" id="6_41mf1"]
-[ext_resource type="PackedScene" uid="uid://c5rh3dnpx1bcx" path="res://gui/player_status_panel.tscn" id="9_oojxk"]
+[ext_resource type="PackedScene" uid="uid://dlpyen6x2ddq7" path="res://gui/player_gui.tscn" id="9_5xmt8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8tiva"]
 radius = 14.0
@@ -183,13 +183,17 @@ offset_left = -20.0
 offset_top = -33.0
 offset_right = 20.0
 offset_bottom = -28.0
+value = 100.0
+tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 
 [node name="ManaBar" parent="." instance=ExtResource("4_r5k84")]
 offset_left = -20.0
 offset_top = -26.0
 offset_right = 20.0
 offset_bottom = -21.0
-fixed_color = Color(0.0313726, 0.415686, 0.74902, 1)
+value = 100.0
+tint_progress = Color(0.254902, 0.411765, 0.882353, 1)
+style = 1
 
 [node name="Attributes" parent="." instance=ExtResource("4_77i1n")]
 
@@ -203,9 +207,7 @@ script = ExtResource("3_lpflv")
 
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PlayerStatusPanel" parent="CanvasLayer" instance=ExtResource("9_oojxk")]
+[node name="PlayerGUI" parent="." instance=ExtResource("9_5xmt8")]
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

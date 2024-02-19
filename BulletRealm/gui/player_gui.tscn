@@ -1,0 +1,182 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlpyen6x2ddq7"]
+
+[ext_resource type="PackedScene" uid="uid://c5rh3dnpx1bcx" path="res://gui/player_status_panel.tscn" id="1_2tfq3"]
+[ext_resource type="Script" path="res://gui/player_gui.gd" id="1_igdqm"]
+[ext_resource type="Theme" uid="uid://ct1s5ffx8uncc" path="res://gui/default_gui_theme.tres" id="2_jf6ei"]
+[ext_resource type="Texture2D" uid="uid://dnl626nw5ectp" path="res://assets/ui/panel-transparent-center-004.png" id="4_q5nqb"]
+[ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="5_axv3e"]
+
+[node name="PlayerGUI" type="CanvasLayer"]
+script = ExtResource("1_igdqm")
+
+[node name="PlayerStatusPanel" parent="." instance=ExtResource("1_2tfq3")]
+
+[node name="MC" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_jf6ei")
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="BuffIcons" type="HBoxContainer" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Action5" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action6" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action7" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ResourceBarBackgrounds" type="VBoxContainer" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 0
+
+[node name="HealthBarBG" type="NinePatchRect" parent="MC/ResourceBarBackgrounds"]
+custom_minimum_size = Vector2(156, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ResourceBars" type="VBoxContainer" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MC" type="MarginContainer" parent="MC/ResourceBars"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VB" type="VBoxContainer" parent="MC/ResourceBars/MC"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ExpBar" parent="MC/ResourceBars/MC/VB" instance=ExtResource("5_axv3e")]
+custom_minimum_size = Vector2(140, 6)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+value = 100.0
+tint_progress = Color(1, 1, 0, 1)
+style = 2
+
+[node name="Spacer2" type="Control" parent="MC/ResourceBars/MC/VB"]
+custom_minimum_size = Vector2(2.08165e-12, 2)
+layout_mode = 2
+
+[node name="ManaBar" parent="MC/ResourceBars/MC/VB" instance=ExtResource("5_axv3e")]
+custom_minimum_size = Vector2(140, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+value = 100.0
+tint_progress = Color(0.254902, 0.411765, 0.882353, 1)
+style = 1
+
+[node name="Spacer" type="Control" parent="MC/ResourceBars/MC/VB"]
+custom_minimum_size = Vector2(2.08165e-12, 12)
+layout_mode = 2
+
+[node name="HealthBar" parent="MC/ResourceBars/MC/VB" instance=ExtResource("5_axv3e")]
+custom_minimum_size = Vector2(140, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+value = 100.0
+tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
+
+[node name="ActionsContainer" type="MarginContainer" parent="MC"]
+layout_mode = 2
+theme_override_constants/margin_left = 160
+
+[node name="HB" type="HBoxContainer" parent="MC/ActionsContainer"]
+layout_mode = 2
+
+[node name="Action1" type="NinePatchRect" parent="MC/ActionsContainer/HB"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action2" type="NinePatchRect" parent="MC/ActionsContainer/HB"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action3" type="NinePatchRect" parent="MC/ActionsContainer/HB"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action4" type="NinePatchRect" parent="MC/ActionsContainer/HB"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8

@@ -100,6 +100,14 @@ func level() -> int:
 	return stat(LEVEL)
 
 
+func current_exp() -> int:
+	return stat(CURRENT_EXP)
+
+
+func exp_required_next_level() -> int:
+	return stat(EXP_REQUIRED_NEXT_LEVEL)
+
+
 ## Returns this unit's current HP snapped to the nearest whole number. Do not use this
 ## to apply "over time" effects!
 func current_hp() -> float:
