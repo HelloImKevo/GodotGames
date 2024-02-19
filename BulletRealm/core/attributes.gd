@@ -147,6 +147,12 @@ func stat(key: String) -> Variant:
 	return _stats[key]
 
 
+func set_attack_power(min_ap: float, max_ap: float) -> void:
+	assert(min_ap <= max_ap)
+	_set_stat(RAW_ATTACK_MIN, min_ap)
+	_set_stat(RAW_ATTACK_MAX, max_ap)
+
+
 func update_stat(key: String, amount) -> void:
 	var new_amount = _stats[key] + amount
 	

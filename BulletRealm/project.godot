@@ -30,7 +30,7 @@ SoundManager="*res://singletons/sound_manager.gd"
 window/size/viewport_width=2048
 window/size/viewport_height=1536
 window/stretch/mode="canvas_items"
-window/stretch/scale=2.0
+window/stretch/scale=1.5
 window/dpi/allow_hidpi=false
 
 [input]

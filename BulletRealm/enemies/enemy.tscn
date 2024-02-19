@@ -91,6 +91,8 @@ shape = SubResource("CircleShape2D_wu4hb")
 rotation = -1.5708
 target_position = Vector2(2.08165e-12, 120)
 
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_xpwuo")
@@ -98,12 +100,11 @@ libraries = {
 autoplay = "idle"
 
 [node name="DebugLabel" type="Label" parent="."]
-visible = false
-offset_left = -48.0
-offset_top = -74.0
-offset_right = 108.0
-offset_bottom = -36.0
-scale = Vector2(0.6, 0.6)
+offset_left = -41.0
+offset_top = -95.0
+offset_right = 115.0
+offset_bottom = -57.0
+scale = Vector2(0.5, 0.5)
 text = "Debug Label"
 label_settings = ExtResource("4_2d3ib")
 
