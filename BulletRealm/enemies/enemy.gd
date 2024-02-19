@@ -197,6 +197,7 @@ func start_death() -> void:
 
 func _on_animation_animation_finished(anim_name):
 	if anim_name == "death":
+		LootMaker.create_coins(self, self.global_position)
 		queue_free()
 
 

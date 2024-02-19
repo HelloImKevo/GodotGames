@@ -24,6 +24,7 @@ SignalManager="*res://singletons/signal_manager.gd"
 GameManager="*res://singletons/game_manager.gd"
 BulletManager="*res://singletons/bullet_manager.gd"
 SoundManager="*res://singletons/sound_manager.gd"
+LootMaker="*res://singletons/loot_maker.gd"
 
 [display]
 

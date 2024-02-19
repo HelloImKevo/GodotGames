@@ -158,6 +158,8 @@ unit_name = "Mushroom E"
 
 [node name="Projectiles" type="Node" parent="."]
 
+[node name="LootDrops" type="Node" parent="."]
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ifsmt")
 autoplay = true
