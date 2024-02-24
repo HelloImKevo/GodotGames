@@ -102,7 +102,7 @@ func _physics_process(delta):
 
 
 func _update_resource_bars() -> void:
-	health_bar.set_amount(attrs.current_hp())
+	health_bar.set_amount(attrs.current_hp(), attrs.max_hp())
 
 
 func _update_debug_label() -> void:

@@ -51,7 +51,7 @@ func _ready():
 		get_node("Label").visible = false
 	
 	attrs.init_level(1, 0, 50, 0)
-	attrs.init_core_resources(50.0, 100.0, 30.0, 100.0)
+	attrs.init_core_resources(50.0, 1200.0, 30.0, 150.0)
 	
 	attrs.update_stat(Attributes.HP_REGEN, 2.3)
 	attrs.update_stat(Attributes.MANA_REGEN, 1.7)
@@ -97,10 +97,10 @@ func _apply_regen(delta) -> void:
 
 
 func _update_resource_bars() -> void:
-	player_gui.update_resources(attrs.current_hp(), attrs.current_mana(),
-			attrs.current_exp(), attrs.exp_required_next_level())
-	health_bar.set_amount(attrs.current_hp())
-	mana_bar.set_amount(attrs.current_mana())
+	if EngineUtils.ui_update_interval():
+		player_gui.update_with_attrs(attrs)
+		health_bar.set_amount(attrs.current_hp(), attrs.max_hp())
+		mana_bar.set_amount(attrs.current_mana(), attrs.max_mana())
 
 
 func _physics_process(delta):
@@ -149,8 +149,7 @@ func _update_debug_label():
 	if not show_debug_label:
 		return
 	
-	if Engine.get_physics_frames() % 4 == 0:
-		# To prevent a jittery label, only update once every 4 physics frames.
+	if EngineUtils.ui_update_interval():
 		get_node("Label").text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
 			attrs.current_hp(),
 			attrs.stat(Attributes.HP_REGEN),

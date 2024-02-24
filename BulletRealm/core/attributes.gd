@@ -87,10 +87,10 @@ func init_level(
 	update_stat(TOTAL_EXP, total_exp)
 
 
-func init_core_resources(start_hp: float, max_hp: float, start_mana: float, max_mana: float) -> void:
+func init_core_resources(start_hp: float, maximum_hp: float, start_mana: float, maximum_mana: float) -> void:
 	# Note: MAX values must be specified first.
-	update_stat(MAX_HP, max_hp)
-	update_stat(MAX_MANA, max_mana)
+	update_stat(MAX_HP, maximum_hp)
+	update_stat(MAX_MANA, maximum_mana)
 	
 	update_stat(CURRENT_HP, start_hp)
 	update_stat(CURRENT_MANA, start_mana)
@@ -128,6 +128,10 @@ func is_dead() -> bool:
 
 func current_mana() -> float:
 	return stat(CURRENT_MANA)
+
+
+func max_mana() -> float:
+	return stat(MAX_MANA)
 
 
 func cursor_range() -> float:
