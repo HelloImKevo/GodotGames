@@ -79,6 +79,7 @@ quit={
 2d_physics/layer_5="enemy_bullet"
 2d_physics/layer_6="hazard"
 2d_physics/layer_7="npc"
+2d_physics/layer_8="walls"
 
 [rendering]
 

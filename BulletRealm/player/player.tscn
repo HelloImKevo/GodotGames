@@ -128,7 +128,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
-collision_mask = 69
+collision_mask = 197
 script = ExtResource("1_hfdu0")
 
 [node name="Sprite" type="Sprite2D" parent="."]

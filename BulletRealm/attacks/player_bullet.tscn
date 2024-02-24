@@ -9,7 +9,7 @@ radius = 6.0
 
 [node name="PlayerBullet" groups=["player_bullet"] instance=ExtResource("1_uuflx")]
 collision_layer = 8
-collision_mask = 4
+collision_mask = 132
 script = ExtResource("2_emlx5")
 
 [node name="Sprite" parent="." index="0"]

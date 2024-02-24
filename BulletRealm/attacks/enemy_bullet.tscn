@@ -9,7 +9,7 @@ radius = 7.00446
 
 [node name="EnemyBullet" groups=["enemy_bullet"] instance=ExtResource("1_kdv02")]
 collision_layer = 16
-collision_mask = 2
+collision_mask = 130
 script = ExtResource("2_e51er")
 
 [node name="Sprite" parent="." index="0"]

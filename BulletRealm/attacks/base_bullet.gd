@@ -83,7 +83,8 @@ func _on_fade_away_finished() -> void:
 ## physics "Bodies". So bullets should use on_area_entered and objects that can
 ## be hit by bullets should use on_area_entered.
 func _on_body_entered(body):
-	if AreaUtils.is_enemy(body):
+	# TODO: Check which TileMap layer the bullet has collided with.
+	if AreaUtils.is_enemy(body) or body is TileMap:
 		_collide_and_die()
 
 
