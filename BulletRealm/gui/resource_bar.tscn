@@ -7,8 +7,9 @@
 [node name="ResourceBar" type="TextureProgressBar"]
 offset_right = 40.0
 offset_bottom = 40.0
-value = 50.0
+value = 100.0
 nine_patch_stretch = true
 texture_under = ExtResource("1_cjmmy")
 texture_progress = ExtResource("2_ntk57")
+tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 script = ExtResource("3_0ov76")

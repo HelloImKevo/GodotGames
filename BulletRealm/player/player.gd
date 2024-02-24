@@ -10,7 +10,8 @@ const BOMB_RATE = 0.5
 
 @export var synced_position := Vector2()
 
-@export var stunned = false
+@export var stunned: bool = false
+@export var show_debug_label: bool = false
 
 @onready var attrs: Attributes = $Attributes
 @onready var status_effects: StatusEffects = $StatusEffects
@@ -45,6 +46,9 @@ func _ready():
 	#position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+	
+	if not show_debug_label:
+		get_node("Label").visible = false
 	
 	attrs.init_level(1, 0, 50, 0)
 	attrs.init_core_resources(50.0, 100.0, 30.0, 100.0)
@@ -142,6 +146,9 @@ func _physics_process(delta):
 
 
 func _update_debug_label():
+	if not show_debug_label:
+		return
+	
 	if Engine.get_physics_frames() % 4 == 0:
 		# To prevent a jittery label, only update once every 4 physics frames.
 		get_node("Label").text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [

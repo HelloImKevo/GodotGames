@@ -1202,10 +1202,12 @@ unit_name = "Mushroom C"
 position = Vector2(366, 350)
 level = 5
 unit_name = "Mushroom D"
+show_debug_label = true
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource("6_1blkm")]
 position = Vector2(682, 274)
 unit_name = "Mushroom E"
+show_debug_label = true
 
 [node name="Projectiles" type="Node" parent="."]
 

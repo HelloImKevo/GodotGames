@@ -183,7 +183,6 @@ offset_left = -20.0
 offset_top = -33.0
 offset_right = 20.0
 offset_bottom = -28.0
-value = 100.0
 tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 
 [node name="ManaBar" parent="." instance=ExtResource("4_r5k84")]
@@ -191,7 +190,6 @@ offset_left = -20.0
 offset_top = -26.0
 offset_right = 20.0
 offset_bottom = -21.0
-value = 100.0
 tint_progress = Color(0.254902, 0.411765, 0.882353, 1)
 style = 1
 

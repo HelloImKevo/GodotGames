@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export var max_attack: float = 12.0
 @export var movement_speed: float = 50.0
 @export var sight_distance: float = 250.0
+@export var show_debug_label: bool = false
 
 const BULLET = preload("res://attacks/enemy_bullet.tscn")
 ## The closest this enemy will get to a player before disabling navigation.
@@ -46,8 +47,20 @@ func _to_string() -> String:
 	return "Enemy: %s" % unit_name
 
 
+#region -- Abstract Functions
+
+## How quickly the projectile fades away and dies.
+func _get_log_tag() -> String:
+	return _to_string()
+
+#endregion -- Abstract Functions
+
+
 func _ready():
 	set_physics_process(false)
+
+	if not show_debug_label:
+		debug_label.visible = false
 	
 	# Set raycast sight distance.
 	ray_cast.target_position.y = sight_distance
@@ -93,6 +106,9 @@ func _update_resource_bars() -> void:
 
 
 func _update_debug_label() -> void:
+	if not show_debug_label:
+		return
+
 	debug_label.text = "Velocity: %s\nTime in Sight: %.1f\nTime since Attack: %.1f" % [
 			velocity, _time_player_has_been_in_sight, _time_since_last_attack]
 

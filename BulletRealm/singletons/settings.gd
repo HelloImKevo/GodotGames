@@ -70,8 +70,7 @@ func _load_settings() -> void:
 	var file = FileAccess.open(SETTINGS_FILE, FileAccess.READ)
 	_settings = JSON.parse_string(file.get_as_text())
 	_apply_in_memory_defaults()
-	# TODO: GodotLogger
-	print("_load_settings(): ", _settings)
+	Log.info("_load_settings(): %s" % _settings)
 
 
 func _apply_in_memory_defaults():

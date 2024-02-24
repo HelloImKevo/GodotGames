@@ -101,7 +101,6 @@ custom_minimum_size = Vector2(140, 6)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-value = 100.0
 tint_progress = Color(1, 1, 0, 1)
 style = 2
 
@@ -114,7 +113,6 @@ custom_minimum_size = Vector2(140, 20)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-value = 100.0
 tint_progress = Color(0.254902, 0.411765, 0.882353, 1)
 style = 1
 
@@ -127,7 +125,6 @@ custom_minimum_size = Vector2(140, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-value = 100.0
 tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 
 [node name="ActionsContainer" type="MarginContainer" parent="MC"]
