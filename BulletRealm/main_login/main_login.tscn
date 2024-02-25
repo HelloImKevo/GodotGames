@@ -151,6 +151,7 @@ autoplay = true
 bus = &"Music"
 
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnSingleplayer" to="." method="_on_btn_singleplayer_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnPlayOnline" to="." method="_on_btn_play_online_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnSettings" to="." method="_on_btn_settings_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnCredits" to="." method="_on_btn_credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnExit" to="." method="_on_btn_exit_pressed"]

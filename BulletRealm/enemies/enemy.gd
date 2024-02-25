@@ -42,6 +42,8 @@ var _default_sight_distance: float
 var _dying: bool = false
 var _can_attack: bool = true
 
+var logger: LogStream = LogStream.new(_to_string(), LogStream.LogLevel.DEBUG)
+
 
 func _to_string() -> String:
 	return "Enemy: %s" % unit_name
@@ -114,15 +116,34 @@ func _update_debug_label() -> void:
 
 
 func _get_nearest_player() -> Player:
-	# TODO: This currently just returns the first player in the node tree.
-	return get_tree().get_first_node_in_group("player")
+	if multiplayer.multiplayer_peer == null:
+		return get_tree().get_first_node_in_group("player")
+	
+	var nearest: Player = null
+	for player in get_tree().get_nodes_in_group(Identifier.GROUP_PLAYER):
+		if nearest == null:
+			nearest = player
+		
+		var snap_amt = 0.5
+		var nearest_distance: float = snappedf(_my_distance_to(nearest), snap_amt)
+		var current_distance: float = snappedf(_my_distance_to(player), snap_amt)
+		if current_distance < nearest_distance:
+			nearest = player
+	
+	return nearest
+
+
+func _my_distance_to(node: Node2D) -> float:
+	return abs(self.global_position.distance_to(node.global_position))
 
 
 ## Continually aim the RayCast2D at the nearest [Player].
 func _raycast_to_player() -> void:
 	# Note: A raycast might be more expensive than simply calculating the distance,
 	# but we probably want to consider Line of Sight mechanics too.
-	player_detect.look_at(_get_nearest_player().global_position)
+	var nearest: Player = _get_nearest_player()
+	if nearest:
+		player_detect.look_at(nearest.global_position)
 
 
 func _update_delta_refs(delta) -> void:
@@ -139,6 +160,8 @@ func _update_delta_refs(delta) -> void:
 func _determine_movement_destination(delta) -> void:
 	if ray_cast.is_colliding():
 		var player: Player = _get_nearest_player()
+		if not player:
+			return
 		
 		## TODO: Need state management - resetting target_position too
 		## often is bad for performance and causes sticky actors
@@ -231,10 +254,14 @@ func _on_shoot_timer_timeout():
 
 # TODO: Play a fast animation to telegraph incoming attack.
 func _shoot_bullet() -> void:
+	var nearest: Player = _get_nearest_player()
+	if not nearest:
+		return
+	
 	_can_attack = false
 	_time_since_last_attack = 0.0
 	var bullet: EnemyBullet = BULLET.instantiate()
-	var target_pos = _get_nearest_player().global_position
+	var target_pos = nearest.global_position
 	# This calculates a point in "front" of the player, which is a normalized vector
 	# from global coordinates (0, 0).
 	var start_pos = global_position.direction_to(target_pos).normalized() * 25.0

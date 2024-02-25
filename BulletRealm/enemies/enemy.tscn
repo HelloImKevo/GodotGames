@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cexit4oh8b0a0"]
+[gd_scene load_steps=16 format=3 uid="uid://cexit4oh8b0a0"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_k0wji"]
 [ext_resource type="Texture2D" uid="uid://bebtqm4irpvmy" path="res://assets/spritesheets/rpg_critter_small_enemies.png" id="1_m00m3"]
@@ -69,6 +69,11 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_pvoun"]
 radius = 12.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mfejc"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 z_index = 1
 collision_layer = 4
@@ -121,7 +126,6 @@ offset_left = -15.0
 offset_top = 14.0
 offset_right = 15.0
 offset_bottom = 18.0
-tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 
 [node name="Sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_8yx6e")
@@ -136,6 +140,9 @@ collision_mask = 8
 [node name="CollisionCircle" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_pvoun")
 debug_color = Color(0.811765, 0.4, 0.239216, 0.419608)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mfejc")
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_animation_animation_finished"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

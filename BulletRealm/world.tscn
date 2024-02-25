@@ -1,14 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://txjx2ilc1fs"]
+[gd_scene load_steps=21 format=3 uid="uid://c877gtoav6o1g"]
 
-[ext_resource type="Script" path="res://test_level/test_level.gd" id="1_o3oc4"]
-[ext_resource type="Texture2D" uid="uid://dferhcd7pernm" path="res://assets/terrain/cainos_tx_tileset_wall.png" id="4_b2pos"]
-[ext_resource type="Texture2D" uid="uid://bffr1qktv2dfh" path="res://assets/terrain/cainos_tx_tileset_grass.png" id="4_se1oc"]
-[ext_resource type="Texture2D" uid="uid://b7cta5ywjkffc" path="res://assets/terrain/cainos_tx_props.png" id="5_i7e8m"]
-[ext_resource type="Texture2D" uid="uid://p2xtgptt7lwn" path="res://assets/terrain/cainos_tx_plant.png" id="5_iuwkx"]
-[ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="5_mb6i1"]
-[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="6_1blkm"]
-[ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="6_ifsmt"]
-[ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="6_p3ba6"]
+[ext_resource type="Script" path="res://world.gd" id="1_5m1ht"]
+[ext_resource type="Texture2D" uid="uid://bffr1qktv2dfh" path="res://assets/terrain/cainos_tx_tileset_grass.png" id="2_s4oth"]
+[ext_resource type="Texture2D" uid="uid://b7cta5ywjkffc" path="res://assets/terrain/cainos_tx_props.png" id="3_v8kmg"]
+[ext_resource type="Texture2D" uid="uid://dferhcd7pernm" path="res://assets/terrain/cainos_tx_tileset_wall.png" id="4_6tp0r"]
+[ext_resource type="Texture2D" uid="uid://p2xtgptt7lwn" path="res://assets/terrain/cainos_tx_plant.png" id="5_a8ske"]
+[ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="6_lrwqo"]
+[ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="7_n07oe"]
+[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="8_g85en"]
+[ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="9_xsu04"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5mcei"]
 source_geometry_group_name = &"navigation_polygon_source_group"
@@ -49,7 +49,7 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pi5id"]
-texture = ExtResource("4_se1oc")
+texture = ExtResource("2_s4oth")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -309,7 +309,7 @@ texture_region_size = Vector2i(32, 32)
 7:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cschg")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nudod"]
-texture = ExtResource("5_i7e8m")
+texture = ExtResource("3_v8kmg")
 texture_region_size = Vector2i(32, 32)
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -638,7 +638,7 @@ texture_region_size = Vector2i(32, 32)
 9:15/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bbt57"]
-texture = ExtResource("4_b2pos")
+texture = ExtResource("4_6tp0r")
 texture_region_size = Vector2i(32, 32)
 1:1/0 = 0
 1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -859,7 +859,7 @@ texture_region_size = Vector2i(32, 32)
 5:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_55u1v"]
-texture = ExtResource("5_iuwkx")
+texture = ExtResource("5_a8ske")
 texture_region_size = Vector2i(32, 32)
 1:0/0 = 0
 1:0/0/z_index = 3
@@ -1134,8 +1134,8 @@ sources/1 = SubResource("TileSetAtlasSource_nudod")
 sources/2 = SubResource("TileSetAtlasSource_bbt57")
 sources/3 = SubResource("TileSetAtlasSource_55u1v")
 
-[node name="TestLevel" type="Node2D"]
-script = ExtResource("1_o3oc4")
+[node name="World" type="Node2D"]
+script = ExtResource("1_5m1ht")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_tpggx")
@@ -1153,70 +1153,84 @@ layer_3/tile_data = PackedInt32Array(720900, 327683, 0, 786436, 327683, 1, 85197
 
 [node name="Hazards" type="Node2D" parent="."]
 
-[node name="Hazard4" parent="Hazards" instance=ExtResource("5_mb6i1")]
+[node name="Hazard4" parent="Hazards" instance=ExtResource("6_lrwqo")]
 position = Vector2(659, 85)
 
-[node name="Hazard2" parent="Hazards" instance=ExtResource("5_mb6i1")]
+[node name="Hazard2" parent="Hazards" instance=ExtResource("6_lrwqo")]
 position = Vector2(684, 112)
 
-[node name="Hazard3" parent="Hazards" instance=ExtResource("5_mb6i1")]
+[node name="Hazard3" parent="Hazards" instance=ExtResource("6_lrwqo")]
 position = Vector2(684, 85)
 
-[node name="Hazard" parent="Hazards" instance=ExtResource("5_mb6i1")]
+[node name="Hazard" parent="Hazards" instance=ExtResource("6_lrwqo")]
 position = Vector2(659, 112)
 
 [node name="NPCs" type="Node2D" parent="."]
 
-[node name="NPC" parent="NPCs" instance=ExtResource("6_p3ba6")]
+[node name="NPC" parent="NPCs" instance=ExtResource("7_n07oe")]
 
-[node name="NPC2" parent="NPCs" instance=ExtResource("6_p3ba6")]
+[node name="NPC2" parent="NPCs" instance=ExtResource("7_n07oe")]
 position = Vector2(43, 0)
 npc_type = 2
 
-[node name="NPC3" parent="NPCs" instance=ExtResource("6_p3ba6")]
+[node name="NPC3" parent="NPCs" instance=ExtResource("7_n07oe")]
 position = Vector2(89, 0)
 npc_type = 3
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Enemy" parent="Enemies" instance=ExtResource("6_1blkm")]
+[node name="Enemy" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(367, 101)
 level = 1
 unit_name = "Mushroom A"
 
-[node name="Enemy4" parent="Enemies" instance=ExtResource("6_1blkm")]
+[node name="Enemy4" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(195, 213)
 level = 2
 unit_name = "Mushroom B"
 
-[node name="Enemy5" parent="Enemies" instance=ExtResource("6_1blkm")]
+[node name="Enemy5" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(498, 61)
 level = 3
 unit_name = "Mushroom C"
 
-[node name="Enemy2" parent="Enemies" instance=ExtResource("6_1blkm")]
+[node name="Enemy2" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(366, 350)
 level = 5
 unit_name = "Mushroom D"
 show_debug_label = true
 
-[node name="Enemy3" parent="Enemies" instance=ExtResource("6_1blkm")]
+[node name="Enemy3" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(682, 274)
 unit_name = "Mushroom E"
 show_debug_label = true
 
-[node name="PlayerSpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="."]
 
-[node name="0" type="Marker2D" parent="PlayerSpawnPoints" groups=["player_spawn_point"]]
+[node name="0" type="Marker2D" parent="SpawnPoints" groups=["player_spawn_point"]]
 position = Vector2(-90, 262)
 
-[node name="1" type="Marker2D" parent="PlayerSpawnPoints" groups=["player_spawn_point"]]
+[node name="1" type="Marker2D" parent="SpawnPoints" groups=["player_spawn_point"]]
 position = Vector2(-90, 440)
+
+[node name="2" type="Marker2D" parent="SpawnPoints" groups=["player_spawn_point"]]
+position = Vector2(-20, 98)
+
+[node name="3" type="Marker2D" parent="SpawnPoints" groups=["player_spawn_point"]]
+position = Vector2(58, 638)
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+spawn_path = NodePath("../Players")
 
 [node name="Projectiles" type="Node" parent="."]
 
 [node name="LootDrops" type="Node" parent="."]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_ifsmt")
+stream = ExtResource("9_xsu04")
 bus = &"Music"
+
+[node name="PlayerCam" type="Camera2D" parent="."]

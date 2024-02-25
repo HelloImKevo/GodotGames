@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bid6vpo6tone0"]
+[gd_scene load_steps=4 format=3 uid="uid://bid6vpo6tone0"]
 
 [ext_resource type="Script" path="res://attacks/base_bullet.gd" id="1_8ebid"]
 [ext_resource type="Texture2D" uid="uid://poydrl2du8ct" path="res://assets/images/bullet_red_outline.png" id="2_f3lyl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1ae1v"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="BaseBullet" type="Area2D"]
 collision_layer = 0
@@ -19,6 +27,9 @@ rotation = 1.5708
 
 [node name="LifespanTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_1ae1v")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

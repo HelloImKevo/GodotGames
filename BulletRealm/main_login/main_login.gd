@@ -12,7 +12,14 @@ func _ready():
 
 
 func _on_btn_singleplayer_pressed():
-	GameManager.load_test_level_scene()
+	# Skip lobby creation and begin the game in singleplayer.
+	# The lobby must be running in the background to show the "Player disconnected" UI.
+	GameManager.start_singleplayer_game = true
+	GameManager.load_lobby_scene()
+
+
+func _on_btn_play_online_pressed():
+	GameManager.load_lobby_scene()
 
 
 func _on_btn_settings_pressed():

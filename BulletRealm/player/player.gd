@@ -8,6 +8,8 @@ const BULLET: PackedScene = preload("res://attacks/player_bullet.tscn")
 const MOTION_SPEED: float = 450.0
 const BOMB_RATE = 0.5
 
+## Note: It is imperative that this property is added to the MultiplayerSynchronizer
+## 'Replication' module in the Godot IDE. The Label:text should be added as well.
 @export var synced_position := Vector2()
 
 @export var stunned: bool = false
@@ -24,6 +26,7 @@ const BOMB_RATE = 0.5
 @onready var health_bar = $HealthBar
 @onready var mana_bar = $ManaBar
 
+# TODO: This needs to be re-worked - this spawns two (or more!) GUIs for multiplayer.
 @onready var player_gui = $PlayerGUI
 
 @onready var inputs = $Inputs
@@ -36,19 +39,23 @@ var _visual_effect_tween: Tween
 var _time_since_last_attack: float = 0.0
 var _last_input_velocity: Vector2 = Vector2.ZERO
 
+var logger: LogStream = LogStream.new(_to_string(), LogStream.LogLevel.DEBUG)
+
 
 func _to_string() -> String:
-	return "Player"
+	return "Player '%s'" % [name]
 
 
 func _ready():
 	stunned = false
-	#position = synced_position
+	position = synced_position
 	if str(name).is_valid_int():
+		logger.info("%s -> _ready -> str(%s).is_valid_int = true" % [_to_string(), name])
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	
-	if not show_debug_label:
-		get_node("Label").visible = false
+	# TODO: Rework this so the player name label is separate from debug label.
+	#if not show_debug_label:
+		#get_node("Label").visible = false
 	
 	attrs.init_level(1, 0, 50, 0)
 	attrs.init_core_resources(50.0, 1200.0, 30.0, 150.0)
@@ -60,7 +67,6 @@ func _ready():
 func _process(delta):
 	_update_delta_tracking(delta)
 	_move_cursor_to_mouse()
-	_handle_local_input()
 	_update_debug_label()
 	_apply_damage_over_time_effects(delta)
 	_update_status_effect_and_visuals()
@@ -104,11 +110,9 @@ func _update_resource_bars() -> void:
 
 
 func _physics_process(delta):
-	inputs.update()
-	# TODO: Figure out multiplayer sync.
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
 		# The client which this player represent will update the controls state, and notify it to everyone.
-		inputs.update()
+		inputs.capture_client_input()
 	
 	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
 		# The server updates the position that will be notified to the clients.
@@ -143,6 +147,8 @@ func _physics_process(delta):
 	if new_anim != current_anim:
 		current_anim = new_anim
 		animation.play(current_anim)
+	
+	_handle_captured_client_input()
 
 
 func _update_debug_label():
@@ -161,7 +167,17 @@ func _update_debug_label():
 
 
 func set_player_name(value):
-	get_node("label").text = value
+	# In the MultiplayerSychronizer 'Replication' tab, this Label should 'Never' replicate.
+	get_node("Label").text = value
+
+
+func get_camera_offset() -> Vector2:
+	# TODO: Implement camera offset logic.
+	var is_status_panel_open = true
+	if is_status_panel_open:
+		return Vector2(120.0, 0.0)
+	else:
+		return Vector2.ZERO
 
 
 @rpc("call_local")
@@ -172,9 +188,9 @@ func exploded(_by_who):
 	animation.play("stunned")
 
 
-# Note: This is currently not synchronized for multiplayer.
-func _handle_local_input() -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+# Should be called after inputs.capture_client_input().
+func _handle_captured_client_input() -> void:
+	if inputs.shooting_action:
 		if _time_since_last_attack >= attrs.attack_delay():
 			_shoot_bullet()
 
@@ -189,7 +205,12 @@ func _move_cursor_to_mouse() -> void:
 		cursor.global_position = my_pos.lerp(get_global_mouse_position(), cursor_weight_range)
 
 
+@rpc("call_local")
 func _shoot_bullet() -> void:
+	# TODO: The bullet is being spawned on both clients, but is aiming towards the single cursor
+	# on the desktop (so the bullet travels in two different directions).
+	# Maybe a ProjectileSpawner needs to be used with an @rpc decorator or multiplayer.is_server()
+	logger.info("Player '%s' is now shooting!" % [name])
 	_time_since_last_attack = 0.0
 	var bullet: PlayerBullet = BULLET.instantiate()
 	# This calculates a point in "front" of the player, which is a normalized vector
