@@ -40,16 +40,17 @@ func connected_to_server():
 
 @rpc("any_peer")
 func send_player_information(name, id):
-	if !GameManager.players.has(id):
-		GameManager.players[id] = {
+	var players: Dictionary = {}
+	if !players.has(id):
+		players[id] = {
 			"name": name,
 			"id": id,
 			"score": 0
 		}
 	
 	if multiplayer.is_server():
-		for i in GameManager.players:
-			send_player_information.rpc(GameManager.players[i].name, i)
+		for i in players:
+			send_player_information.rpc(players[i].name, i)
 
 
 # Called only from clients.
@@ -87,4 +88,4 @@ func _on_btn_start_game_pressed():
 
 @rpc("any_peer", "call_local")
 func start_game() -> void:
-	GameManager.load_test_level_scene()
+	GameManager.nav.load_test_level_scene()
