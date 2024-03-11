@@ -1,6 +1,8 @@
 class_name MultiplayerConfigController
 extends Control
 ## To test this, go to Debug > Run Multiple Instances > Run 2 Instances.
+## This class is no longer needed. Retaining for educational purposes.
+## See snippets about peer.host.compress.
 
 ## Work In Progress for tutorial:
 ## Basics Of Multiplayer In Godot 4! by FinePointCGI
@@ -12,24 +14,11 @@ var peer
 
 
 func _ready():
-	multiplayer.peer_connected.connect(player_connected)
-	multiplayer.peer_disconnected.connect(player_disconnected)
 	multiplayer.connected_to_server.connect(connected_to_server)
-	multiplayer.connection_failed.connect(connection_failed)
 
 
 func _process(delta):
 	pass
-
-
-# Gets called on the server and clients.
-func player_connected(id):
-	Log.info("Player Connected %s" % [id])
-
-
-# Gets called on the server and clients.
-func player_disconnected(id):
-	Log.info("Player Disonnected %s" % [id])
 
 
 # Called only from clients.
@@ -41,21 +30,10 @@ func connected_to_server():
 @rpc("any_peer")
 func send_player_information(name, id):
 	var players: Dictionary = {}
-	if !players.has(id):
-		players[id] = {
-			"name": name,
-			"id": id,
-			"score": 0
-		}
 	
-	if multiplayer.is_server():
-		for i in players:
-			send_player_information.rpc(players[i].name, i)
-
-
-# Called only from clients.
-func connection_failed():
-	Log.warn("Couldn't Connect")
+	#if multiplayer.is_server():
+		#for i in players:
+			#send_player_information.rpc(players[i].name, i)
 
 
 func _on_btn_host_pressed():
@@ -79,13 +57,3 @@ func _on_btn_join_pressed():
 	# The compression *must be consistent* across the board.
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(peer)
-
-
-func _on_btn_start_game_pressed():
-	# Invoke for all clients.
-	start_game.rpc()
-
-
-@rpc("any_peer", "call_local")
-func start_game() -> void:
-	GameManager.nav.load_test_level_scene()
