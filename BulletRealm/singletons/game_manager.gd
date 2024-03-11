@@ -18,6 +18,10 @@ signal connection_failed()
 signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
+## When the [World] is being loaded. At this point, each client
+## could hide its Lobby or show a splash screen.
+signal world_loading
+signal world_loaded
 
 var nav: SceneNav:
 	get:
@@ -75,8 +79,6 @@ func register_player(new_player_name):
 	var remote_player_id = multiplayer.get_remote_sender_id()
 	
 	hub.players[remote_player_id] = new_player_name
-	MPLog.info("GameManager: register_player -> remote_player_id = %s , new_player_name = %s , updated players = %s" % [
-			remote_player_id, new_player_name, hub.players])
 	player_list_changed.emit()
 
 

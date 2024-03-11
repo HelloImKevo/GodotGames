@@ -8,9 +8,4 @@ script = ExtResource("1_5apkk")
 
 [node name="CurrentWorld" type="Node" parent="."]
 
-[node name="WorldSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://world.tscn")
-spawn_path = NodePath("../CurrentWorld")
-spawn_limit = 1
-
 [node name="Lobby" parent="." instance=ExtResource("1_1d71w")]

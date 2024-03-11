@@ -1169,12 +1169,15 @@ position = Vector2(659, 112)
 [node name="NPCs" type="Node2D" parent="."]
 
 [node name="NPC" parent="NPCs" instance=ExtResource("7_n07oe")]
+process_mode = 4
 
 [node name="NPC2" parent="NPCs" instance=ExtResource("7_n07oe")]
+process_mode = 4
 position = Vector2(43, 0)
 npc_type = 2
 
 [node name="NPC3" parent="NPCs" instance=ExtResource("7_n07oe")]
+process_mode = 4
 position = Vector2(89, 0)
 npc_type = 3
 
@@ -1222,10 +1225,9 @@ position = Vector2(58, 638)
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player/player.tscn")
 spawn_path = NodePath("../Players")
-spawn_limit = 4
 
 [node name="Projectiles" type="Node" parent="."]
 

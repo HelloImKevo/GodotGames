@@ -83,9 +83,6 @@ func refresh_lobby():
 		$Players/List.add_item(p)
 
 	$Players/Start.disabled = not multiplayer.is_server()
-	
-	MPLog.info("Lobby: sig.player_list_changed -> refresh_lobby -> player_list = %s , connected_remote_player_names = %s" % [
-			GameManager.hub.get_remote_player_names(), players])
 
 
 func _on_start_pressed():

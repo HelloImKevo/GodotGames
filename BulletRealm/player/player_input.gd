@@ -7,6 +7,29 @@ extends MultiplayerSynchronizer
 ## https://godotengine.org/article/multiplayer-in-godot-4-0-scene-replication/
 
 
+## NOTE: March 4, 2024 - Everything is mostly working correctly.
+## Spawned projectiles are shooting in the wrong direction on each client.
+## Player GUIs are being propagated everywhere, so those should only
+## be instantiated once on each client.
+
+'''
+The biggest challenge faced initially was the below error, which was getting
+triggered by @export var player_id: int = 0 declared in the player.gd script,
+and assigned as a scene_replicator.ALWAYS type.
+
+E 0:00:21:0733   on_sync_receive: Ignoring sync data from non-authority or for missing node.
+  <C++ Error>    Condition "true" is true. Continuing.
+  <C++ Source>   modules/multiplayer/scene_replication_interface.cpp:879 @ on_sync_receive()
+'''
+
+'''
+Need to look into this RPC error:
+
+E 0:00:32:0732   _process_rpc: RPC '_shoot_bullet' is not allowed on node /root/Multiplayer/CurrentWorld/World/Players/1976475824 from: 2135132349. Mode is 2, authority is 1.
+  <C++ Error>    Condition "!can_call" is true.
+  <C++ Source>   modules/multiplayer/scene_rpc_interface.cpp:252 @ _process_rpc()
+'''
+
 # Synchronized property.
 ## Note: It is imperative that this property is added to the MultiplayerSynchronizer
 ## 'Replication' module in the Godot IDE, with 'Replicate: Always'.
@@ -23,13 +46,17 @@ extends MultiplayerSynchronizer
 
 
 func _ready():
-	# Only process this Player Inputs Node for the local player.
-	MPLog.info("PlayerInput _ready -> %s set_process = %s" % [
-			get_player_string(), get_multiplayer_authority() == multiplayer.get_unique_id()])
-	MPLog.info("PlayerInput _ready -> authority? %s , unique_id = %s" % [
-			get_multiplayer_authority(), multiplayer.get_unique_id()])
-	MPLog.info("GameManager.hub.players = %s" % [GameManager.hub.players])
-	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	var should_process: bool = get_parent().get_player_id() == multiplayer.get_unique_id()
+	set_process(should_process)
+	
+	if should_process:
+		MPLog.info("PlayerInput _ready -> I, %s, SHOULD PROCESS because I match mp.unique_id %s" % [
+				get_player_string(), multiplayer.get_unique_id()
+		])
+	
+	MPLog.info("PlayerInput _ready -> Am I, %s, the MP Authority? %s" % [
+			get_player_string(), is_multiplayer_authority()
+	])
 
 
 func _process(_delta):
@@ -69,7 +96,7 @@ func update_shooting(shooting: bool):
 	
 
 func get_player_string() -> String:
-	return "Player #%s '%s'" % [get_parent().player_id, GameManager.hub.local_client_player_name]
+	return "Player #%s '%s'" % [get_parent().get_player_id(), GameManager.hub.local_client_player_name]
 
 
 # func get_parent() -> Player:

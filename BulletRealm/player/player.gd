@@ -30,6 +30,9 @@ const BOMB_RATE = 0.5
 @onready var player_cam: Camera2D = $PlayerCam
 
 # TODO: This needs to be re-worked - this spawns two (or more!) GUIs for multiplayer.
+# Should probably be controlled with Signals up to the Client Presentation Layer.
+# Have to solve for this though:
+# player_gui.get_status_panel().update(attrs, status_effects)
 @onready var player_gui = $PlayerGUI
 
 @onready var inputs = $PlayerInput
@@ -44,23 +47,12 @@ var _last_input_velocity: Vector2 = Vector2.ZERO
 
 var logger: LogStream = LogStream.new(_to_string(), LogStream.LogLevel.DEBUG)
 
-
-
 @export var player_name: String = "N/A"
 
-# Set by the authority, synchronized on spawn.
-@export var player_id: int = 1:
-	set(new_value):
-		player_id = new_value
-		# Give authority over the player input to the appropriate peer.
-		MPLog.info("player.player_id.set -> id = %s" % [new_value])
-		#print("player.player_id.set -> id = %s" % [id])
-		# TODO: This isn't working because it is being invoked 6 - 9 times.
-		# Each client invokes it, and the values are wildly different.
-		# NOTE: Using the @onready player_input will result in a crash,
-		# since this setter gets invoked before the Node has been added to
-		# the scene tree.
-		$PlayerInput.set_multiplayer_authority(player_id)
+
+## Returns the name of multiplayer unique ID (integer) assigned to this Node.name.
+func get_player_id() -> int:
+	return str(name).to_int()
 
 
 func _to_string() -> String:
@@ -69,17 +61,21 @@ func _to_string() -> String:
 
 func _ready():
 	stunned = false
+	position = synced_position
 	
+	# TODO: Figure out better multiline string concat.
+	MPLog.info("""
+	Player: _ready -> My player_id = %s , multiplayer.unique_id = %s , 
+	my PlayerInput's multiplayer_authority = %s ; setting up my Player Camera
+	""" % [get_player_id(), multiplayer.get_unique_id(), get_player_id()])
+
 	# Set the camera as current if we are this player.
-	logger.info("_ready -> My player_id = %s , multiplayer.unique_id = %s" % [
-			player_id, multiplayer.get_unique_id()])
-	if player_id == multiplayer.get_unique_id():
+	if get_player_id() == multiplayer.get_unique_id():
 		player_cam.make_current()
 	
-	position = synced_position
-	#if str(name).is_valid_int():
-		#logger.info("%s -> _ready -> str(%s).is_valid_int = true" % [_to_string(), name])
-		#get_node("PlayerInput").set_multiplayer_authority(str(name).to_int())
+	# Specify control of this Node's input using the Node's unique ID,
+	# which corresponds to the assigned multiplayer peer ID.
+	player_input.set_multiplayer_authority(get_player_id())
 	
 	# TODO: Rework this so the player name label is separate from debug label.
 	#if not show_debug_label:
@@ -100,10 +96,6 @@ func _process(delta):
 	_update_status_effect_and_visuals()
 	_apply_regen(delta)
 	_update_resource_bars()
-	
-	#if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
-		## The client which this player represent will update the controls state, and notify it to everyone.
-		#inputs.capture_client_input()
 	
 	player_gui.get_status_panel().update(attrs, status_effects)
 
@@ -188,7 +180,9 @@ func _physics_process(delta):
 func _update_debug_label():
 	# TODO: Temporary for testing purposes.
 	if true:
-		get_node("Label").text = "%s (%s)" % [player_name, player_id]
+		# TODO: Fix wrong player names being propagated on clients.
+		#get_node("Label").text = "%s (%s)" % [player_name, get_player_id()]
+		get_node("Label").text = "%s (%s)" % [GameManager.hub.local_client_player_name, get_player_id()]
 		return
 	
 	if not show_debug_label:

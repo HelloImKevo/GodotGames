@@ -6,16 +6,17 @@ extends LogStream
 
 
 func _init():
-	super("Multiplayer", LogLevel.DEFAULT)
+	super("Multiplayer", LogLevel.DEBUG)
 
 
 func debug(message: String, values = {}):
-	var msg: String = "Client [%s] --> %s\n" % [_mp_api().get_unique_id(), message]
+	# Including a newline breaks the internal [/color] macro.
+	var msg: String = "Client [%s] --> %s" % [_mp_api().get_unique_id(), message]
 	call_thread_safe("_internal_log", msg, values, LogLevel.DEBUG)
 
 
 func info(message: String, values = {}):
-	var msg: String = "Client [%s] --> %s\n" % [_mp_api().get_unique_id(), message]
+	var msg: String = "Client [%s] --> %s" % [_mp_api().get_unique_id(), message]
 	call_thread_safe("_internal_log", msg, values, LogLevel.INFO)
 
 
