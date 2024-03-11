@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="7_n07oe"]
 [ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="8_g85en"]
 [ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="9_xsu04"]
-[ext_resource type="LabelSettings" uid="uid://cppar8qnp4eaf" path="res://assets/fonts/GM_26_White.tres" id="10_fsp22"]
+[ext_resource type="PackedScene" uid="uid://dlpyen6x2ddq7" path="res://gui/player_gui.tscn" id="10_bbjm7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5mcei"]
 source_geometry_group_name = &"navigation_polygon_source_group"
@@ -1188,16 +1188,6 @@ position = Vector2(367, 101)
 level = 1
 unit_name = "Mushroom A"
 
-[node name="Enemy4" parent="Enemies" instance=ExtResource("8_g85en")]
-position = Vector2(195, 213)
-level = 2
-unit_name = "Mushroom B"
-
-[node name="Enemy5" parent="Enemies" instance=ExtResource("8_g85en")]
-position = Vector2(498, 61)
-level = 3
-unit_name = "Mushroom C"
-
 [node name="Enemy2" parent="Enemies" instance=ExtResource("8_g85en")]
 position = Vector2(366, 350)
 level = 5
@@ -1205,9 +1195,25 @@ unit_name = "Mushroom D"
 show_debug_label = true
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource("8_g85en")]
+process_mode = 4
+visible = false
 position = Vector2(682, 274)
 unit_name = "Mushroom E"
 show_debug_label = true
+
+[node name="Enemy4" parent="Enemies" instance=ExtResource("8_g85en")]
+process_mode = 4
+visible = false
+position = Vector2(195, 213)
+level = 2
+unit_name = "Mushroom B"
+
+[node name="Enemy5" parent="Enemies" instance=ExtResource("8_g85en")]
+process_mode = 4
+visible = false
+position = Vector2(498, 61)
+level = 3
+unit_name = "Mushroom C"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
@@ -1237,14 +1243,4 @@ spawn_path = NodePath("../Players")
 stream = ExtResource("9_xsu04")
 bus = &"Music"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PlayerList" type="Label" parent="CanvasLayer"]
-offset_left = 26.0
-offset_top = 187.0
-offset_right = 112.0
-offset_bottom = 280.0
-text = "Player 1:
-Player 2:
-Player 3:"
-label_settings = ExtResource("10_fsp22")
+[node name="PlayerGUI" parent="." instance=ExtResource("10_bbjm7")]

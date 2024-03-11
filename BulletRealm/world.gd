@@ -3,6 +3,8 @@ extends Node2D
 ## World : Main world hub that logged-in players spawn into.
 
 
+@onready var player_gui = $PlayerGUI
+
 var logger: LogStream = LogStream.new("World", LogStream.LogLevel.DEBUG)
 
 
@@ -15,7 +17,9 @@ func _ready():
 	if multiplayer.is_server():
 		handle_spawn_players()
 	
-	show_connected_player_info()
+	# Temporarily auto-showing GUI for testing purposes.
+	player_gui.show_status_panel()
+	player_gui.show_connected_player_info()
 
 
 func handle_spawn_players() -> void:
@@ -67,22 +71,6 @@ func del_player(player_id: int):
 	if not $Players.has_node(str(player_id)):
 		return
 	$Players.get_node(str(player_id)).queue_free()
-
-
-func show_connected_player_info():
-	var player_info: String = ""
-	if multiplayer.is_server():
-		player_info += "You are the host.\n"
-	
-	player_info += "Player (%s): %s" % [
-			multiplayer.get_unique_id(), GameManager.hub.local_client_player_name]
-	
-	for remote_player_id in multiplayer.get_peers():
-		var player_name: String = GameManager.hub.get_remote_player_name(remote_player_id)
-		player_info += "\nPlayer (%s): %s" % [
-				remote_player_id, player_name]
-	
-	$CanvasLayer/PlayerList.text = player_info
 
 
 func _process(_delta):

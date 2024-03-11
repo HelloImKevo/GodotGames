@@ -37,7 +37,7 @@ const ATTACK_DELAY: String = "AttackDelay"
 ## How fast standard projectiles travel.
 const PROJECTILE_SPEED: String = "ProjectileSpeed"
 
-var _stats: Dictionary = {
+@export var stats: Dictionary = {
 	# Integers
 	LEVEL: 0,
 	CURRENT_EXP: 0,
@@ -118,6 +118,7 @@ func max_hp() -> float:
 	return snappedf(stat(MAX_HP), 1.0)
 
 
+@rpc("authority", "call_local", "reliable", NetworkChannel.COMBAT)
 func take_damage(damage) -> void:
 	update_stat(CURRENT_HP, -(abs(damage)))
 
@@ -156,7 +157,7 @@ func projectile_speed() -> float:
 
 ## Gets the current value for the specified stat [key].
 func stat(key: String) -> Variant:
-	return _stats[key]
+	return stats[key]
 
 
 func set_attack_power(min_ap: float, max_ap: float) -> void:
@@ -166,15 +167,15 @@ func set_attack_power(min_ap: float, max_ap: float) -> void:
 
 
 func update_stat(key: String, amount) -> void:
-	var new_amount = _stats[key] + amount
+	var new_amount = stats[key] + amount
 	
 	# Note: I ran into what I thought was a floating point rounding bug, but it
 	# the issue was that HP regen was immediately being applied after the unit was
 	# reduced to zero HP.
 	if CURRENT_HP == key:
-		_set_stat(key, clampf(new_amount, 0.0, _stats[MAX_HP]))
+		_set_stat(key, clampf(new_amount, 0.0, stats[MAX_HP]))
 	elif CURRENT_MANA == key:
-		_set_stat(key, clampf(new_amount, 0.0, _stats[MAX_MANA]))
+		_set_stat(key, clampf(new_amount, 0.0, stats[MAX_MANA]))
 	else:
 		_set_stat(key, new_amount)
 
@@ -188,15 +189,15 @@ func apply_damage_over_time_effects(dot_effects: Array[StatusEffect], delta) -> 
 
 ## Heals HP per second based on delta since last process.
 func apply_hp_regen(delta) -> void:
-	var hp_regen = _stats[HP_REGEN] * delta
+	var hp_regen = stats[HP_REGEN] * delta
 	update_stat(CURRENT_HP, hp_regen)
 
 
 ## Restores Mana per second based on delta since last process.
 func apply_mana_regen(delta) -> void:
-	var mana_regen = _stats[MANA_REGEN] * delta
+	var mana_regen = stats[MANA_REGEN] * delta
 	update_stat(CURRENT_MANA, mana_regen)
 
 
 func _set_stat(key: String, amount) -> void:
-	_stats[key] = amount
+	stats[key] = amount

@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://core/status_effects.gd" id="1_uqhs4"]
 
 [node name="StatusEffects" type="Node"]
+process_mode = 4
 script = ExtResource("1_uqhs4")

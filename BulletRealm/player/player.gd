@@ -29,12 +29,6 @@ const BOMB_RATE = 0.5
 @onready var player_input = $PlayerInput
 @onready var player_cam: Camera2D = $PlayerCam
 
-# TODO: This needs to be re-worked - this spawns two (or more!) GUIs for multiplayer.
-# Should probably be controlled with Signals up to the Client Presentation Layer.
-# Have to solve for this though:
-# player_gui.get_status_panel().update(attrs, status_effects)
-@onready var player_gui = $PlayerGUI
-
 @onready var inputs = $PlayerInput
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
@@ -97,7 +91,13 @@ func _process(delta):
 	_apply_regen(delta)
 	_update_resource_bars()
 	
-	player_gui.get_status_panel().update(attrs, status_effects)
+	if am_i_the_client_player() and EngineUtils.ui_update_interval():
+		GUIManager.on_player_attributes_updated.emit(attrs)
+		GUIManager.on_player_status_effects_updated.emit(status_effects)
+
+
+func am_i_the_client_player():
+	return get_player_id() == multiplayer.get_unique_id()
 
 
 func _update_delta_tracking(delta) -> void:
@@ -129,13 +129,16 @@ func _apply_regen(delta) -> void:
 
 func _update_resource_bars() -> void:
 	if EngineUtils.ui_update_interval():
-		player_gui.update_with_attrs(attrs)
 		health_bar.set_amount(attrs.current_hp(), attrs.max_hp())
 		mana_bar.set_amount(attrs.current_mana(), attrs.max_mana())
 
 
+func is_authority():
+	return multiplayer.multiplayer_peer == null or is_multiplayer_authority()
+
+
 func _physics_process(delta):
-	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
+	if is_authority():
 		# The server updates the position that will be notified to the clients.
 		synced_position = position
 		# And increase the bomb cooldown spawning one if the client wants to.
@@ -146,12 +149,6 @@ func _physics_process(delta):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-	
-	if not stunned:
-		var y = 42
-		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		#velocity = inputs.motion * MOTION_SPEED
-		#move_and_slide()
 	
 	velocity = inputs.motion * MOTION_SPEED
 	
@@ -181,8 +178,7 @@ func _update_debug_label():
 	# TODO: Temporary for testing purposes.
 	if true:
 		# TODO: Fix wrong player names being propagated on clients.
-		#get_node("Label").text = "%s (%s)" % [player_name, get_player_id()]
-		get_node("Label").text = "%s (%s)" % [GameManager.hub.local_client_player_name, get_player_id()]
+		get_node("Label").text = "%s (%s)" % [player_name, get_player_id()]
 		return
 	
 	if not show_debug_label:
@@ -272,8 +268,13 @@ func _on_hitbox_area_entered(area):
 
 
 func _take_damage(damage_unit: DamageUnit) -> void:
+	if not is_authority():
+		return
+	
+	#log_authority("take_damage")
+	
 	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
-	attrs.take_damage(scaled_damage)
+	attrs.take_damage.rpc(scaled_damage)
 	
 	if _visual_effect_tween == null or not _visual_effect_tween.is_running():
 		_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.2)
@@ -305,3 +306,21 @@ func get_input_old() -> void:
 		# last updated rotation.
 		_last_input_velocity = velocity
 		# print("_last_input_velocity.angle(): ", _last_input_velocity.angle())
+
+
+#region Diagnostic Logging
+
+func log_not_authority(func_name: String) -> void:
+	MPLog.info("""
+	Player: %s -> my player_id = %s , player_name = %s --> I am NOT the multiplayer authority. 
+	multiplayer.unique_id = %s , my PlayerInput's multiplayer_authority = %s
+	""" % [func_name, get_player_id(), player_name, multiplayer.get_unique_id(), get_player_id()])
+
+
+func log_authority(func_name: String) -> void:
+	MPLog.info("""
+	Player: %s -> my player_id = %s , player_name = %s --> I am the multiplayer AUTHORITY. 
+	multiplayer.unique_id = %s , my PlayerInput's multiplayer_authority = %s
+	""" % [func_name, get_player_id(), player_name, multiplayer.get_unique_id(), get_player_id()])
+
+#endregion

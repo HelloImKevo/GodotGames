@@ -2,6 +2,8 @@ class_name PlayerStatusPanel
 extends Control
 
 
+@onready var title = $PanelContainer/MC/VBoxStack/HBoxContainer/Title
+
 @onready var level_label = $PanelContainer/MC/VBoxStack/HB/LevelLabel
 @onready var exp = $PanelContainer/MC/VBoxStack/HB/Exp
 @onready var hp_label = $PanelContainer/MC/VBoxStack/HB2/HPLabel
@@ -14,7 +16,11 @@ extends Control
 @onready var status_label = $PanelContainer/MC/VBoxStack/HB6/StatusLabel
 
 
-func update(attrs: Attributes, status: StatusEffects) -> void:
+func _ready():
+	title.text = GameManager.hub.local_client_player_name
+
+
+func update_attrs(attrs: Attributes) -> void:
 	level_label.text = str(attrs.level())
 	exp.text = "%s / %s xp" % [attrs.stat(Attributes.CURRENT_EXP), attrs.stat(Attributes.EXP_REQUIRED_NEXT_LEVEL)]
 	hp_label.text = "%.0f / %.0f" % [attrs.current_hp(), attrs.max_hp()]
@@ -22,6 +28,9 @@ func update(attrs: Attributes, status: StatusEffects) -> void:
 	mana_label.text = "%.0f / %.0f" % [attrs.current_mana(), attrs.stat(Attributes.MAX_MANA)]
 	mana_regen_label.text = "+%.1f / s" % attrs.stat(Attributes.MANA_REGEN)
 	attack_label.text = "%.0f - %.0f" % [attrs.raw_attack_min(), attrs.raw_attack_max()]
+
+
+func update_status_effects(status: StatusEffects) -> void:
 	if status.is_burning():
 		status_label.text = "Burning"
 	else:

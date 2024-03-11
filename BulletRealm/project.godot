@@ -23,6 +23,7 @@ Settings="*res://singletons/settings.gd"
 SignalManager="*res://singletons/signal_manager.gd"
 MPLog="*res://utils/mp_log.gd"
 GameManager="*res://singletons/game_manager.gd"
+GUIManager="*res://singletons/gui_manager.gd"
 BulletManager="*res://singletons/bullet_manager.gd"
 SoundManager="*res://singletons/sound_manager.gd"
 LootMaker="*res://singletons/loot_maker.gd"
@@ -30,10 +31,10 @@ Log="*res://addons/logger/logger.gd"
 
 [display]
 
-window/size/viewport_width=512
-window/size/viewport_height=384
+window/size/viewport_width=1024
+window/size/viewport_height=768
 window/stretch/mode="canvas_items"
-window/stretch/scale=0.5
+window/stretch/scale=0.75
 window/dpi/allow_hidpi=false
 
 [editor_plugins]
