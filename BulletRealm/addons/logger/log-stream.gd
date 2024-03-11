@@ -192,7 +192,8 @@ func _get_reduced_stack(stack:Array)->String:
 ##Internal method.
 func _set_level(level:LogLevel):
 	level = _get_external_log_level() if level == LogLevel.DEFAULT else level
-	info("setting log level to " + LogLevel.keys()[level])
+	# Change made by Kevin 3/3/2024
+	#info("setting log level to " + LogLevel.keys()[level])
 	current_log_level = level
 
 ##Internal method.

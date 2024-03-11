@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://rsevjy2ijr4t"]
+
+[ext_resource type="PackedScene" uid="uid://jhdlqsokif5o" path="res://main_login/lobby.tscn" id="1_1d71w"]
+[ext_resource type="Script" path="res://main_game/multiplayer.gd" id="1_5apkk"]
+
+[node name="Multiplayer" type="Node"]
+script = ExtResource("1_5apkk")
+
+[node name="CurrentWorld" type="Node" parent="."]
+
+[node name="Lobby" parent="." instance=ExtResource("1_1d71w")]

@@ -1,14 +1,29 @@
-[gd_scene load_steps=21 format=3 uid="uid://d1a6tjiyjwtbe"]
+[gd_scene load_steps=20 format=3 uid="uid://d1a6tjiyjwtbe"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hfdu0"]
 [ext_resource type="Texture2D" uid="uid://b4umbmf60lmaf" path="res://assets/spritesheets/charwalk.png" id="2_uu735"]
 [ext_resource type="PackedScene" uid="uid://dh8wjud3ox4e7" path="res://gui/player_cursor.tscn" id="3_8bq64"]
-[ext_resource type="Script" path="res://player/player_controls.gd" id="3_lpflv"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="3_okag8"]
 [ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_r5k84"]
 [ext_resource type="PackedScene" uid="uid://bdu3dhtr832pt" path="res://core/status_effects.tscn" id="6_41mf1"]
-[ext_resource type="PackedScene" uid="uid://dlpyen6x2ddq7" path="res://gui/player_gui.tscn" id="9_5xmt8"]
+[ext_resource type="Script" path="res://player/player_input.gd" id="8_4o8tq"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yu2fi"]
+properties/0/path = NodePath(".:synced_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:player_name")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0b5sa"]
+properties/0/path = NodePath("../PlayerInput:motion")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("../PlayerInput:bombing")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8tiva"]
 radius = 14.0
@@ -126,27 +141,19 @@ _data = {
 "walk_up": SubResource("Animation_ngryy")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yu2fi"]
-properties/0/path = NodePath(".:synced_position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("Label:text")
-properties/1/spawn = true
-properties/1/replication_mode = 0
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0b5sa"]
-properties/0/path = NodePath(".:motion")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:shooting_action")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
-collision_mask = 197
+collision_mask = 196
 motion_mode = 1
 script = ExtResource("1_hfdu0")
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yu2fi")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_0b5sa")
+script = ExtResource("8_4o8tq")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(9, 0)
@@ -171,10 +178,8 @@ position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_87c88")
 debug_color = Color(0.847059, 0.364706, 0.223529, 0.419608)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-visible = false
+[node name="PlayerCam" type="Camera2D" parent="."]
 offset = Vector2(120, 2.08165e-12)
-enabled = false
 limit_smoothed = true
 
 [node name="Animation" type="AnimationPlayer" parent="."]
@@ -203,6 +208,7 @@ offset_left = -20.0
 offset_top = -33.0
 offset_right = 20.0
 offset_bottom = -28.0
+tint_progress = Color(0.698039, 0.133333, 0.133333, 1)
 
 [node name="ManaBar" parent="." instance=ExtResource("4_r5k84")]
 offset_left = -20.0
@@ -215,18 +221,6 @@ style = 1
 [node name="Attributes" parent="." instance=ExtResource("4_77i1n")]
 
 [node name="StatusEffects" parent="." instance=ExtResource("6_41mf1")]
-process_mode = 4
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_yu2fi")
-
-[node name="Inputs" type="Node" parent="."]
-script = ExtResource("3_lpflv")
-
-[node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
-replication_config = SubResource("SceneReplicationConfig_0b5sa")
-
-[node name="PlayerGUI" parent="." instance=ExtResource("9_5xmt8")]
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

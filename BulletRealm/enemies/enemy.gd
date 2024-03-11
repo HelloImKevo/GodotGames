@@ -42,8 +42,6 @@ var _default_sight_distance: float
 var _dying: bool = false
 var _can_attack: bool = true
 
-var logger: LogStream = LogStream.new(_to_string(), LogStream.LogLevel.DEBUG)
-
 
 func _to_string() -> String:
 	return "Enemy: %s" % unit_name
