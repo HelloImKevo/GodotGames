@@ -9,6 +9,17 @@ https://godotengine.org/
 https://docs.godotengine.org/en/stable/  
 
 
+# Bullet Realm
+A top-down "bullet hell" with basic host-peer-client networking functions
+using the Godot Multiplayer API. Players can shoot bullets that have a
+randomized melee weapon sprite (swords, claws, shurikens, etc) and get chased
+by mushroom enemies equipped with a `RayCast2D` and a `NavigationAgent2D`.
+
+| Bullet Realm Multiplayer 3 Players |
+| :---: |
+| ![Bullet Realm 1](Screenshot/bullet-01.png) |
+
+
 ## Godot: Useful Shortcuts
 
 
