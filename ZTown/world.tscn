@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c877gtoav6o1g"]
+[gd_scene load_steps=23 format=3 uid="uid://c877gtoav6o1g"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_5m1ht"]
 [ext_resource type="Texture2D" uid="uid://bffr1qktv2dfh" path="res://assets/terrain/cainos_tx_tileset_grass.png" id="2_s4oth"]
@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://p2xtgptt7lwn" path="res://assets/terrain/cainos_tx_plant.png" id="5_a8ske"]
 [ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="6_lrwqo"]
 [ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="7_n07oe"]
-[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="8_g85en"]
+[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/base_enemy.tscn" id="8_dk4qe"]
+[ext_resource type="PackedScene" uid="uid://pd3y6nxbvxow" path="res://enemies/zombie_enemy.tscn" id="9_6fkfd"]
 [ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="9_xsu04"]
 [ext_resource type="PackedScene" uid="uid://dlpyen6x2ddq7" path="res://gui/player_gui.tscn" id="10_bbjm7"]
 
@@ -1183,37 +1184,36 @@ npc_type = 3
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Enemy" parent="Enemies" instance=ExtResource("8_g85en")]
+[node name="Enemy" parent="Enemies" instance=ExtResource("8_dk4qe")]
 position = Vector2(367, 101)
-level = 1
 unit_name = "Mushroom A"
 
-[node name="Enemy2" parent="Enemies" instance=ExtResource("8_g85en")]
+[node name="Enemy2" parent="Enemies" instance=ExtResource("8_dk4qe")]
 position = Vector2(366, 350)
-level = 5
 unit_name = "Mushroom D"
 show_debug_label = true
 
-[node name="Enemy3" parent="Enemies" instance=ExtResource("8_g85en")]
+[node name="Enemy3" parent="Enemies" instance=ExtResource("8_dk4qe")]
 process_mode = 4
 visible = false
 position = Vector2(682, 274)
 unit_name = "Mushroom E"
 show_debug_label = true
 
-[node name="Enemy4" parent="Enemies" instance=ExtResource("8_g85en")]
+[node name="Enemy4" parent="Enemies" instance=ExtResource("8_dk4qe")]
 process_mode = 4
 visible = false
 position = Vector2(195, 213)
-level = 2
 unit_name = "Mushroom B"
 
-[node name="Enemy5" parent="Enemies" instance=ExtResource("8_g85en")]
+[node name="Enemy5" parent="Enemies" instance=ExtResource("8_dk4qe")]
 process_mode = 4
 visible = false
 position = Vector2(498, 61)
-level = 3
 unit_name = "Mushroom C"
+
+[node name="ZombieEnemy" parent="Enemies" instance=ExtResource("9_6fkfd")]
+position = Vector2(554, 23)
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 

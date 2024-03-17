@@ -20,8 +20,8 @@ func _to_string() -> String:
 
 
 static func from_attrs(attrs: Attributes, type: Type) -> DamageUnit:
-	return DamageUnit.new(attrs.level(),
-			attrs.raw_attack_min(), attrs.raw_attack_max(), type)
+	return DamageUnit.new(attrs.level,
+			attrs.raw_attack_min, attrs.raw_attack_max, type)
 
 
 func _init(o_level: int, raw_min: float, raw_max: float, type: Type):

@@ -78,6 +78,6 @@ func _get_exp_bar() -> ResourceBar:
 
 
 func update_with_attrs(attrs: Attributes) -> void:
-	_get_health_bar().set_amount(attrs.current_hp(), attrs.max_hp())
-	_get_mana_bar().set_amount(attrs.current_mana(), attrs.max_mana())
-	_get_exp_bar().set_amount(attrs.current_exp(), attrs.exp_required_next_level())
+	_get_health_bar().set_amount(attrs.current_hp_snapped(), attrs.max_hp)
+	_get_mana_bar().set_amount(attrs.current_mana, attrs.max_mana)
+	_get_exp_bar().set_amount(attrs.current_exp, attrs.exp_required_next_level)

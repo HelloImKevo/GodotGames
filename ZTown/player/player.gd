@@ -9,8 +9,10 @@ const MOTION_SPEED: float = 450.0
 
 @export var stunned: bool = false
 @export var show_debug_label: bool = false
+## Attributes for this Player character.
+## A new Attributes [Resource] must be specified in the Godot IDE.
+@export var attrs: Attributes = Attributes.new()
 
-@onready var attrs: Attributes = $Attributes
 @onready var status_effects: StatusEffects = $StatusEffects
 
 @onready var character = $Character
@@ -65,12 +67,6 @@ func _ready():
 	# TODO: Rework this so the player name label is separate from debug label.
 	#if not show_debug_label:
 		#get_node("Label").visible = false
-	
-	attrs.init_level(1, 0, 50, 0)
-	attrs.init_core_resources(50.0, 1200.0, 30.0, 150.0)
-	
-	attrs.update_stat(Attributes.HP_REGEN, 2.3)
-	attrs.update_stat(Attributes.MANA_REGEN, 1.7)
 
 
 func _process(delta):
@@ -111,7 +107,7 @@ func _update_status_effect_and_visuals() -> void:
 
 
 func _apply_regen(delta) -> void:
-	if attrs.current_hp() >= 0.0:
+	if attrs.current_hp >= 0.0:
 		# Only apply HP regen if this unit hasn't been reduced to zero HP.
 		attrs.apply_hp_regen(delta)
 	
@@ -120,8 +116,8 @@ func _apply_regen(delta) -> void:
 
 func _update_resource_bars() -> void:
 	if EngineUtils.ui_update_interval():
-		health_bar.set_amount(attrs.current_hp(), attrs.max_hp())
-		mana_bar.set_amount(attrs.current_mana(), attrs.max_mana())
+		health_bar.set_amount(attrs.current_hp_snapped(), attrs.max_hp)
+		mana_bar.set_amount(attrs.current_mana, attrs.max_mana)
 
 
 func is_authority():
@@ -175,10 +171,10 @@ func _update_debug_label():
 	
 	if EngineUtils.ui_update_interval():
 		label.text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
-			attrs.current_hp(),
-			attrs.stat(Attributes.HP_REGEN),
-			attrs.current_mana(),
-			attrs.stat(Attributes.MANA_REGEN),
+			attrs.current_hp_snapped(),
+			attrs.hp_regen,
+			attrs.current_mana,
+			attrs.mana_regen,
 			position.x,
 			position.y
 		]
@@ -202,7 +198,7 @@ func get_camera_offset() -> Vector2:
 # Should be called after inputs.capture_client_input().
 func _physics_handle_captured_client_input() -> void:
 	if inputs.is_shooting:
-		if _time_since_last_attack >= attrs.attack_delay():
+		if _time_since_last_attack >= attrs.attack_delay:
 			_shoot_bullet()
 	
 	# Reset shooting state.
@@ -215,7 +211,7 @@ func _physics_handle_captured_client_input() -> void:
 
 func _move_cursor_to_mouse() -> void:
 	var my_pos: Vector2 = global_position
-	var cursor_weight_range = VectorUtils.get_max_cursor_range_weight(self, attrs.cursor_range())
+	var cursor_weight_range = VectorUtils.get_max_cursor_range_weight(self, attrs.cursor_range)
 	
 	if cursor_weight_range >= 1.0:
 		cursor.global_position = get_global_mouse_position()
@@ -255,7 +251,8 @@ func _take_damage(damage_unit: DamageUnit) -> void:
 	
 	#log_authority("take_damage")
 	
-	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
+	var scaled_damage: float = damage_unit.scaled_amount(attrs.level)
+	print("Player -> take_damage -> scaled damage = %.1f" % [scaled_damage])
 	attrs.take_damage(scaled_damage)
 	
 	if _visual_effect_tween == null or not _visual_effect_tween.is_running():

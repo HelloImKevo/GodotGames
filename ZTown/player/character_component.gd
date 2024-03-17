@@ -29,7 +29,6 @@ func play(anim_name: String, motion: Vector2) -> void:
 		sprite.flip_h = false
 	
 	if anim_name != current_anim:
-		print("Playing new anim , ", anim_name)
 		current_anim = anim_name
 		animation.play(anim_name)
 

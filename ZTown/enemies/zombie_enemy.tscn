@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://pd3y6nxbvxow"]
+
+[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/base_enemy.tscn" id="1_5ya0d"]
+[ext_resource type="Script" path="res://core/attributes.gd" id="2_5u1jl"]
+[ext_resource type="Texture2D" uid="uid://l5k8qqx5xlh7" path="res://assets/spritesheets/Zombie_Small.png" id="2_ndrcf"]
+
+[sub_resource type="Resource" id="Resource_rowby"]
+script = ExtResource("2_5u1jl")
+level = 5
+current_exp = 0
+exp_required_next_level = 0
+total_exp = 0
+vitality = 1
+strength = 1
+toughness = 1
+intellect = 1
+current_hp = 20.0
+max_hp = 20.0
+current_mana = 10.0
+max_mana = 10.0
+hp_regen = 0.0
+mana_regen = 0.0
+raw_attack_min = 9.0
+raw_attack_max = 11.0
+run_speed_multiplier = 1.0
+cursor_range = 150.0
+attack_delay = 0.25
+projectile_speed = 400.0
+
+[node name="ZombieEnemy" instance=ExtResource("1_5ya0d")]
+unit_name = "Zombie"
+attack_delay_range = Vector2(2.5, 3)
+attrs = SubResource("Resource_rowby")
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, -2)
+texture = ExtResource("2_ndrcf")
+hframes = 7
+vframes = 1

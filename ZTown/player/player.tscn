@@ -1,15 +1,38 @@
-[gd_scene load_steps=18 format=3 uid="uid://d1a6tjiyjwtbe"]
+[gd_scene load_steps=19 format=3 uid="uid://d1a6tjiyjwtbe"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_hfdu0"]
+[ext_resource type="Script" path="res://core/attributes.gd" id="2_7u01v"]
 [ext_resource type="Texture2D" uid="uid://b4umbmf60lmaf" path="res://assets/spritesheets/charwalk.png" id="2_uu735"]
 [ext_resource type="PackedScene" uid="uid://dh8wjud3ox4e7" path="res://gui/player_cursor.tscn" id="3_8bq64"]
 [ext_resource type="PackedScene" uid="uid://cfdtqms1yl4gg" path="res://player/character_component.tscn" id="3_n3dtx"]
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="3_okag8"]
-[ext_resource type="PackedScene" uid="uid://mfmsre4vrt1g" path="res://core/attributes.tscn" id="4_77i1n"]
 [ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_r5k84"]
 [ext_resource type="Texture2D" uid="uid://dh1edlily6m8t" path="res://assets/spritesheets/characters/Shadow.png" id="5_i6ff5"]
 [ext_resource type="PackedScene" uid="uid://bdu3dhtr832pt" path="res://core/status_effects.tscn" id="6_41mf1"]
 [ext_resource type="Script" path="res://player/player_input.gd" id="8_4o8tq"]
+
+[sub_resource type="Resource" id="Resource_l4f7n"]
+script = ExtResource("2_7u01v")
+level = 1
+current_exp = 0
+exp_required_next_level = 50
+total_exp = 0
+vitality = 1
+strength = 1
+toughness = 1
+intellect = 1
+current_hp = 75.0
+max_hp = 500.0
+current_mana = 30.0
+max_mana = 150.0
+hp_regen = 2.3
+mana_regen = 1.7
+raw_attack_min = 8.0
+raw_attack_max = 14.0
+run_speed_multiplier = 1.0
+cursor_range = 150.0
+attack_delay = 0.25
+projectile_speed = 400.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_87c88"]
 radius = 13.0
@@ -94,6 +117,8 @@ z_index = 1
 collision_mask = 196
 motion_mode = 1
 script = ExtResource("1_hfdu0")
+attrs = SubResource("Resource_l4f7n")
+player_name = "The Detective"
 
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("8_4o8tq")
@@ -171,8 +196,6 @@ bus = &"Sound"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 bus = &"Sound"
-
-[node name="Attributes" parent="." instance=ExtResource("4_77i1n")]
 
 [node name="StatusEffects" parent="." instance=ExtResource("6_41mf1")]
 

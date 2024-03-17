@@ -1,13 +1,13 @@
-class_name Enemy
+class_name BaseEnemy
 extends CharacterBody2D
+# TODO: Implement NavAgent avoidance with safe_velocity
 
 
+#@export_group("Base Enemy Properties")
 ## What level is this enemy? Determines [Attributes] values.
-@export var level: int = 10
-@export var unit_name: String = "Mushroom"
-@export var min_attack: float = 10.0
-@export var max_attack: float = 12.0
+@export var unit_name: String = "Enemy Name"
 @export var movement_speed: float = 50.0
+@export var attack_delay_range: Vector2 = Vector2(1.0, 2.0)
 @export var sight_distance: float = 250.0
 @export var show_debug_label: bool = false
 
@@ -17,7 +17,7 @@ const CLOSEST_DISTANCE: float = 60.0
 
 #region -- On Ready Node Vars --
 
-@onready var attrs: Attributes = $Attributes
+@export var attrs: Attributes = Attributes.new()
 
 @onready var player_detect = $PlayerDetect
 @onready var ray_cast = $PlayerDetect/RayCast
@@ -64,13 +64,8 @@ func _ready():
 	
 	# Set raycast sight distance.
 	ray_cast.target_position.y = sight_distance
-	attrs.init_level(level, 0, 0, 0)
-	attrs.init_core_resources(50.0, 50.0, 40.0, 40.0)
 	
-	attrs.set_attack_power(min_attack, max_attack)
-	attrs.update_stat(Attributes.HP_REGEN, 1.0)
-	
-	unit_label.set_name_and_level(unit_name, attrs.level())
+	unit_label.set_name_and_level(unit_name, attrs.level)
 	
 	_start_attack_timer()
 	
@@ -83,7 +78,7 @@ func _late_setup():
 
 
 func _start_attack_timer() -> void:
-	shoot_timer.wait_time = randf_range(3.6, 4.4)
+	shoot_timer.wait_time = randf_range(attack_delay_range.x, attack_delay_range.y)
 	shoot_timer.start()
 
 
@@ -102,7 +97,7 @@ func _physics_process(delta):
 
 
 func _update_resource_bars() -> void:
-	health_bar.set_amount(attrs.current_hp(), attrs.max_hp())
+	health_bar.set_amount(attrs.current_hp_snapped(), attrs.max_hp_snapped())
 
 
 func _update_debug_label() -> void:
@@ -215,7 +210,7 @@ func _on_hitbox_area_entered(area):
 
 
 func _take_damage(damage_unit: DamageUnit) -> void:
-	var scaled_damage: float = damage_unit.scaled_amount(attrs.level())
+	var scaled_damage: float = damage_unit.scaled_amount(attrs.level)
 	attrs.take_damage(scaled_damage)
 	# TODO: Add support for other damage types (healing, holy, crits, etc)
 	floating_numbers.create_floating_number(scaled_damage)

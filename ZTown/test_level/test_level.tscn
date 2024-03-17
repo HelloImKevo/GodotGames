@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b7cta5ywjkffc" path="res://assets/terrain/cainos_tx_props.png" id="5_i7e8m"]
 [ext_resource type="Texture2D" uid="uid://p2xtgptt7lwn" path="res://assets/terrain/cainos_tx_plant.png" id="5_iuwkx"]
 [ext_resource type="PackedScene" uid="uid://ovd4slk12ihd" path="res://hazards/hazard.tscn" id="5_mb6i1"]
-[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/enemy.tscn" id="6_1blkm"]
+[ext_resource type="PackedScene" uid="uid://cexit4oh8b0a0" path="res://enemies/base_enemy.tscn" id="6_1blkm"]
 [ext_resource type="AudioStream" uid="uid://df8jnhm3jabab" path="res://assets/music/evil_clutches_theme_low_pitch.mp3" id="6_ifsmt"]
 [ext_resource type="PackedScene" uid="uid://dcmupami6o66x" path="res://characters/npc.tscn" id="6_p3ba6"]
 
