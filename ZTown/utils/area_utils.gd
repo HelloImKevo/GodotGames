@@ -42,3 +42,7 @@ static func remove_status_effect_if_necessary(area, status_effects: StatusEffect
 	if effect != null:
 		print("no longer burning!")
 		status_effects.remove_effect(effect)
+
+
+static func remove_burning_effects(status_effects: StatusEffects) -> void:
+	status_effects.remove_effects_with_key(Identifier.HAZARD_BURNING_GROUND)

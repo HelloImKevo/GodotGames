@@ -13,25 +13,27 @@ const MOTION_SPEED: float = 450.0
 @onready var attrs: Attributes = $Attributes
 @onready var status_effects: StatusEffects = $StatusEffects
 
-@onready var sprite = $Sprite
-@onready var animation = $Animation
+@onready var character = $Character
+@onready var hitbox = $Character/Hitbox
 @onready var hit_sound = $HitSound
 
 @onready var cursor = $Cursor
-@onready var health_bar = $HealthBar
-@onready var mana_bar = $ManaBar
+@onready var label = $Character/Label
+@onready var health_bar = $Character/HealthBar
+@onready var mana_bar = $Character/ManaBar
 
 @onready var player_input = $PlayerInput
 @onready var player_cam: Camera2D = $PlayerCam
 
 @onready var inputs = $PlayerInput
-var current_anim = ""
+
+## Player character is actively processing a jump action.
+var _jumping: bool = false
 
 var _active_status_effect_visual: StatusEffect.Type = StatusEffect.Type.NONE
 var _visual_effect_tween: Tween
 
 var _time_since_last_attack: float = 0.0
-var _last_input_velocity: Vector2 = Vector2.ZERO
 
 var logger: LogStream = LogStream.new(_to_string(), LogStream.LogLevel.DEBUG)
 
@@ -59,10 +61,6 @@ func _ready():
 	# Set the camera as current if we are this player.
 	if get_player_id() == multiplayer.get_unique_id():
 		player_cam.make_current()
-	
-	# Specify control of this Node's input using the Node's unique ID,
-	# which corresponds to the assigned multiplayer peer ID.
-	player_input.set_multiplayer_authority(get_player_id())
 	
 	# TODO: Rework this so the player name label is separate from debug label.
 	#if not show_debug_label:
@@ -106,7 +104,7 @@ func _update_status_effect_and_visuals() -> void:
 	# Burning has a higher priority than healing and other effects.
 	if status_effects.is_burning():
 		if _visual_effect_tween == null or not _visual_effect_tween.is_running():
-			_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.3)
+			_visual_effect_tween = TweenUtils.tween_flash_red(character.get_sprite(), 0.3)
 		_active_status_effect_visual = StatusEffect.Type.BURNING
 	else:
 		_active_status_effect_visual = StatusEffect.Type.NONE
@@ -133,40 +131,50 @@ func is_authority():
 func _physics_process(_delta):
 	velocity = inputs.motion * MOTION_SPEED
 	
+	_handle_area_collisions()
 	_physics_handle_captured_client_input()
+	
+	# Also update the animation based on the last known player input state
+	var new_anim = "idle"
+	
+	if character.is_jumping_or_falling():
+		new_anim = "jump"
+	elif inputs.motion.x != 0 or inputs.motion.y != 0:
+		new_anim = "run"
+	
+	if _jumping:
+		character.jump(250.0, 45.0)
+		_jumping = false
 	
 	move_and_slide()
 	
-	# Also update the animation based on the last known player input state
-	var new_anim = "standing"
+	character.play(new_anim, inputs.motion)
+
+
+func _handle_area_collisions() -> void:
+	var standing_in_fire = false
 	
-	if inputs.motion.y < 0:
-		new_anim = "walk_up"
-	elif inputs.motion.y > 0:
-		new_anim = "walk_down"
-	elif inputs.motion.x < 0:
-		new_anim = "walk_left"
-	elif inputs.motion.x > 0:
-		new_anim = "walk_right"
-	#if stunned:
-		#new_anim = "stunned"
-	if new_anim != current_anim:
-		current_anim = new_anim
-		animation.play(current_anim)
+	if hitbox.has_overlapping_areas():
+		for area in hitbox.get_overlapping_areas():
+			standing_in_fire = true
+			AreaUtils.add_status_effect_if_necessary(area, status_effects)
+	
+	if not standing_in_fire:
+		AreaUtils.remove_burning_effects(status_effects)
 
 
 func _update_debug_label():
 	# TODO: Temporary for testing purposes.
 	if true:
 		# TODO: Fix wrong player names being propagated on clients.
-		get_node("Label").text = "%s (%s)" % [player_name, get_player_id()]
+		label.text = "%s (%s)" % [player_name, get_player_id()]
 		return
 	
 	if not show_debug_label:
 		return
 	
 	if EngineUtils.ui_update_interval():
-		get_node("Label").text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
+		label.text = "CurrentHP: %.1f HPRegen: %.1f \n CurrentMana: %.1f ManaRegen: %.2f \n pos: ( %.1f, %.1f )" % [
 			attrs.current_hp(),
 			attrs.stat(Attributes.HP_REGEN),
 			attrs.current_mana(),
@@ -179,7 +187,7 @@ func _update_debug_label():
 func set_player_name(p_name: String):
 	player_name = p_name
 	# In the MultiplayerSychronizer 'Replication' tab, this Label should 'Never' replicate.
-	get_node("Label").text = p_name
+	# label.text = p_name
 
 
 func get_camera_offset() -> Vector2:
@@ -191,22 +199,18 @@ func get_camera_offset() -> Vector2:
 		return Vector2.ZERO
 
 
-@rpc("call_local")
-func exploded(_by_who):
-	if stunned:
-		return
-	stunned = true
-	animation.play("stunned")
-
-
 # Should be called after inputs.capture_client_input().
 func _physics_handle_captured_client_input() -> void:
 	if inputs.is_shooting:
 		if _time_since_last_attack >= attrs.attack_delay():
-			_shoot_bullet.rpc()
+			_shoot_bullet()
 	
 	# Reset shooting state.
 	inputs.is_shooting = false
+	
+	if inputs.jumped:
+		_jumping = true
+		inputs.jumped = false
 
 
 func _move_cursor_to_mouse() -> void:
@@ -219,7 +223,6 @@ func _move_cursor_to_mouse() -> void:
 		cursor.global_position = my_pos.lerp(get_global_mouse_position(), cursor_weight_range)
 
 
-@rpc("authority", "call_local")
 func _shoot_bullet() -> void:
 	# TODO: The bullet is being spawned on both clients, but is aiming towards the single cursor
 	# on the desktop (so the bullet travels in two different directions).
@@ -241,8 +244,6 @@ func _shoot_bullet() -> void:
 
 
 func _on_hitbox_area_entered(area):
-	AreaUtils.add_status_effect_if_necessary(area, status_effects)
-	
 	if AreaUtils.is_enemy_bullet(area):
 		var bullet: EnemyBullet = area
 		_take_damage(bullet.get_damage_unit())
@@ -258,35 +259,12 @@ func _take_damage(damage_unit: DamageUnit) -> void:
 	attrs.take_damage(scaled_damage)
 	
 	if _visual_effect_tween == null or not _visual_effect_tween.is_running():
-		_visual_effect_tween = TweenUtils.tween_flash_red(sprite, 0.2)
+		_visual_effect_tween = TweenUtils.tween_flash_red(character.get_sprite(), 0.2)
 	SoundManager.player_hit_sound(hit_sound)
 
 
-func _on_hitbox_area_exited(area):
-	AreaUtils.remove_status_effect_if_necessary(area, status_effects)
-
-
-func physics_process_old(_delta):
-	get_input_old()
-	move_and_slide()
-	rotation = _last_input_velocity.angle()
-
-
-func get_input_old() -> void:
-	var new_velocity = Vector2.ZERO
-	# Primarily used for joystick movement.
-	new_velocity.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	new_velocity.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	velocity = new_velocity.normalized() * MOTION_SPEED
-	
-	if (Input.is_action_pressed("move_right") 
-			or Input.get_action_strength("move_left") 
-			or Input.get_action_strength("move_down") 
-			or Input.get_action_strength("move_up")):
-		# TODO: There's probably a more elegant way to solve this using the Sprite2D's
-		# last updated rotation.
-		_last_input_velocity = velocity
-		# print("_last_input_velocity.angle(): ", _last_input_velocity.angle())
+func _on_hitbox_area_exited(_area):
+	pass
 
 
 #region Diagnostic Logging

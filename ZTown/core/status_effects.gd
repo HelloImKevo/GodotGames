@@ -19,6 +19,11 @@ func remove_effect(effect: StatusEffect):
 		print("effect erased: ", effect)
 
 
+func remove_effects_with_key(identifier: String):
+	if _key_to_effect_dict.erase(identifier):
+		print("effect erased: ", identifier)
+
+
 func get_damage_over_time_effects() -> Array[StatusEffect]:
 	var dot_effects: Array[StatusEffect] = []
 	for e: StatusEffect in _key_to_effect_dict.values():

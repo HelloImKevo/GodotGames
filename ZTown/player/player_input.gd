@@ -16,6 +16,9 @@ extends Node
 ## Is the current client player attempting to shoot a projectile?
 @export var is_shooting: bool = false
 
+## Did the player just jump?
+@export var jumped: bool = false
+
 
 func _ready():
 	var should_process: bool = get_parent().get_player_id() == multiplayer.get_unique_id()
@@ -53,6 +56,9 @@ func capture_client_input():
 	# TODO: This RPC is being spammed way too frequently.
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		update_shooting(true)
+	
+	if Input.is_action_just_pressed("jump"):
+		jumped = true
 	
 	#if EngineUtils.ui_update_interval():
 		#if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
