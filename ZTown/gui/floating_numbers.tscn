@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://xtsjsi0d34l0"]
+
+[ext_resource type="Script" path="res://gui/floating_numbers.gd" id="1_78teo"]
+[ext_resource type="PackedScene" uid="uid://bshu8afp5lou5" path="res://gui/floating_number.tscn" id="2_jgfgq"]
+
+[node name="FloatingNumbers" type="Node2D"]
+script = ExtResource("1_78teo")
+
+[node name="FloatingNumber" parent="." instance=ExtResource("2_jgfgq")]

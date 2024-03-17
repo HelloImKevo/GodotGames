@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://brur7ffhebkw5"]
+
+[ext_resource type="FontFile" uid="uid://b1vgrh0g0vjci" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="1_ecreo"]
+
+[resource]
+font = ExtResource("1_ecreo")
+font_size = 34
+outline_size = 2
+outline_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.470588)

@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://bf1s7iw3fpruo"]
+
+[ext_resource type="Script" path="res://gui/resource_bar.gd" id="1_8qmxr"]
+[ext_resource type="Texture2D" uid="uid://bjkh1gp8x7173" path="res://gui/resource_border_npatch.png" id="2_u2pdu"]
+[ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="3_swl4t"]
+[ext_resource type="LabelSettings" uid="uid://cppar8qnp4eaf" path="res://assets/fonts/GM_26_White.tres" id="4_gd65o"]
+
+[node name="BigManaBar" type="Control" node_paths=PackedStringArray("text_label", "progress_bar")]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_8qmxr")
+text_label = NodePath("MC/Label")
+progress_bar = NodePath("MC/ResourceBar")
+style = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_right = 169.0
+offset_bottom = 42.0
+texture = ExtResource("2_u2pdu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 169.0
+offset_bottom = 42.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ResourceBar" parent="MC" instance=ExtResource("3_swl4t")]
+layout_mode = 2
+tint_progress = Color(0.254902, 0.411765, 0.882353, 1)
+style = 1
+
+[node name="Label" type="Label" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3,333 / 9,999"
+label_settings = ExtResource("4_gd65o")
+horizontal_alignment = 2
+vertical_alignment = 1

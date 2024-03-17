@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq3ny42pf6vcc"]
+
+[ext_resource type="Script" path="res://gui/unit_label.gd" id="1_n6bpo"]
+[ext_resource type="Texture2D" uid="uid://0eufduycq4yx" path="res://assets/ui/ic_badge_red.png" id="1_vmxdy"]
+[ext_resource type="FontFile" uid="uid://b1vgrh0g0vjci" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="2_caf5o"]
+[ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="2_nn3d8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7my4t"]
+font = ExtResource("2_caf5o")
+font_size = 30
+outline_size = 2
+outline_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.470588)
+
+[node name="UnitLabel" type="Node2D"]
+script = ExtResource("1_n6bpo")
+
+[node name="LevelBadge" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_vmxdy")
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = -10.0
+offset_top = -11.0
+offset_right = 30.0
+offset_bottom = 27.0
+scale = Vector2(0.5, 0.5)
+text = "99"
+label_settings = SubResource("LabelSettings_7my4t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = 12.0
+offset_top = -12.0
+offset_right = 177.0
+offset_bottom = 26.0
+scale = Vector2(0.5, 0.5)
+text = "Enemy Name"
+label_settings = ExtResource("2_nn3d8")
+vertical_alignment = 1

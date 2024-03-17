@@ -1,0 +1,89 @@
+[gd_scene load_steps=8 format=3 uid="uid://dlpyen6x2ddq7"]
+
+[ext_resource type="PackedScene" uid="uid://c5rh3dnpx1bcx" path="res://gui/player_status_panel.tscn" id="1_2tfq3"]
+[ext_resource type="Script" path="res://gui/player_gui.gd" id="1_igdqm"]
+[ext_resource type="Theme" uid="uid://ct1s5ffx8uncc" path="res://gui/default_gui_theme.tres" id="2_jf6ei"]
+[ext_resource type="FontFile" uid="uid://b1vgrh0g0vjci" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="3_7tv2i"]
+[ext_resource type="Texture2D" uid="uid://dnl626nw5ectp" path="res://assets/ui/panel-transparent-center-004.png" id="4_q5nqb"]
+[ext_resource type="PackedScene" uid="uid://dtqousimsyxox" path="res://gui/player_bottom_left_hud.tscn" id="6_pvg5o"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hmtln"]
+font = ExtResource("3_7tv2i")
+font_size = 22
+outline_size = 2
+outline_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.470588)
+
+[node name="PlayerGUI" type="CanvasLayer"]
+script = ExtResource("1_igdqm")
+
+[node name="PlayerStatusPanel" parent="." instance=ExtResource("1_2tfq3")]
+
+[node name="PlayerList" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 447.0
+offset_right = 1000.0
+offset_bottom = 540.0
+text = "Player 1:
+Player 2:
+Player 3:"
+label_settings = SubResource("LabelSettings_hmtln")
+
+[node name="MC" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_jf6ei")
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="BuffIcons" type="HBoxContainer" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Action5" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action6" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Action7" type="NinePatchRect" parent="MC/BuffIcons"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("4_q5nqb")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ActionsContainer" type="MarginContainer" parent="MC"]
+layout_mode = 2
+theme_override_constants/margin_left = 160
+
+[node name="PlayerBottomLeftHUD" parent="MC" instance=ExtResource("6_pvg5o")]
+layout_mode = 2
+size_flags_vertical = 8

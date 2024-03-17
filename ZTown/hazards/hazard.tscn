@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://ovd4slk12ihd"]
+
+[ext_resource type="Script" path="res://hazards/hazard.gd" id="1_hnev1"]
+[ext_resource type="Texture2D" uid="uid://tovxfobamnau" path="res://assets/spritesheets/effects/fire_small.png" id="2_ovwve"]
+[ext_resource type="PackedScene" uid="uid://drogond3ogo3b" path="res://core/status_effect.tscn" id="3_nhri2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq5v8"]
+atlas = ExtResource("2_ovwve")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4ogb"]
+atlas = ExtResource("2_ovwve")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llu6a"]
+atlas = ExtResource("2_ovwve")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_imbwo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pq5v8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4ogb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llu6a")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nmur3"]
+radius = 11.0
+
+[node name="Hazard" type="Area2D" groups=["hazard"]]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_hnev1")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -1)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_imbwo")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nmur3")
+
+[node name="StatusEffect" parent="." instance=ExtResource("3_nhri2")]
+damage_per_second = 5.0

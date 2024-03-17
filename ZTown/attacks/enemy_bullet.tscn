@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3k8vrna5yqyc"]
+
+[ext_resource type="PackedScene" uid="uid://bid6vpo6tone0" path="res://attacks/base_bullet.tscn" id="1_kdv02"]
+[ext_resource type="Script" path="res://attacks/enemy_bullet.gd" id="2_e51er"]
+[ext_resource type="Texture2D" uid="uid://cbcj1bwbfg5jh" path="res://assets/spritesheets/bullets/color_bullets_round_24.png" id="3_waumh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p833y"]
+radius = 7.00446
+
+[node name="EnemyBullet" groups=["enemy_bullet"] instance=ExtResource("1_kdv02")]
+collision_layer = 16
+collision_mask = 130
+script = ExtResource("2_e51er")
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_waumh")
+hframes = 6
+
+[node name="CollisionShape" parent="." index="1"]
+position = Vector2(0, 0)
+shape = SubResource("CircleShape2D_p833y")

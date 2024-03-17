@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtqousimsyxox"]
+
+[ext_resource type="PackedScene" uid="uid://cve0vgtq42gxu" path="res://gui/active_skills_container.tscn" id="1_ahlsf"]
+[ext_resource type="PackedScene" uid="uid://yfxme5dwmyvf" path="res://gui/big_health_bar.tscn" id="2_d3wwx"]
+[ext_resource type="PackedScene" uid="uid://bf1s7iw3fpruo" path="res://gui/big_mana_bar.tscn" id="3_txbv8"]
+[ext_resource type="PackedScene" uid="uid://8nk1ej5opphj" path="res://gui/resource_bar.tscn" id="4_7fvff"]
+
+[node name="PlayerBottomLeftHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ActiveSkillsContainer" parent="." instance=ExtResource("1_ahlsf")]
+offset_top = -194.0
+offset_bottom = -194.0
+
+[node name="HealthBar" parent="." instance=ExtResource("2_d3wwx")]
+layout_mode = 2
+offset_left = 143.0
+offset_top = -42.0
+offset_right = 183.0
+offset_bottom = -42.0
+
+[node name="ManaBar" parent="." instance=ExtResource("3_txbv8")]
+layout_mode = 2
+offset_left = 183.0
+offset_top = -82.0
+offset_right = 223.0
+offset_bottom = -82.0
+
+[node name="ExpBar" parent="." instance=ExtResource("4_7fvff")]
+layout_mode = 0
+offset_left = 185.0
+offset_top = -87.0
+offset_right = 350.0
+offset_bottom = -82.0
+tint_progress = Color(1, 1, 0, 1)
+style = 2

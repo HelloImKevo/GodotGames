@@ -1,0 +1,175 @@
+[gd_scene load_steps=7 format=3 uid="uid://cjdlt2gxfhgjr"]
+
+[ext_resource type="Texture2D" uid="uid://da45tap4yge56" path="res://assets/ui/panel_beige_light.png" id="1_on1gl"]
+[ext_resource type="Script" path="res://settings_panel/settings_panel.gd" id="1_qs5u6"]
+[ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="2_jaswk"]
+[ext_resource type="Texture2D" uid="uid://8pmuwhepl2ue" path="res://assets/ui/blue_button00.png" id="3_6tc7d"]
+[ext_resource type="Texture2D" uid="uid://c2236yof4cmtm" path="res://assets/ui/yellow_button00.png" id="4_akt4k"]
+[ext_resource type="Texture2D" uid="uid://b8iqf2l0ba00c" path="res://assets/ui/green_button00.png" id="5_asc4g"]
+
+[node name="SettingsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qs5u6")
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MC"]
+layout_mode = 2
+texture = ExtResource("1_on1gl")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="InnerMC" type="MarginContainer" parent="MC"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxStack" type="VBoxContainer" parent="MC/InnerMC"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "SETTINGS"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="AudioLabel" type="Label" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "AUDIO"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="HB" type="HBoxContainer" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MC/InnerMC/VBoxStack/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SOUND_EFFECTS"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="MC/InnerMC/VBoxStack/HB"]
+custom_minimum_size = Vector2(300, 2.08165e-12)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+scrollable = false
+tick_count = 20
+ticks_on_borders = true
+
+[node name="HB2" type="HBoxContainer" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MC/InnerMC/VBoxStack/HB2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MUSIC"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="MC/InnerMC/VBoxStack/HB2"]
+custom_minimum_size = Vector2(300, 2.08165e-12)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+scrollable = false
+tick_count = 20
+
+[node name="KeyBindingsLabel" type="Label" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "KEYBINDINGS"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="MiscLabel" type="Label" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "QUALITY OF LIFE STUFF"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HB3" type="HBoxContainer" parent="MC/InnerMC/VBoxStack"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="BtnCancel" type="TextureButton" parent="MC/InnerMC/VBoxStack/HB3"]
+layout_mode = 2
+texture_normal = ExtResource("4_akt4k")
+texture_pressed = ExtResource("4_akt4k")
+texture_hover = ExtResource("5_asc4g")
+
+[node name="Label" type="Label" parent="MC/InnerMC/VBoxStack/HB3/BtnCancel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CANCEL"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="MC/InnerMC/VBoxStack/HB3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnSave" type="TextureButton" parent="MC/InnerMC/VBoxStack/HB3"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture_normal = ExtResource("3_6tc7d")
+texture_pressed = ExtResource("4_akt4k")
+texture_hover = ExtResource("5_asc4g")
+
+[node name="Label" type="Label" parent="MC/InnerMC/VBoxStack/HB3/BtnSave"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SAVE"
+label_settings = ExtResource("2_jaswk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="value_changed" from="MC/InnerMC/VBoxStack/HB/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="MC/InnerMC/VBoxStack/HB2/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="MC/InnerMC/VBoxStack/HB3/BtnCancel" to="." method="_on_btn_cancel_pressed"]
+[connection signal="pressed" from="MC/InnerMC/VBoxStack/HB3/BtnSave" to="." method="_on_btn_save_pressed"]

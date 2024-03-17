@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bshu8afp5lou5"]
+
+[ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="1_d65n8"]
+[ext_resource type="Script" path="res://gui/floating_number.gd" id="2_l0eq2"]
+
+[node name="FloatingNumber" type="Node2D"]
+script = ExtResource("2_l0eq2")
+
+[node name="TextLabel" type="Label" parent="."]
+z_index = 5
+offset_left = -34.0
+offset_top = -10.0
+offset_right = 104.0
+offset_bottom = 28.0
+scale = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+text = "9,999,999"
+label_settings = ExtResource("1_d65n8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FadeDelayTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="FadeDelayTimer" to="." method="_on_fade_delay_timer_timeout"]

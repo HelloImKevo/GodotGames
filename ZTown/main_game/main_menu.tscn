@@ -1,0 +1,160 @@
+[gd_scene load_steps=10 format=3 uid="uid://caclcydkt7rlr"]
+
+[ext_resource type="Script" path="res://main_game/main_menu.gd" id="1_ro6qp"]
+[ext_resource type="Texture2D" uid="uid://ct2nf47khsshj" path="res://assets/backgrounds/main-dashboard-bg-david-honz.jpg" id="2_0huea"]
+[ext_resource type="LabelSettings" uid="uid://0r4gysuc7jmt" path="res://assets/fonts/LG_92_Red.tres" id="3_1xadu"]
+[ext_resource type="Texture2D" uid="uid://8pmuwhepl2ue" path="res://assets/ui/blue_button00.png" id="4_e81dv"]
+[ext_resource type="Texture2D" uid="uid://c2236yof4cmtm" path="res://assets/ui/yellow_button00.png" id="5_8am4r"]
+[ext_resource type="Texture2D" uid="uid://b8iqf2l0ba00c" path="res://assets/ui/green_button00.png" id="6_4q5nr"]
+[ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="7_71ihb"]
+[ext_resource type="PackedScene" uid="uid://cjdlt2gxfhgjr" path="res://settings_panel/settings_panel.tscn" id="8_k55j7"]
+[ext_resource type="AudioStream" uid="uid://cfb4020ox5rj0" path="res://assets/music/Mercury.wav" id="9_lk1d8"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_ro6qp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BgImage" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 896.0
+offset_bottom = 341.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_0huea")
+
+[node name="MC" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="GameTitle" type="Label" parent="CanvasLayer/MC"]
+layout_mode = 2
+text = "Zombie Town"
+label_settings = ExtResource("3_1xadu")
+vertical_alignment = 1
+
+[node name="VB" type="VBoxContainer" parent="CanvasLayer/MC"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 18
+
+[node name="BtnSingleplayer" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnSingleplayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SINGLEPLAYER"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnLocalCoop" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnLocalCoop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "LOCAL_COOP"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnSettings" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnSettings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SETTINGS"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnCredits" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnCredits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CREDITS"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnExit" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnExit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EXIT"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsPanel" parent="CanvasLayer" instance=ExtResource("8_k55j7")]
+visible = false
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_lk1d8")
+autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnSingleplayer" to="." method="_on_btn_singleplayer_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnLocalCoop" to="." method="_on_btn_local_coop_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnCredits" to="." method="_on_btn_credits_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnExit" to="." method="_on_btn_exit_pressed"]
