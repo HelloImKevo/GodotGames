@@ -33,7 +33,7 @@ static func get_hazard_effect_or_null(area) -> StatusEffect:
 static func add_status_effect_if_necessary(area, status_effects: StatusEffects) -> void:
 	var effect = get_hazard_effect_or_null(area)
 	if effect != null:
-		print("burning ...")
+		# print("burning ...")
 		status_effects.add_effect(effect)
 
 

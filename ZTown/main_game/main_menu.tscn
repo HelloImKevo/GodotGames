@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://caclcydkt7rlr"]
+[gd_scene load_steps=11 format=3 uid="uid://caclcydkt7rlr"]
 
 [ext_resource type="Script" path="res://main_game/main_menu.gd" id="1_ro6qp"]
 [ext_resource type="Texture2D" uid="uid://ct2nf47khsshj" path="res://assets/backgrounds/main-dashboard-bg-david-honz.jpg" id="2_0huea"]
@@ -9,6 +9,7 @@
 [ext_resource type="LabelSettings" uid="uid://brur7ffhebkw5" path="res://assets/fonts/GM_34_White.tres" id="7_71ihb"]
 [ext_resource type="PackedScene" uid="uid://cjdlt2gxfhgjr" path="res://settings_panel/settings_panel.tscn" id="8_k55j7"]
 [ext_resource type="AudioStream" uid="uid://cfb4020ox5rj0" path="res://assets/music/Mercury.wav" id="9_lk1d8"]
+[ext_resource type="PackedScene" uid="uid://cmrdca46jxlgd" path="res://gui/settings/input_settings.tscn" id="9_svfhm"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_ro6qp")
@@ -107,6 +108,25 @@ label_settings = ExtResource("7_71ihb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BtnKeybindings" type="TextureButton" parent="CanvasLayer/MC/VB"]
+layout_mode = 2
+texture_normal = ExtResource("4_e81dv")
+texture_pressed = ExtResource("5_8am4r")
+texture_hover = ExtResource("6_4q5nr")
+
+[node name="Label" type="Label" parent="CanvasLayer/MC/VB/BtnKeybindings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "KEYBINDINGS"
+label_settings = ExtResource("7_71ihb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BtnCredits" type="TextureButton" parent="CanvasLayer/MC/VB"]
 layout_mode = 2
 texture_normal = ExtResource("4_e81dv")
@@ -148,6 +168,9 @@ vertical_alignment = 1
 [node name="SettingsPanel" parent="CanvasLayer" instance=ExtResource("8_k55j7")]
 visible = false
 
+[node name="InputSettings" parent="CanvasLayer" instance=ExtResource("9_svfhm")]
+visible = false
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_lk1d8")
 autoplay = true
@@ -156,5 +179,6 @@ bus = &"Music"
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnSingleplayer" to="." method="_on_btn_singleplayer_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnLocalCoop" to="." method="_on_btn_local_coop_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/MC/VB/BtnKeybindings" to="." method="_on_btn_keybindings_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnCredits" to="." method="_on_btn_credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/MC/VB/BtnExit" to="." method="_on_btn_exit_pressed"]

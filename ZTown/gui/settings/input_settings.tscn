@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmrdca46jxlgd"]
+
+[ext_resource type="Script" path="res://gui/settings/input_settings.gd" id="1_de6we"]
+[ext_resource type="PackedScene" uid="uid://dy1l0615jcorw" path="res://gui/settings/input_button.tscn" id="1_jbqsg"]
+[ext_resource type="FontFile" uid="uid://b1vgrh0g0vjci" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="3_g0ope"]
+
+[node name="InputSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_de6we")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.0
+offset_top = -221.0
+offset_right = 287.0
+offset_bottom = 221.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MC" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VB" type="VBoxContainer" parent="PanelContainer/MC"]
+layout_mode = 2
+
+[node name="ScrollView" type="ScrollContainer" parent="PanelContainer/MC/VB"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="PanelContainer/MC/VB/ScrollView"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputButton" parent="PanelContainer/MC/VB/ScrollView/ActionList" instance=ExtResource("1_jbqsg")]
+layout_mode = 2
+
+[node name="HB" type="HBoxContainer" parent="PanelContainer/MC/VB"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="PanelContainer/MC/VB/HB"]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_g0ope")
+theme_override_font_sizes/font_size = 26
+text = "reset to default"
+
+[node name="Spacer" type="Control" parent="PanelContainer/MC/VB/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AcceptButton" type="Button" parent="PanelContainer/MC/VB/HB"]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_g0ope")
+theme_override_font_sizes/font_size = 26
+text = "Accept"
+
+[connection signal="pressed" from="PanelContainer/MC/VB/HB/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MC/VB/HB/AcceptButton" to="." method="_on_accept_button_pressed"]

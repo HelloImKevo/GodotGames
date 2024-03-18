@@ -5,6 +5,7 @@ extends Node2D
 
 
 @onready var settings_panel = $CanvasLayer/SettingsPanel
+@onready var input_settings = $CanvasLayer/InputSettings
 
 
 func _ready():
@@ -28,6 +29,10 @@ func _on_btn_settings_pressed():
 	#var panel = settings_panel.instantiate()
 	#self.add_child(panel)
 	settings_panel.show()
+
+
+func _on_btn_keybindings_pressed():
+	input_settings.show()
 
 
 func _on_btn_credits_pressed():
