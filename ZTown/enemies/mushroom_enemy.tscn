@@ -30,3 +30,6 @@ projectile_speed = 400.0
 unit_name = "Mushroom"
 attack_delay_range = Vector2(1.5, 2.5)
 attrs = SubResource("Resource_jqlfr")
+
+[node name="HealthBar" parent="." index="8"]
+tint_progress = Color(0.698039, 0.133333, 0.133333, 1)

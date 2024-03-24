@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccwtqxoedr5yg"]
+
+[ext_resource type="Texture2D" uid="uid://bddej3sqqrvxh" path="res://assets/icons/game_icons_24_01.png" id="1_76j3d"]
+[ext_resource type="LabelSettings" uid="uid://cppar8qnp4eaf" path="res://assets/fonts/GM_26_White.tres" id="2_0go00"]
+
+[sub_resource type="Animation" id="Animation_f4svt"]
+resource_name = "float"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2.08165e-12, -8), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_i85vj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m4tjx"]
+_data = {
+"RESET": SubResource("Animation_i85vj"),
+"float": SubResource("Animation_f4svt")
+}
+
+[node name="IconIndicator" type="Node2D"]
+position = Vector2(-6, 0)
+
+[node name="Container" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Container"]
+z_index = 10
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_76j3d")
+hframes = 15
+vframes = 4
+frame = 26
+
+[node name="Label" type="Label" parent="Container"]
+offset_left = 10.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 17.0
+scale = Vector2(0.8, 0.8)
+text = "E"
+label_settings = ExtResource("2_0go00")
+vertical_alignment = 1
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_m4tjx")
+}
+autoplay = "float"

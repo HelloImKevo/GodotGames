@@ -21,6 +21,17 @@ static func is_hazard(area: Node) -> bool:
 	return area.is_in_group(Identifier.GROUP_HAZARD)
 
 
+static func is_player_in_region(region: Area2D) -> bool:
+	if not region.has_overlapping_areas():
+		return false
+
+	for area in region.get_overlapping_areas():
+		if is_player_hitbox(area):
+			return true
+	
+	return false
+
+
 static func get_hazard_effect_or_null(area) -> StatusEffect:
 	if AreaUtils.is_hazard(area):
 		# TODO: Introduce type safety with typeof() checks.

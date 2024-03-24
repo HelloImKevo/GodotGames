@@ -159,6 +159,7 @@ collision_layer = 2
 collision_mask = 48
 
 [node name="CollisionCircle" type="CollisionShape2D" parent="Character/Hitbox"]
+z_index = 1
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_87c88")
 debug_color = Color(0.847059, 0.364706, 0.223529, 0.419608)

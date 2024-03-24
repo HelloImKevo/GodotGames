@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwf1876cdc0ww"]
+
+[ext_resource type="Script" path="res://loot/loot_container.gd" id="1_46467"]
+[ext_resource type="Texture2D" uid="uid://b7cta5ywjkffc" path="res://assets/terrain/cainos_tx_props.png" id="1_qsay0"]
+[ext_resource type="PackedScene" uid="uid://ccwtqxoedr5yg" path="res://gui/icon_indicator.tscn" id="2_vjcya"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uv4lg"]
+radius = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_218xh"]
+radius = 16.0
+
+[node name="LootContainer" type="StaticBody2D"]
+collision_layer = 128
+collision_mask = 93
+script = ExtResource("1_46467")
+
+[node name="IconIndicator" parent="." instance=ExtResource("2_vjcya")]
+position = Vector2(-6, -15)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_qsay0")
+hframes = 16
+vframes = 8
+frame = 3
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="0" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-18, 35)
+
+[node name="1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-6, 35)
+
+[node name="2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(6, 35)
+
+[node name="3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(18, 35)
+
+[node name="4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(22, 27)
+
+[node name="5" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-22, 27)
+
+[node name="6" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-22, 40)
+
+[node name="7" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(22, 40)
+
+[node name="8" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-6, 43)
+
+[node name="9" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(6, 43)
+
+[node name="10" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-26, 21)
+
+[node name="11" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(26, 21)
+
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, 13)
+shape = SubResource("CircleShape2D_uv4lg")
+debug_color = Color(0.713726, 0.486275, 0, 0.419608)
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 13.5)
+shape = SubResource("CircleShape2D_218xh")
