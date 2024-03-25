@@ -24,10 +24,9 @@ func _physics_process(_delta):
 func _physics_handle_area_collisions() -> void:
 	# Check if a player is nearby.
 	if AreaUtils.is_player_in_region(interact_area):
-		# Check if a player is pressing the 'Interact' action.
-		# TODO: This will need to be revised with a multiplayer input.
-		# See: https://github.com/matjlars/godot-multiplayer-input
-		if Input.is_action_just_pressed("interact"):
+		var nearest: Player = VectorUtils.get_nearest_player(self)
+		# Check if a nearby player is pressing the 'Interact' action.
+		if nearest.get_player_input().is_interact_just_pressed():
 			_spawn_coins()
 
 

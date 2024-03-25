@@ -27,7 +27,11 @@ const MOTION_SPEED: float = 450.0
 @onready var player_input = $PlayerInput
 @onready var player_cam: Camera2D = $PlayerCam
 
-@onready var inputs = $PlayerInput
+@onready var inputs: PlayerInput = $PlayerInput
+
+## Readable player number. #1 refers to the first player that joined the game.
+var player_number: int = 1
+var device_input_id: int = -1
 
 ## Player character is actively processing a jump action.
 var _jumping: bool = false
@@ -51,6 +55,16 @@ func _to_string() -> String:
 	return "Player '%s'" % [name]
 
 
+## player_num: 0-based index. 0 refers to the only player in singleplayer mode.
+## device_input_id: The [DeviceInput] ID that controls this player. -1 is Keyboard
+## input, while 0 - 3 is Controller input. Note that this can change at runtime,
+## like if a player were to leave or quit mid-game.
+func init(__player_number: int, __device_input_id: int, __player_name: String):
+	player_number = __player_number
+	device_input_id = __device_input_id
+	player_name = __player_name
+
+
 func _ready():
 	stunned = false
 	
@@ -59,7 +73,9 @@ func _ready():
 	Player: _ready -> My player_id = %s , multiplayer.unique_id = %s , 
 	my PlayerInput's multiplayer_authority = %s ; setting up my Player Camera
 	""" % [get_player_id(), multiplayer.get_unique_id(), get_player_id()])
-
+	
+	inputs.set_device_input_id(device_input_id)
+	
 	# Set the camera as current if we are this player.
 	if get_player_id() == multiplayer.get_unique_id():
 		player_cam.make_current()
@@ -71,6 +87,7 @@ func _ready():
 
 func _process(delta):
 	_update_delta_tracking(delta)
+	_process_capture_client_input()
 	_move_cursor_to_mouse()
 	_update_debug_label()
 	_apply_damage_over_time_effects(delta)
@@ -85,6 +102,10 @@ func _process(delta):
 
 func am_i_the_client_player():
 	return get_player_id() == multiplayer.get_unique_id()
+
+
+func _process_capture_client_input() -> void:
+	inputs.capture_client_input()
 
 
 func _update_delta_tracking(delta) -> void:
@@ -184,6 +205,10 @@ func set_player_name(p_name: String):
 	player_name = p_name
 	# In the MultiplayerSychronizer 'Replication' tab, this Label should 'Never' replicate.
 	# label.text = p_name
+
+
+func get_player_input() -> PlayerInput:
+	return inputs
 
 
 func get_camera_offset() -> Vector2:

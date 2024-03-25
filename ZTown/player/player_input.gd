@@ -1,3 +1,4 @@
+class_name PlayerInput
 extends Node
 ## player_input.gd
 
@@ -5,6 +6,9 @@ extends Node
 ## https://github.com/godotengine/godot-demo-projects/tree/master/networking/multiplayer_bomber
 ## Revised based on Godot Scene Replication Tutorial:
 ## https://godotengine.org/article/multiplayer-in-godot-4-0-scene-replication/
+
+## Defaults to -1 representing Keyboard and Mouse.
+@export var device_input_id: int = -1
 
 # Synchronized property.
 @export var motion: Vector2 = Vector2():
@@ -20,33 +24,21 @@ extends Node
 @export var jumped: bool = false
 
 
-func _ready():
-	var should_process: bool = get_parent().get_player_id() == multiplayer.get_unique_id()
-	set_process(should_process)
-	
-	if should_process:
-		MPLog.info("PlayerInput _ready -> I, %s, SHOULD PROCESS because I match mp.unique_id %s" % [
-				get_player_string(), multiplayer.get_unique_id()
-		])
-	
-	MPLog.info("PlayerInput _ready -> Am I, %s, the MP Authority? %s" % [
-			get_player_string(), is_multiplayer_authority()
-	])
+func set_device_input_id(device: int) -> void:
+	device_input_id = device
 
 
-func _process(_delta):
-	capture_client_input()
-
-
+## Call within the process or physics_process function of a [Player] node.
+## device is the [DeviceInput] ID. -1 for Keyboard, 0 - 3 for controllers.
 func capture_client_input():
 	var m = Vector2()
-	if Input.is_action_pressed("move_left"):
+	if MultiplayerInput.is_action_pressed(device_input_id, "move_left"):
 		m += Vector2(-1, 0)
-	if Input.is_action_pressed("move_right"):
+	if MultiplayerInput.is_action_pressed(device_input_id, "move_right"):
 		m += Vector2(1, 0)
-	if Input.is_action_pressed("move_up"):
+	if MultiplayerInput.is_action_pressed(device_input_id, "move_up"):
 		m += Vector2(0, -1)
-	if Input.is_action_pressed("move_down"):
+	if MultiplayerInput.is_action_pressed(device_input_id, "move_down"):
 		m += Vector2(0, 1)
 
 	motion = m
@@ -54,16 +46,20 @@ func capture_client_input():
 	# This will need to be updated for GUI mouse click interception.
 	# TODO: Need to check mouse position, if it is within constraints of game window.
 	# TODO: This RPC is being spammed way too frequently.
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if MultiplayerInput.is_action_just_pressed(device_input_id, "primary_action"):
 		update_shooting(true)
 	
-	if Input.is_action_just_pressed("jump"):
+	if MultiplayerInput.is_action_just_pressed(device_input_id, "jump"):
 		jumped = true
 	
 	#if EngineUtils.ui_update_interval():
 		#if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			#update_shooting.rpc(true)
 			#update_shooting.rpc(Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT))
+
+
+func is_interact_just_pressed() -> bool:
+	return MultiplayerInput.is_action_just_pressed(device_input_id, "interact")
 
 
 func update_shooting(shooting: bool):

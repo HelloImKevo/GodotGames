@@ -28,17 +28,35 @@ func handle_spawn_players() -> void:
 	
 	# Spawn the local player unless this is a dedicated server export.
 	if not OS.has_feature("dedicated_server"):
-		var host_player_name = GameManager.hub.local_client_player_name
-		add_player(1, host_player_name)
+		# TODO: This is for temporary testing of the MultiplayerInput plugin.
+		spawn_local_coop_players()
+		#var host_player_name = GameManager.hub.local_client_player_name
+		#add_player(1, host_player_name)
 	
 	# TODO: Convert this to a Dictionary of all players and all their names.
 	# Spawn already connected players
 	for remote_player_id in multiplayer.get_peers():
 		var player_name: String = GameManager.hub.get_remote_player_name(remote_player_id)
-		add_player(remote_player_id, player_name)
+		#add_player(remote_player_id, player_name)
 
 
-func add_player(id: int, player_name: String):
+func spawn_local_coop_players() -> void:
+	var p1_num: int = 1
+	var p1_device_input = -1
+	var p1_name: String = "Keyboard (P1)"
+	add_player(p1_num, p1_device_input, p1_name)
+	# Join keyboard player.
+	PlayerManager.join(p1_device_input, p1_name)
+	
+	var p2_num: int = 2
+	var p2_device_input = 0
+	var p2_name: String = "Controller (P2)"
+	add_player(p2_num, p2_device_input, p2_name)
+	# Join controller player.
+	PlayerManager.join(p2_device_input, p2_name)
+
+
+func add_player(player_number: int, device_input_id: int, player_name: String):
 	var player_scene: PackedScene = load("res://player/player.tscn")
 	
 	# TODO: Need to check if a player is already nearby this spawn point, and use a different
@@ -56,8 +74,8 @@ func add_player(id: int, player_name: String):
 	player.position = pos
 	# Set the name of the node. Multiplayer sychronizers are currently dependent
 	# on this Node name being propagated across peers.
-	player.name = str(id)
-	player.set_player_name(player_name)
+	player.init(player_number, device_input_id, player_name)
+	player.name = str(player_number)
 	# NOTE: Nope, I'm wrong. It was the Player.player_id synchronizer property.
 	# NOTE: Multiplayer Synchronizer does not work well with the $Players
 	# member reference syntax. Use get_node("String") instead.

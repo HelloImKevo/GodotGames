@@ -23,6 +23,7 @@ Settings="*res://singletons/settings.gd"
 SignalManager="*res://singletons/signal_manager.gd"
 MPLog="*res://utils/mp_log.gd"
 GameManager="*res://singletons/game_manager.gd"
+PlayerManager="*res://singletons/player_manager.gd"
 GUIManager="*res://singletons/gui_manager.gd"
 BulletManager="*res://singletons/bullet_manager.gd"
 SoundManager="*res://singletons/sound_manager.gd"
@@ -91,6 +92,7 @@ interact={
 primary_action={
 "deadzone": 0.5,
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(228, 34),"global_position":Vector2(236, 114),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 
