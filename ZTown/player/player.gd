@@ -52,7 +52,7 @@ func _to_string() -> String:
 	return "Player '%s'" % [name]
 
 
-## player_num: 0-based index. 0 refers to the only player in singleplayer mode.
+## player_number: 1-based index. 1 refers to the only player in singleplayer mode.
 ## device_input_id: The [DeviceInput] ID that controls this player. -1 is Keyboard
 ## input, while 0 - 3 is Controller input. Note that this can change at runtime,
 ## like if a player were to leave or quit mid-game.
@@ -71,6 +71,7 @@ func _ready():
 	my PlayerInput's multiplayer_authority = %s ; setting up my Player Camera
 	""" % [get_player_id(), multiplayer.get_unique_id(), get_player_id()])
 	
+	inputs.set_player_number(player_number)
 	inputs.set_device_input_id(device_input_id)
 	
 	# TODO: Rework this so the player name label is separate from debug label.

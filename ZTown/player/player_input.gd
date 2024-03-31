@@ -7,6 +7,9 @@ extends Node
 ## Revised based on Godot Scene Replication Tutorial:
 ## https://godotengine.org/article/multiplayer-in-godot-4-0-scene-replication/
 
+## 1-based index. 1 refers to the only player in singleplayer mode.
+@export var player_number: int = 1
+
 ## Defaults to -1 representing Keyboard and Mouse.
 @export var device_input_id: int = -1
 
@@ -22,6 +25,10 @@ extends Node
 
 ## Did the player just jump?
 @export var jumped: bool = false
+
+
+func set_player_number(__player_number: int) -> void:
+	player_number = __player_number
 
 
 func set_device_input_id(device: int) -> void:
@@ -54,6 +61,9 @@ func capture_client_input():
 	
 	if MultiplayerInput.is_action_just_pressed(device_input_id, "menu"):
 		GUIManager.toggle_player_status_panel_visibility.emit()
+	
+	if MultiplayerInput.is_action_just_pressed(device_input_id, "cycle_tool"):
+		GUIManager.cycle_next_tool.emit(player_number)
 	
 	#if EngineUtils.ui_update_interval():
 		#if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

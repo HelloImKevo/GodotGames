@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://da25u4wry3pfw"]
+
+[ext_resource type="Texture2D" uid="uid://blmdrtjao23qc" path="res://assets/ui/panel-border-003.png" id="1_5piky"]
+[ext_resource type="Script" path="res://gui/active_tool.gd" id="1_sw7ti"]
+[ext_resource type="PackedScene" uid="uid://dh8wjud3ox4e7" path="res://gui/player_cursor.tscn" id="2_oisyt"]
+[ext_resource type="Texture2D" uid="uid://bddej3sqqrvxh" path="res://assets/icons/game_icons_24_01.png" id="2_s6cq1"]
+
+[node name="ActiveTool" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sw7ti")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+texture = ExtResource("1_5piky")
+region_rect = Rect2(2.08165e-12, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="Cursor" parent="." instance=ExtResource("2_oisyt")]
+scale = Vector2(2, 2)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_s6cq1")
+hframes = 15
+vframes = 4
