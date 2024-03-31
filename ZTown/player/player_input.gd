@@ -52,6 +52,9 @@ func capture_client_input():
 	if MultiplayerInput.is_action_just_pressed(device_input_id, "jump"):
 		jumped = true
 	
+	if MultiplayerInput.is_action_just_pressed(device_input_id, "menu"):
+		GUIManager.toggle_player_status_panel_visibility.emit()
+	
 	#if EngineUtils.ui_update_interval():
 		#if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			#update_shooting.rpc(true)

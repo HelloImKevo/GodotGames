@@ -14,15 +14,12 @@ func _ready():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
 	
-	GUIManager.toggle_player_status_panel_visibility.connect(_toggle_player_status_panel_visibility)
-	
 	GameManager.world_loaded.emit()
 	
 	if multiplayer.is_server():
 		handle_spawn_players()
 	
 	# Temporarily auto-showing GUI for testing purposes.
-	player_gui.show_status_panel()
 	player_gui.show_connected_player_info()
 
 
@@ -113,10 +110,6 @@ func _process_handle_player_cam() -> void:
 	# We want all the physics processing to be calculated before
 	# the camera starts moving around.
 	player_cam.position = center_point
-
-
-func _toggle_player_status_panel_visibility() -> void:
-	player_gui.show_status_panel()
 
 
 # TODO: This will probably need to be used in other places.

@@ -19,6 +19,16 @@ shadow_color = Color(0, 0, 0, 0.470588)
 script = ExtResource("1_igdqm")
 
 [node name="PlayerStatusPanel" parent="." instance=ExtResource("1_2tfq3")]
+visible = false
+
+[node name="ControlHints" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 140.0
+offset_right = 1000.0
+offset_bottom = 233.0
+text = "I / Start: Menu
+Space: Jump"
+label_settings = SubResource("LabelSettings_hmtln")
 
 [node name="PlayerList" type="Label" parent="."]
 offset_left = 24.0
