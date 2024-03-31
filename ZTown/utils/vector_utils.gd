@@ -33,3 +33,20 @@ static func get_nearest_player(host: Node2D) -> Player:
 ## Returns the absolute value (always positive) of the distance between the two nodes.
 static func node_distance_to(node: Node2D, target: Node2D) -> float:
 	return abs(node.global_position.distance_to(target.global_position))
+
+
+## Returns the center point of N nodes.
+static func get_center_point_of(nodes: Array[Node]) -> Vector2:
+	if nodes.is_empty():
+		return Vector2.ZERO
+	
+	var sum_x = 0.0
+	var sum_y = 0.0
+	for node in nodes:
+		sum_x += node.global_position.x
+		sum_y += node.global_position.y
+	
+	var pos_x = sum_x / nodes.size()
+	var pos_y = sum_y / nodes.size()
+
+	return Vector2(pos_x, pos_y)

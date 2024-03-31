@@ -24,9 +24,6 @@ const MOTION_SPEED: float = 450.0
 @onready var health_bar = $Character/HealthBar
 @onready var mana_bar = $Character/ManaBar
 
-@onready var player_input = $PlayerInput
-@onready var player_cam: Camera2D = $PlayerCam
-
 @onready var inputs: PlayerInput = $PlayerInput
 
 ## Readable player number. #1 refers to the first player that joined the game.
@@ -76,10 +73,6 @@ func _ready():
 	
 	inputs.set_device_input_id(device_input_id)
 	
-	# Set the camera as current if we are this player.
-	if get_player_id() == multiplayer.get_unique_id():
-		player_cam.make_current()
-	
 	# TODO: Rework this so the player name label is separate from debug label.
 	#if not show_debug_label:
 		#get_node("Label").visible = false
@@ -105,6 +98,11 @@ func am_i_the_client_player():
 
 
 func _process_capture_client_input() -> void:
+	# If a joypad is not connected, we must guard against that
+	# (the MultiplayerInput  API will crash otherwise).
+	if not PlayerManager.is_device_joined(device_input_id):
+		return
+	
 	inputs.capture_client_input()
 
 

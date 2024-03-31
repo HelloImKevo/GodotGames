@@ -2,7 +2,9 @@ class_name World
 extends Node2D
 ## World : Main world hub that logged-in players spawn into.
 
+@onready var players: Node2D = $Players
 
+@onready var player_cam: Camera2D = $PlayerCam
 @onready var player_gui = $PlayerGUI
 
 var logger: LogStream = LogStream.new("World", LogStream.LogLevel.DEBUG)
@@ -11,6 +13,8 @@ var logger: LogStream = LogStream.new("World", LogStream.LogLevel.DEBUG)
 func _ready():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
+	
+	GUIManager.toggle_player_status_panel_visibility.connect(_toggle_player_status_panel_visibility)
 	
 	GameManager.world_loaded.emit()
 	
@@ -51,9 +55,10 @@ func spawn_local_coop_players() -> void:
 	var p2_num: int = 2
 	var p2_device_input = 0
 	var p2_name: String = "Controller (P2)"
-	add_player(p2_num, p2_device_input, p2_name)
+	#add_player(p2_num, p2_device_input, p2_name)
 	# Join controller player.
-	PlayerManager.join(p2_device_input, p2_name)
+	# TODO: This will crash if a 2nd input device is not present.
+	#PlayerManager.join(p2_device_input, p2_name)
 
 
 func add_player(player_number: int, device_input_id: int, player_name: String):
@@ -90,9 +95,28 @@ func del_player(player_id: int):
 
 
 func _process(_delta):
+	_process_handle_player_cam()
+	
 	# TODO: This will quit the game for all players.
 	if Input.is_action_just_pressed("quit"):
 		GameManager.nav.load_main_scene()
+
+
+func _process_handle_player_cam() -> void:
+	var players: Array[Node] = players.get_children()
+	if players.is_empty():
+		return
+	
+	var center_point: Vector2 = VectorUtils.get_center_point_of(players)
+	
+	# Anchor the 2D camera viewport to the player's position.
+	# We want all the physics processing to be calculated before
+	# the camera starts moving around.
+	player_cam.position = center_point
+
+
+func _toggle_player_status_panel_visibility() -> void:
+	player_gui.show_status_panel()
 
 
 # TODO: This will probably need to be used in other places.

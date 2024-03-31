@@ -1252,5 +1252,6 @@ spawn_path = NodePath("../Players")
 stream = ExtResource("9_xsu04")
 bus = &"Music"
 
+[node name="PlayerCam" type="Camera2D" parent="."]
+
 [node name="PlayerGUI" parent="." instance=ExtResource("10_bbjm7")]
-visible = false

@@ -183,10 +183,6 @@ texture = ExtResource("5_i6ff5")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_8tiva")
 
-[node name="PlayerCam" type="Camera2D" parent="."]
-offset = Vector2(120, 2.08165e-12)
-limit_smoothed = true
-
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_i240e")
